@@ -1,0 +1,13 @@
+using Ninject.Modules;
+
+namespace DevSpector.Desktop.Service.DependencyInjection
+{
+	public class ServicesModulue : NinjectModule
+	{
+		public override void Load()
+		{
+            Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
+            Bind<ILanguageSwitcher>().To<LanguageSwitcher>().InSingletonScope();
+		}
+	}
+}
