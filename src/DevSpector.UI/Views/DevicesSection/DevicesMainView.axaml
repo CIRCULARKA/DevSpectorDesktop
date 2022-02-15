@@ -14,7 +14,8 @@
             Margin="0 0 15 15">
             <aura:GroupBox>
                 <aura:GroupBox.Header>
-                    <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Search}" />
+                    <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Search}" /> -->
+                    <TextBlock Classes="Headline5" Text="Поиск" />
                 </aura:GroupBox.Header>
                 <StackPanel>
                     <UserControl Content="{Binding Search}" />
@@ -25,7 +26,8 @@
             Margin="0 0 15 0">
             <aura:GroupBox>
                 <aura:GroupBox.Header>
-                    <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Devices}" />
+                    <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Devices}" /> -->
+                    <TextBlock Classes="Headline5" Text="Устройства" />
                 </aura:GroupBox.Header>
                 <UserControl Content="{Binding DevicesList}" />
             </aura:GroupBox>
@@ -34,7 +36,8 @@
             <materialstyles:Card Grid.Row="0" Grid.Column="0" Margin="0 0 15 0">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="{x:Static l:Messages.CommonInfo}" />
+                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.CommonInfo}" /> -->
+                        <TextBlock Classes="Headline5" Text="Общая информация" />
                     </aura:GroupBox.Header>
                     <ScrollViewer>
                         <UserControl Content="{Binding CommonInfo}" />
@@ -44,7 +47,8 @@
             <materialstyles:Card Grid.Row="0" Grid.Column="1">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Location}" />
+                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Location}" /> -->
+                        <TextBlock Classes="Headline5" Text="Расположение" />
                     </aura:GroupBox.Header>
                     <ScrollViewer>
                         <UserControl Content="{Binding LocationInfo}" />
@@ -56,7 +60,8 @@
             <materialstyles:Card Grid.Row="0" Grid.Column="0" Margin="0 0 15 0">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Software}" />
+                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Software}" /> -->
+                        <TextBlock Classes="Headline5" Text="ПО" />
                     </aura:GroupBox.Header>
                     <UserControl Content="{Binding SoftwareInfo}" />
                 </aura:GroupBox>
@@ -64,7 +69,8 @@
             <materialstyles:Card Grid.Row="0" Grid.Column="1">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="{x:Static l:Messages.NetworkInfo}" />
+                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.NetworkInfo}" /> -->
+                        <TextBlock Classes="Headline5" Text="Сетевая информация" />
                     </aura:GroupBox.Header>
                     <UserControl Content="{Binding NetworkInfo}" />
                 </aura:GroupBox>

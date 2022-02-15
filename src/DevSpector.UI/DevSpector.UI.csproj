@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DevSpector.Common\DevSpector.Common.csproj" />
     <ProjectReference Include="..\DevSpector.Service\DevSpector.Service.csproj" />
-    <!-- <ProjectReference Include="..\..\Common\DevSpector.SDK\DevSpector.SDK.csproj" /> -->
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Localization\Messages.resx">

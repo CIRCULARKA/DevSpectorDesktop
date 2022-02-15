@@ -40,9 +40,9 @@
         -->
 
         <StyleInclude Source="/Shared/CommonStyles.axaml" />
-        <StyleInclude Source="avares://DevSpector.Desktop.Common/Styles/ModernMenuStyle.axaml" />
-        <StyleInclude Source="avares://DevSpector.Desktop.Common/Styles/ModernMenuItemStyle.axaml" />
-        <StyleInclude Source="avares://DevSpector.Desktop.Common/Styles/HiddenableTextBlockStyle.axaml" />
+        <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuStyle.axaml" />
+        <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuItemStyle.axaml" />
+        <StyleInclude Source="avares://DevSpector.Common/Styles/HiddenableTextBlockStyle.axaml" />
 
         <!--
             !MY

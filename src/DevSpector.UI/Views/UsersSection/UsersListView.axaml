@@ -24,9 +24,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="{x:Static l:Messages.Add}" Height="35" Margin="0 5 0 5"
+        <!-- <Button Content="{x:Static l:Messages.Add}" Height="35" Margin="0 5 0 5"
+            Grid.Row="1" /> -->
+        <Button Content="Добавить" Height="35" Margin="0 5 0 5"
             Grid.Row="1" />
-        <Button Content="{x:Static l:Messages.Delete}" Height="35"
+        <!-- <Button Content="{x:Static l:Messages.Delete}" Height="35"
+            Grid.Row="2" /> -->
+        <Button Content="Удалить" Height="35"
             Grid.Row="2" />
         <Panel Height="{Binding #base.Height}" IsVisible="{Binding !AreThereItems}"
             Grid.RowSpan="3">
