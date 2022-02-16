@@ -16,8 +16,7 @@
                             </Canvas>
                         </Viewbox>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <!-- <TextBlock Text="{Binding NetworkName}" Foreground="White" FontSize="20" /> -->
-                            <TextBlock Text="Сетевое имя" Foreground="White" FontSize="20" />
+                            <TextBlock Text="{Binding NetworkName}" Foreground="White" FontSize="20" />
                             <TextBlock Text="{Binding Type}" Foreground="Gray" />
                         </StackPanel>
                     </Grid>
