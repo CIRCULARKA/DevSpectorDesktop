@@ -73,8 +73,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 LogInFailed = false;
                 AttemptingToLogIn = true;
 
-                // var user = await _authManager.TrySignIn(Login, Password);
-                var user = await _authManager.TrySignIn("root", "123Abc!");
+                var user = await _authManager.TrySignIn(Login, Password);
 
                 _session.StartSession(user);
             }
