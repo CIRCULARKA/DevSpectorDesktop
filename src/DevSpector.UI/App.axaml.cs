@@ -30,10 +30,15 @@ namespace DevSpector.Desktop.UI
         public override void OnFrameworkInitializationCompleted()
         {
             SetTargetHost("devspector.herokuapp");
+
             EnableApplicationEvents();
+
             AddAuthorization();
+
             AddSDK();
+
             AddViewModels();
+
             AddLanguage("ru");
 
             SetupMainWindow();
