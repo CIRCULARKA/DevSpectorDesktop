@@ -39,7 +39,7 @@ namespace DevSpector.Desktop.UI
 
             AddViewModels();
 
-            AddLanguage("ru");
+            UseLanguage("ru");
 
             SetupMainWindow();
 
@@ -155,7 +155,7 @@ namespace DevSpector.Desktop.UI
                 WithConstructorArgument("provider", rawDataProvider);
         }
 
-        private void AddLanguage(string langCode)
+        private void UseLanguage(string langCode)
         {
             _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
 
