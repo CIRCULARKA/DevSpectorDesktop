@@ -29,7 +29,7 @@ namespace DevSpector.Desktop.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
-            SetTargetHost("devspector.herokuapp");
+            SetTargetHost("devspector.herokuapp.com");
 
             EnableApplicationEvents();
 
