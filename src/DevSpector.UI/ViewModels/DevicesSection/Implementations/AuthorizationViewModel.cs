@@ -24,9 +24,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
-        public AuthorizationViewModel(IUserSession session)
+        public AuthorizationViewModel(IUserSession session, IAuthorizationManager authManager)
         {
-            _authManager = new AuthorizationManager();
+            _authManager = authManager;
             _session = session;
 
             AuthorizationCommand = ReactiveCommand.CreateFromTask(
