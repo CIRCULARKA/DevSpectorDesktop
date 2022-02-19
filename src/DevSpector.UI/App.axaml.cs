@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Ninject;
 using Avalonia;
@@ -29,7 +30,14 @@ namespace DevSpector.Desktop.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
-            SetTargetHost("devspector.herokuapp.com");
+            var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
+            Console.WriteLine($"Running in {environment} environment");
+
+            if (environment == "Production")
+                SetTargetHost("devspector.herokuapp.com");
+            else if (environment == "Development")
+                SetTargetHost("dev-devspector.herokuapp.com");
+            else SetTargetHost("localhost");
 
             EnableApplicationEvents();
 
