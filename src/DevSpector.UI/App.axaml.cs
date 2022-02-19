@@ -4,6 +4,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using DevSpector.SDK;
+using DevSpector.SDK.Authorization;
 using DevSpector.Desktop.Service;
 using DevSpector.Desktop.UI.Views;
 using DevSpector.Desktop.UI.ViewModels;
@@ -15,31 +17,42 @@ namespace DevSpector.Desktop.UI
     {
         private readonly IKernel _kernel;
 
+        private string _targetHost;
+
         public App()
         {
-            _kernel = new StandardKernel(
-                new ViewModelsModule(),
-                new SdkModule(),
-                new ServicesModulue()
-            );
+            _kernel = new StandardKernel();
         }
 
-        public override void Initialize()
-        {
+        public override void Initialize() =>
             AvaloniaXamlLoader.Load(this);
-        }
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var langManager = _kernel.Get<ILanguageSwitcher>();
-            langManager.SetLanguage("en");
+            SetTargetHost("devspector.herokuapp.com");
 
-            var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            desktop.MainWindow = _kernel.Get<AuthorizationView>();
+            EnableApplicationEvents();
 
-            SubscribeToEvents();
+            AddAuthorization();
+
+            AddSDK();
+
+            AddViewModels();
+
+            UseLanguage("ru");
+
+            SetupMainWindow();
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private void SetTargetHost(string hostname) =>
+            _targetHost = hostname;
+
+        private void SetupMainWindow()
+        {
+            var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            desktop.MainWindow = _kernel.Get<AuthorizationView>();
         }
 
         private void SubscribeToEvents()
@@ -111,5 +124,46 @@ namespace DevSpector.Desktop.UI
             appEvents.Logout += authView.Show;
             appEvents.Logout += authVM.ClearCredentials;
         }
+
+        private void AddViewModels()
+        {
+            _kernel.Load(new ViewModelsModule());
+
+            SubscribeToEvents();
+        }
+
+        private void AddAuthorization()
+        {
+            _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
+                WithConstructorArgument("hostname", _targetHost);
+            _kernel.Bind<IUserSession>().To<UserSession>();
+        }
+
+        private void AddSDK()
+        {
+			_kernel.Bind<IRawDataProvider>().To<JsonProvider>().
+                WithConstructorArgument("hostname", _targetHost);
+
+            var rawDataProvider = _kernel.Get<IRawDataProvider>();
+
+			_kernel.Bind<IDevicesProvider>().To<DevicesProvider>().
+                WithConstructorArgument(
+                    "provider",
+                    rawDataProvider
+                );
+			_kernel.Bind<IUsersProvider>().To<UsersProvider>().
+                WithConstructorArgument("provider", rawDataProvider);
+        }
+
+        private void UseLanguage(string langCode)
+        {
+            _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
+
+            var languageSwitcher = _kernel.Get<ILanguageSwitcher>();
+            languageSwitcher.SetLanguage(langCode);
+        }
+
+        private void EnableApplicationEvents() =>
+            _kernel.Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
     }
 }

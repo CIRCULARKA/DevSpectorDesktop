@@ -24,9 +24,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
-        public AuthorizationViewModel(IUserSession session)
+        public AuthorizationViewModel(IUserSession session, IAuthorizationManager authManager)
         {
-            _authManager = new AuthorizationManager();
+            _authManager = authManager;
             _session = session;
 
             AuthorizationCommand = ReactiveCommand.CreateFromTask(
@@ -73,8 +73,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 LogInFailed = false;
                 AttemptingToLogIn = true;
 
-                // var user = await _authManager.TrySignIn(Login, Password);
-                var user = await _authManager.TrySignIn("root", "123Abc!");
+                var user = await _authManager.TrySignIn(Login, Password);
 
                 _session.StartSession(user);
             }
