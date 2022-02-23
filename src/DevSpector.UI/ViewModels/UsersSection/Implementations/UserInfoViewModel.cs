@@ -15,7 +15,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public string AccessToken
         {
-            get { return _accessToken == null ? "N/A" : _accessToken; }
+            get { return _accessToken == null ? "" : _accessToken; }
             set => this.RaiseAndSetIfChanged(ref _accessToken, value);
         }
 
