@@ -18,7 +18,7 @@ namespace DevSpector.Desktop.UI
     {
         private readonly IKernel _kernel;
 
-        private string _targetHost;
+        private IHostBuilder _hostBuilder;
 
         public App()
         {
@@ -30,14 +30,7 @@ namespace DevSpector.Desktop.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
-            Console.WriteLine($"Running in {environment} environment");
-
-            if (environment == "Production")
-                SetTargetHost("devspector.herokuapp.com");
-            else if (environment == "Development")
-                SetTargetHost("dev-devspector.herokuapp.com");
-            else SetTargetHost("localhost");
+            ConfigureTargetHost();
 
             EnableApplicationEvents();
 
@@ -54,14 +47,65 @@ namespace DevSpector.Desktop.UI
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void SetTargetHost(string hostname) =>
-            _targetHost = hostname;
+        private void ConfigureTargetHost()
+        {
+            var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
+            Console.WriteLine($"Running in {environment ?? "undefined"} environment");
+
+            if (environment == "Production")
+                _hostBuilder = new HostBuilder("devspector.herokuapp.com", scheme: "https");
+            else if (environment == "Development")
+                _hostBuilder = new HostBuilder("dev-devspector.herokuapp.com", scheme: "https");
+            else
+                _hostBuilder = new HostBuilder(port: 5000);
+        }
 
         private void SetupMainWindow()
         {
             var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
             desktop.MainWindow = _kernel.Get<AuthorizationView>();
         }
+
+        private void AddViewModels()
+        {
+            _kernel.Load(new ViewModelsModule());
+
+            SubscribeToEvents();
+        }
+
+        private void AddAuthorization()
+        {
+            _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
+                WithConstructorArgument("builder", _hostBuilder);
+            _kernel.Bind<IUserSession>().To<UserSession>();
+        }
+
+        private void AddSDK()
+        {
+			_kernel.Bind<IRawDataProvider>().To<JsonProvider>().
+                WithConstructorArgument("builder", _hostBuilder);
+
+            var rawDataProvider = _kernel.Get<IRawDataProvider>();
+
+			_kernel.Bind<IDevicesProvider>().To<DevicesProvider>().
+                WithConstructorArgument(
+                    "provider",
+                    rawDataProvider
+                );
+			_kernel.Bind<IUsersProvider>().To<UsersProvider>().
+                WithConstructorArgument("provider", rawDataProvider);
+        }
+
+        private void UseLanguage(string langCode)
+        {
+            _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
+
+            var languageSwitcher = _kernel.Get<ILanguageSwitcher>();
+            languageSwitcher.SetLanguage(langCode);
+        }
+
+        private void EnableApplicationEvents() =>
+            _kernel.Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
 
         private void SubscribeToEvents()
         {
@@ -133,45 +177,5 @@ namespace DevSpector.Desktop.UI
             appEvents.Logout += authVM.ClearCredentials;
         }
 
-        private void AddViewModels()
-        {
-            _kernel.Load(new ViewModelsModule());
-
-            SubscribeToEvents();
-        }
-
-        private void AddAuthorization()
-        {
-            _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
-                WithConstructorArgument("hostname", _targetHost);
-            _kernel.Bind<IUserSession>().To<UserSession>();
-        }
-
-        private void AddSDK()
-        {
-			_kernel.Bind<IRawDataProvider>().To<JsonProvider>().
-                WithConstructorArgument("hostname", _targetHost);
-
-            var rawDataProvider = _kernel.Get<IRawDataProvider>();
-
-			_kernel.Bind<IDevicesProvider>().To<DevicesProvider>().
-                WithConstructorArgument(
-                    "provider",
-                    rawDataProvider
-                );
-			_kernel.Bind<IUsersProvider>().To<UsersProvider>().
-                WithConstructorArgument("provider", rawDataProvider);
-        }
-
-        private void UseLanguage(string langCode)
-        {
-            _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
-
-            var languageSwitcher = _kernel.Get<ILanguageSwitcher>();
-            languageSwitcher.SetLanguage(langCode);
-        }
-
-        private void EnableApplicationEvents() =>
-            _kernel.Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
     }
 }
