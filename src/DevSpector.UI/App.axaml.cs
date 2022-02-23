@@ -77,7 +77,7 @@ namespace DevSpector.Desktop.UI
         {
             _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
                 WithConstructorArgument("builder", _hostBuilder);
-            _kernel.Bind<IUserSession>().To<UserSession>();
+            _kernel.Bind<IUserSession>().To<UserSession>().InSingletonScope();
         }
 
         private void AddSDK()
