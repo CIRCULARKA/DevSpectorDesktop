@@ -13,7 +13,8 @@
 		<TextBlock Text="{Binding Group}" Classes="main" />
 		<!-- <TextBlock Text="{x:Static l:Messages.AccessKey}" Classes="note" /> -->
 		<TextBlock Text="Ключ доступа" Classes="note" />
-		<TextBox Classes="revealPasswordButton" Margin="0 -4 0 0"
-			PasswordChar="*" Text="{Binding AccessToken}" IsReadOnly="True" />
+		<TextBox Text="{Binding AccessToken}" IsReadOnly="True" Margin="0 -4 0 0" />
+		<!-- <TextBox Classes="revealPasswordButton" Margin="0 -4 0 0"
+			PasswordChar="*" Text="{Binding AccessToken}" IsReadOnly="True" /> -->
 	</StackPanel>
 </UserControl>
