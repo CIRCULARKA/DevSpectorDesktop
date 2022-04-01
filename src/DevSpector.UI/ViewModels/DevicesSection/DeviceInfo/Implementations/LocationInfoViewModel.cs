@@ -23,7 +23,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _cabinet, value);
         }
 
-        public void UpdateDeviceInfo(Appliance target)
+        public void UpdateDeviceInfo(Device target)
         {
             Housing = target?.Housing;
             Cabinet = target?.Cabinet;

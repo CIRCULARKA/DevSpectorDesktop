@@ -23,7 +23,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _type, value);
         }
 
-        public void UpdateDeviceInfo(Appliance target)
+        public void UpdateDeviceInfo(Device target)
         {
             InventoryNumber = target?.InventoryNumber;
             Type = target?.Type;

@@ -26,7 +26,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set { this.RaiseAndSetIfChanged(ref _ipAddresses, value); }
         }
 
-        public void UpdateDeviceInfo(Appliance target)
+        public void UpdateDeviceInfo(Device target)
         {
             NetworkName = target?.NetworkName;
 

@@ -6,6 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using DevSpector.SDK;
+using DevSpector.SDK.Providers;
+using DevSpector.SDK.Editors;
 using DevSpector.SDK.Authorization;
 using DevSpector.Desktop.Service;
 using DevSpector.Desktop.UI.Views;
@@ -82,10 +84,10 @@ namespace DevSpector.Desktop.UI
 
         private void AddSDK()
         {
-			_kernel.Bind<IRawDataProvider>().To<JsonProvider>().
+			_kernel.Bind<IServerDataProvider>().To<JsonProvider>().
                 WithConstructorArgument("builder", _hostBuilder);
 
-            var rawDataProvider = _kernel.Get<IRawDataProvider>();
+            var rawDataProvider = _kernel.Get<IServerDataProvider>();
 
 			_kernel.Bind<IDevicesProvider>().To<DevicesProvider>().
                 WithConstructorArgument(
@@ -133,7 +135,7 @@ namespace DevSpector.Desktop.UI
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
 
             //
-            // Subscribe VMs UpdateDeviceInfo on appliance selection
+            // Subscribe VMs UpdateDeviceInfo on Device selection
             //
 
             var targetVMsAmount = 4;
@@ -145,7 +147,7 @@ namespace DevSpector.Desktop.UI
             deviceInfoVMs.Add(networkInfoVM);
 
             foreach (var vm in deviceInfoVMs)
-                appEvents.ApplianceSelected += vm.UpdateDeviceInfo;
+                appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
             //
             // Update current user info on user change
@@ -153,7 +155,7 @@ namespace DevSpector.Desktop.UI
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
             //
-            // Subscribe appliances list update on search
+            // Subscribe Devices list update on search
             //
 
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;

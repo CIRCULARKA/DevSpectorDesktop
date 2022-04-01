@@ -6,13 +6,13 @@ namespace DevSpector.Desktop.Service
 {
     public interface IApplicationEvents
     {
-        event Action<Appliance> ApplianceSelected;
+        event Action<Device> DeviceSelected;
 
-        void RaiseApplianceSelected(Appliance appliance);
+        void RaiseDeviceSelected(Device Device);
 
-        event Action<IEnumerable<Appliance>> SearchExecuted;
+        event Action<IEnumerable<Device>> SearchExecuted;
 
-        void RaiseSearchExecuted(IEnumerable<Appliance> filtered);
+        void RaiseSearchExecuted(IEnumerable<Device> filtered);
 
         event Action<User> UserAuthorized;
 

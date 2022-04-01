@@ -4,6 +4,6 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface IDeviceInfoViewModel
     {
-        void UpdateDeviceInfo(Appliance target);
+        void UpdateDeviceInfo(Device target);
     }
 }

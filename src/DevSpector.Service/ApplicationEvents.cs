@@ -8,14 +8,14 @@ namespace DevSpector.Desktop.Service
     {
         public ApplicationEvents() { }
 
-        public event Action<Appliance> ApplianceSelected;
+        public event Action<Device> DeviceSelected;
 
-        public void RaiseApplianceSelected(Appliance appliance) =>
-            ApplianceSelected?.Invoke(appliance);
+        public void RaiseDeviceSelected(Device Device) =>
+            DeviceSelected?.Invoke(Device);
 
-        public event Action<IEnumerable<Appliance>> SearchExecuted;
+        public event Action<IEnumerable<Device>> SearchExecuted;
 
-        public void RaiseSearchExecuted(IEnumerable<Appliance> filtered) =>
+        public void RaiseSearchExecuted(IEnumerable<Device> filtered) =>
             SearchExecuted?.Invoke(filtered);
 
         public event Action<User> UserAuthorized;

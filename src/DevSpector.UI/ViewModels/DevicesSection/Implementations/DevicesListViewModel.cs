@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.SDK;
+using DevSpector.SDK.Providers;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class DevicesListViewModel : ListViewModelBase<Appliance>, IDevicesListViewModel
+    public class DevicesListViewModel : ListViewModelBase<Device>, IDevicesListViewModel
     {
         private readonly IApplicationEvents _appEvents;
 
@@ -27,18 +27,18 @@ namespace DevSpector.Desktop.UI.ViewModels
             _devicesProvider = devicesProvider;
         }
 
-        public override Appliance SelectedItem
+        public override Device SelectedItem
         {
             get => _selectedItem;
             set
             {
                 this.RaiseAndSetIfChanged(ref _selectedItem, value);
 
-                _appEvents.RaiseApplianceSelected(_selectedItem);
+                _appEvents.RaiseDeviceSelected(_selectedItem);
             }
         }
 
-        public override void LoadItemsFromList(IEnumerable<Appliance> devices)
+        public override void LoadItemsFromList(IEnumerable<Device> devices)
         {
             Items.Clear();
 
@@ -56,7 +56,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _devicesProvider.GetDevicesAsync(_session.AccessToken);
+            ItemsCache = await _devicesProvider.GetDevicesAsync();
             Items.Clear();
             foreach (var device in ItemsCache)
                 Items.Add(device);

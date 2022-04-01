@@ -48,12 +48,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public ReactiveCommand<Unit, Unit> FilterDevicesCommand { get; }
 
-        private Task<IEnumerable<Appliance>> FilterDevicesAsync(IEnumerable<Appliance> devices)
+        private Task<IEnumerable<Device>> FilterDevicesAsync(IEnumerable<Device> devices)
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))
-                    return Task.FromResult(new List<Appliance>(devices).AsEnumerable());
+                    return Task.FromResult(new List<Device>(devices).AsEnumerable());
 
-            var result = new List<Appliance>(devices.Count());
+            var result = new List<Device>(devices.Count());
 
             var filteringTask = Task.Run(
                 () => {
@@ -65,7 +65,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                     Thread.Sleep(3000);
 
-                    return result.AsEnumerable<Appliance>();
+                    return result.AsEnumerable<Device>();
                 }
             );
 

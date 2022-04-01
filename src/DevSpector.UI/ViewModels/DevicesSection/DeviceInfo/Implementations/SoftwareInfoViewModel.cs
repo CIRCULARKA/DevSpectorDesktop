@@ -14,7 +14,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _software, value);
         }
 
-        public void UpdateDeviceInfo(Appliance target)
+        public void UpdateDeviceInfo(Device target)
         {
             // Temp
             Software = target?.Software?.Count.ToString();

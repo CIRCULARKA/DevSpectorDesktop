@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.SDK;
+using DevSpector.SDK.Providers;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 using ReactiveUI;
@@ -55,7 +55,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _usersProvider.GetUsersAsync(_session.AccessToken);
+            ItemsCache = await _usersProvider.GetUsersAsync();
             Items.Clear();
             foreach (var user in ItemsCache)
                 Items.Add(user);
