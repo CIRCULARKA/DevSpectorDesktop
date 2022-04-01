@@ -52,7 +52,6 @@ namespace DevSpector.Desktop.UI
         private void ConfigureTargetHost()
         {
             var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
-            Console.WriteLine($"Running in {environment ?? "undefined"} environment");
 
             if (environment == "Production")
                 _hostBuilder = new HostBuilder("devspector.herokuapp.com", scheme: "https");
@@ -178,6 +177,5 @@ namespace DevSpector.Desktop.UI
             appEvents.Logout += authView.Show;
             appEvents.Logout += authVM.ClearCredentials;
         }
-
     }
 }
