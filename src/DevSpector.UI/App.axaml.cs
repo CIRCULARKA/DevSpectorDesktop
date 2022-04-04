@@ -7,7 +7,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using DevSpector.SDK;
 using DevSpector.SDK.Networking;
-using DevSpector.SDK.Models;
 using DevSpector.SDK.Providers;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Authorization;
