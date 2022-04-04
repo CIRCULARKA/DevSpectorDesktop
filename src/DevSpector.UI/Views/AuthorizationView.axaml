@@ -8,10 +8,10 @@
     x:Class="DevSpector.Desktop.UI.Views.AuthorizationView"
     Height="600" Width="350">
     <Border Padding="15 50 15 0">
-        <StackPanel>
-            <Image Source="/Assets/logo.png" Width="200" HorizontalAlignment="Center" />
+        <StackPanel VerticalAlignment="Center">
+            <!-- <Image Source="/Assets/logo.png" Width="200" HorizontalAlignment="Center" /> -->
             <!-- <TextBlock Classes="note" Text="{x:Static l:Messages.Login}" /> -->
-            <TextBlock Classes="note" Text="Авторизация" />
+            <TextBlock Classes="note" Text="Логин" />
             <TextBox Classes="clearButton" Text="{Binding Login}"
                 MaxLength="50"
                 IsEnabled="{Binding !AttemptingToLogin}" />
