@@ -2,7 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         x:Class="DevSpector.Desktop.UI.Views.DevicesListView">
-    <Grid RowDefinitions="*" ColumnDefinitions="*">
+    <UserControl.Styles>
+        <Style Selector="Button.crudButton">
+            <Setter Property="Margin" Value="0 0 0 5" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="*,Auto" ColumnDefinitions="*">
         <ListBox BorderThickness="0" Height="{Binding #base.Height}"
             Items="{Binding Items}" SelectedItem="{Binding SelectedItem}"
             IsVisible="{Binding AreThereItems}">
@@ -33,5 +38,19 @@
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 FontSize="26" Foreground="Gray" />
         </Panel>
+        <StackPanel Grid.Row="1">
+            <Button
+                Classes="crudButton"
+                Content="Добавить"
+                Command="{Binding ShowAddDeviceDialogCommand}" />
+            <Button
+                Classes="crudButton"
+                Content="Редактировать"
+                Command="{Binding ShowUpdateDeviceDialogCommand}" />
+            <Button
+                Classes="crudButton"
+                Content="Удалить"
+                Command="{Binding DeleteDeviceCommand}" />
+        </StackPanel>
     </Grid>
 </UserControl>
