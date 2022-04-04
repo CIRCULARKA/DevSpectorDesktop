@@ -1,3 +1,4 @@
+using System.Reactive;
 using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -12,10 +13,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         string NetworkAddress { get; set; }
 
-        ReactiveCommand GenerateNewTokenCommand { get; }
+        ReactiveCommand<Unit, Unit> GenerateNewTokenCommand { get; }
 
-        ReactiveCommand ChangePasswordCommand { get; }
+        ReactiveCommand<Unit, Unit> ChangePasswordCommand { get; }
 
-        ReactiveCommand GenerateIPRangeCommand { get; }
+        ReactiveCommand<Unit, Unit> GenerateIPRangeCommand { get; }
     }
 }
