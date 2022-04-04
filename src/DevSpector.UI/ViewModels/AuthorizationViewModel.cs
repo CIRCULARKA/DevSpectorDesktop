@@ -77,7 +77,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 _session.StartSession(user);
             }
-            catch (ArgumentException)
+            catch (InvalidOperationException)
             {
                 LogInFailed = true;
 
@@ -90,7 +90,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 ErrorMessage = "Не удалось подключиться к серверу";
             }
-            catch
+            catch (Exception)
             {
                 LogInFailed = true;
 
