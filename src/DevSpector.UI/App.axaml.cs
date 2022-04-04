@@ -59,9 +59,6 @@ namespace DevSpector.Desktop.UI
 
             _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
                 WithConstructorArgument("provider", defaultProvider);
-
-            _kernel.Bind<AuthorizationView>().ToSelf().InSingletonScope();
-            _kernel.Bind<IAuthorizationViewModel>().To<AuthorizationViewModel>().InSingletonScope();
         }
 
         private void ConfigureTargetHost()
