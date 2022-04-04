@@ -24,7 +24,6 @@ namespace DevSpector.Desktop.Service
             _loggedUser = user;
 
             _events.RaiseUserAuthorized(user);
-            _events.RaiseAuthorizationCompleted();
         }
     }
 }

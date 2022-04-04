@@ -18,10 +18,6 @@ namespace DevSpector.Desktop.Service
 
         void RaiseUserAuthorized(User user);
 
-        event Action AuthorizationCompleted;
-
-        void RaiseAuthorizationCompleted();
-
         event Action<User> UserSelected;
 
         void RaiseUserSelected(User user);
