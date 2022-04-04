@@ -6,6 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using DevSpector.SDK;
+using DevSpector.SDK.Networking;
+using DevSpector.SDK.Models;
 using DevSpector.SDK.Providers;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Authorization;
@@ -36,9 +38,9 @@ namespace DevSpector.Desktop.UI
 
             EnableApplicationEvents();
 
-            AddAuthorization();
-
             AddSDK();
+
+            AddAuthorization();
 
             AddViewModels();
 
@@ -47,6 +49,19 @@ namespace DevSpector.Desktop.UI
             SetupMainWindow();
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private void AddAuthorization()
+        {
+            _kernel.Bind<IUserSession>().To<UserSession>().InSingletonScope();
+
+            IServerDataProvider defaultProvider = _kernel.Get<IServerDataProvider>();
+
+            _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
+                WithConstructorArgument("provider", defaultProvider);
+
+            _kernel.Bind<AuthorizationView>().ToSelf().InSingletonScope();
+            _kernel.Bind<IAuthorizationViewModel>().To<AuthorizationViewModel>().InSingletonScope();
         }
 
         private void ConfigureTargetHost()
@@ -74,27 +89,31 @@ namespace DevSpector.Desktop.UI
             SubscribeToEvents();
         }
 
-        private void AddAuthorization()
-        {
-            _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
-                WithConstructorArgument("builder", _hostBuilder);
-            _kernel.Bind<IUserSession>().To<UserSession>().InSingletonScope();
-        }
-
         private void AddSDK()
         {
-			_kernel.Bind<IServerDataProvider>().To<JsonProvider>().
-                WithConstructorArgument("builder", _hostBuilder);
+            _kernel.Bind<IServerDataProvider>().To<JsonProvider>().
+                InSingletonScope().
+                    WithConstructorArgument("builder", _hostBuilder);
 
-            var rawDataProvider = _kernel.Get<IServerDataProvider>();
+            var dataProvider = _kernel.Get<IServerDataProvider>();
+
+			_kernel.Bind<ILocationProvider>().To<LocationProvider>().
+                WithConstructorArgument("provider", dataProvider);
 
 			_kernel.Bind<IDevicesProvider>().To<DevicesProvider>().
-                WithConstructorArgument(
-                    "provider",
-                    rawDataProvider
-                );
-			_kernel.Bind<IUsersProvider>().To<UsersProvider>().
-                WithConstructorArgument("provider", rawDataProvider);
+                WithConstructorArgument("provider", dataProvider);
+
+			_kernel.Bind<IDevicesEditor>().To<DevicesEditor>().
+                WithConstructorArgument("provider", dataProvider);
+
+            _kernel.Bind<IUsersProvider>().To<UsersProvider>().
+                WithConstructorArgument("provider", dataProvider);
+
+            _kernel.Bind<IUsersEditor>().To<UsersEditor>().
+                WithConstructorArgument("provider", dataProvider);
+
+            _kernel.Bind<INetworkManager>().To<NetworkManager>().
+                WithConstructorArgument("provider", dataProvider);
         }
 
         private void UseLanguage(string langCode)
@@ -105,8 +124,10 @@ namespace DevSpector.Desktop.UI
             languageSwitcher.SetLanguage(langCode);
         }
 
-        private void EnableApplicationEvents() =>
+        private void EnableApplicationEvents()
+        {
             _kernel.Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
+        }
 
         private void SubscribeToEvents()
         {
@@ -122,7 +143,6 @@ namespace DevSpector.Desktop.UI
             // Get VM's
             //
             // VM stands for View Model
-
             var authVM = _kernel.Get<IAuthorizationViewModel>();
             var commonInfoVM = _kernel.Get<ICommonInfoViewModel>();
             var locationInfoVM = _kernel.Get<ILocationInfoViewModel>();
@@ -136,7 +156,6 @@ namespace DevSpector.Desktop.UI
             //
             // Subscribe VMs UpdateDeviceInfo on Device selection
             //
-
             var targetVMsAmount = 4;
             var deviceInfoVMs = new List<IDeviceInfoViewModel>(targetVMsAmount);
 
@@ -156,26 +175,31 @@ namespace DevSpector.Desktop.UI
             //
             // Subscribe Devices list update on search
             //
-
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
             //
-            // Subscribe on authorization
+            // Subscribe on authrorization
             //
+            appEvents.UserAuthorized += (u) => {
+                _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
-            appEvents.AuthorizationCompleted += mainView.Show;
-            appEvents.AuthorizationCompleted += authView.Hide;
-            appEvents.AuthorizationCompleted += devicesListVM.InitializeList;
-            appEvents.AuthorizationCompleted += usersListVM.InitializeList;
+                sessionBrokerVM.UpdateLoggedUserInfo(u);
 
-            appEvents.UserAuthorized += sessionBrokerVM.UpdateLoggedUserInfo;
+                devicesListVM.InitializeList();
+                usersListVM.InitializeList();
+
+                authView.Hide();
+                mainView.Show();
+            };
 
             //
             // Subscribe on logout
             //
-            appEvents.Logout += mainView.Hide;
-            appEvents.Logout += authView.Show;
-            appEvents.Logout += authVM.ClearCredentials;
+            appEvents.Logout += () => {
+                mainView.Hide();
+                authView.Show();
+                authVM.ClearCredentials();
+            };
         }
     }
 }
