@@ -27,7 +27,7 @@
 				<!-- <shared:ModernMenuItem MinimizedTitle="{StaticResource settingsIcon}" RegularTitle="{x:Static l:Messages.Settings}"
 					Content="{Binding UsersMainView}" IsBottom="True" /> -->
 				<shared:ModernMenuItem MinimizedTitle="{StaticResource settingsIcon}" RegularTitle="Настройки"
-					Content="{Binding UsersMainView}" IsBottom="True" />
+					Content="{Binding SettingsView}" IsBottom="True" />
 			</shared:ModernMenu>
 		</Border>
 	</Grid>
