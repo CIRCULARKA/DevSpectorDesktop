@@ -18,6 +18,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public string NetworkAddress { get; set; }
 
+        public string CurrentAccessToken { get; set; }
+
         public ReactiveCommand<Unit, Unit> GenerateNewTokenCommand => null;
 
         public ReactiveCommand<Unit, Unit> ChangePasswordCommand { get; }

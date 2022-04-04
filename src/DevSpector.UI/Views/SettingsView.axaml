@@ -28,7 +28,7 @@
                         <TextBlock Classes="Headline5" Text="Ключ доступа" />
                     </aura:GroupBox.Header>
                     <StackPanel>
-                        <TextBox IsReadOnly="True" Text="{Binding CurrentApiToken}" />
+                        <TextBox IsReadOnly="True" Text="{Binding CurrentAccessToken}" />
                         <Button Content="Сгенерировать повторно" />
                     </StackPanel>
                 </aura:GroupBox>
