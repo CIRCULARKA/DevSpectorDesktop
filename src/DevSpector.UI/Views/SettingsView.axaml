@@ -1,13 +1,38 @@
 <UserControl xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:aura="using:Aura.UI.Controls"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
     x:Class="DevSpector.Desktop.UI.Views.SettingsView" >
-    <StackPanel VerticalAlignment="Center">
-        <Button Content="" />
-        <TextBlock Text="" Classes="note" />
-        <TextBlock Text="{Binding InventoryNumber}" Classes="main" />
-        <!-- <TextBlock Text="{x:Static l:Messages.Type}" Classes="note" /> -->
-        <TextBlock Text="Тип" Classes="note" />
-        <TextBlock Text="{Binding Type}" Classes="main" />
-    </StackPanel>
+    <Grid ColumnDefinitions="*,*,*">
+        <StackPanel>
+            <materialstyles:Card>
+                <aura:GroupBox>
+                    <aura:GroupBox.Header>
+                        <TextBlock Classes="Headline5" Text="Изменение пароля" />
+                    </aura:GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Старый пароль" Classes="note" />
+                        <TextBox Text="{Binding CurrentPassword}" PasswordChar="*" UseFloatingWatermark="True" />
+                        <TextBlock Text="Новый пароль" Classes="note" />
+                        <TextBox Text="{Binding NewPassword}" />
+                        <Button Content="Применить" />
+                    </StackPanel>
+                </aura:GroupBox>
+            </materialstyles:Card>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <materialstyles:Card
+                Margin="15 0 0 0">
+                <aura:GroupBox>
+                    <aura:GroupBox.Header>
+                        <TextBlock Classes="Headline5" Text="Ключ доступа" />
+                    </aura:GroupBox.Header>
+                    <StackPanel>
+                        <TextBox IsReadOnly="True" Text="{Binding CurrentApiToken}" />
+                        <Button Content="Сгенерировать повторно" />
+                    </StackPanel>
+                </aura:GroupBox>
+            </materialstyles:Card>
+        </StackPanel>
+    </Grid>
 </UserControl>
