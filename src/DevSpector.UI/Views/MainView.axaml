@@ -2,11 +2,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:shared="using:DevSpector.Desktop.UI.Views.Shared"
     xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
 	x:Class="DevSpector.Desktop.UI.Views.MainView"
 	Icon="/Assets/avalonia-logo.ico"
 	Title="Инвентарный менеджер"
     Width="900" Height="900" MinWidth="1200">
-	<Grid RowDefinitions="Auto,*">
+	<Grid RowDefinitions="Auto,*,Auto">
 		<ContentControl Content="{Binding SessionBrokerView}" />
 		<Border Padding="15 0 15 15" x:Name="border"
 			Grid.Row="1">
@@ -14,8 +15,7 @@
 				MinMenuSize="70" MaxMenuSize="200" SelectedIndex="1"
 				Grid.Row="1"> -->
 			<shared:ModernMenu Title="Меню" StartMinimized="True"
-				MinMenuSize="70" MaxMenuSize="200" SelectedIndex="1"
-				Grid.Row="1">
+				MinMenuSize="70" MaxMenuSize="200" SelectedIndex="1">
 				<!-- <shared:ModernMenuItem MinimizedTitle="{StaticResource devicesIcon}" RegularTitle="{x:Static l:Messages.Devices}"
 					Content="{Binding DevicesMainView}" /> -->
 				<shared:ModernMenuItem MinimizedTitle="{StaticResource devicesIcon}" RegularTitle="Устройства"
@@ -30,6 +30,7 @@
 					Content="{Binding SettingsView}" IsBottom="True" />
 			</shared:ModernMenu>
 		</Border>
+		<materialstyles:Card Grid.Row="2">
+		</materialstyles:Card>
 	</Grid>
-
 </Window>
