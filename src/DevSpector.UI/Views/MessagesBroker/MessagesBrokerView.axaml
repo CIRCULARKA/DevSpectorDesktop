@@ -4,10 +4,10 @@
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
 	x:Class="DevSpector.Desktop.UI.Views.MessagesBrokerView">
 	<materialstyles:Card>
-		<Grid ColumnDefinitions="*">
-			<TextBlock Text="{Binding LoggedUserGroup}"
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="{Binding Message}"
 				Foreground="Gray" FontSize="11"
 				HorizontalAlignment="Center" VerticalAlignment="Center" />
-		</Grid>
+		</StackPanel>
 	</materialstyles:Card>
 </UserControl>

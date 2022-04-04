@@ -9,13 +9,15 @@ namespace DevSpector.Desktop.UI.ViewModels
             DevicesMainView devicesMainView,
             UsersMainView usersMainView,
             SessionBrokerView sessionBrokerView,
-            SettingsView settingsView
+            SettingsView settingsView,
+            MessagesBrokerView messagesView
         )
         {
             DevicesMainView = devicesMainView;
             UsersMainView = usersMainView;
             SessionBrokerView = sessionBrokerView;
             SettingsView = settingsView;
+            MessagesBrokerView = messagesView;
         }
 
         public UserControl DevicesMainView { get; }
@@ -25,5 +27,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         public UserControl SessionBrokerView { get; }
 
         public UserControl SettingsView { get; }
+
+        public UserControl MessagesBrokerView { get; }
     }
 }

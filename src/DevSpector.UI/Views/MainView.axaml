@@ -30,7 +30,6 @@
 					Content="{Binding SettingsView}" IsBottom="True" />
 			</shared:ModernMenu>
 		</Border>
-		<materialstyles:Card Grid.Row="2">
-		</materialstyles:Card>
+		<ContentControl Content="{Binding MessagesBrokerView}" />
 	</Grid>
 </Window>
