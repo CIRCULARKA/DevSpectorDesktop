@@ -34,6 +34,7 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<IAuthorizationViewModel>().To<AuthorizationViewModel>().InSingletonScope();
 
             Bind<ISessionBrokerViewModel>().To<SessionBrokerViewModel>().InSingletonScope();
+            Bind<IMessagesBrokerViewModel>().To<MessagesBrokerViewModel>().InSingletonScope();
 
             Bind<ISettingsViewModel>().To<SettingsViewModel>().InSingletonScope();
         }
@@ -59,6 +60,7 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<SearchView>().ToSelf();
 
             Bind<SessionBrokerView>().ToSelf();
+            Bind<MessagesBrokerView>().ToSelf();
 
             Bind<SettingsView>().ToSelf();
         }
