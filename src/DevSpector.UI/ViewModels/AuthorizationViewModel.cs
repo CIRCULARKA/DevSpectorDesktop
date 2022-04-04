@@ -34,13 +34,13 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
         }
 
-        public bool AttemptingToLogIn
+        public bool AttemptingToLogin
         {
             get => _attemptingToLogIn;
             set => this.RaiseAndSetIfChanged(ref _attemptingToLogIn, value);
         }
 
-        public bool LogInFailed
+        public bool LoginFailed
         {
             get => _logInFailed;
             set => this.RaiseAndSetIfChanged(ref _logInFailed, value);
@@ -70,8 +70,8 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                LogInFailed = false;
-                AttemptingToLogIn = true;
+                LoginFailed = false;
+                AttemptingToLogin = true;
 
                 // var user = await _authManager.TryToSignInAsync(Login, Password);
                 var user = await _authManager.TryToSignInAsync("root", "123Abc!");
@@ -80,24 +80,23 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
             catch (InvalidOperationException)
             {
-                LogInFailed = true;
+                LoginFailed = true;
 
                 ErrorMessage = "Логин или пароль введены неверно";
-
             }
             catch (HttpRequestException)
             {
-                LogInFailed = true;
+                LoginFailed = true;
 
                 ErrorMessage = "Не удалось подключиться к серверу";
             }
             catch (Exception)
             {
-                LogInFailed = true;
+                LoginFailed = true;
 
                 ErrorMessage = "Что-то пошло не так :/";
             }
-            finally { AttemptingToLogIn = false; }
+            finally { AttemptingToLogin = false; }
         }
 
         public void ClearCredentials()
