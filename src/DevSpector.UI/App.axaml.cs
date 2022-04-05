@@ -195,6 +195,8 @@ namespace DevSpector.Desktop.UI
                 devicesListVM.InitializeList();
                 usersListVM.InitializeList();
 
+                commonInfoVM.UpdateDeviceTypesAsync();
+
                 authView.Hide();
                 mainView.Show();
             };
