@@ -1,7 +1,10 @@
+using System;
 using System.Reactive;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using ReactiveUI;
+using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
-using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -12,14 +15,28 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _type;
 
-        private readonly IDevicesEditor _editor;
+        private List<DeviceType> _deviceTypes;
+
+        private readonly IDevicesStorage _storage;
+
+        private readonly IDevicesListViewModel _devicesListViewModel;
+
+        private readonly IMessagesBroker _messagesBroker;
 
         public CommonInfoViewModel(
-            IDevicesEditor editor,
-            IMessagesBroker messagesBroker
+            IDevicesStorage storage,
+            IMessagesBroker messagesBroker,
+            IDevicesListViewModel devicesListVM
         )
         {
-            _editor = editor;
+            _storage = storage;
+            _devicesListViewModel = devicesListVM;
+
+            _messagesBroker = messagesBroker;
+
+            ApplyChangesCommand = ReactiveCommand.CreateFromTask(
+                UpdateDeviceCommonInfoAsync
+            );
         }
 
         public ReactiveCommand<Unit, Unit> ApplyChangesCommand { get; }
@@ -36,10 +53,39 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _type, value);
         }
 
+        public List<DeviceType> DeviceTypes
+        {
+            get => _deviceTypes;
+            set => this.RaiseAndSetIfChanged(ref _deviceTypes, value);
+        }
+
+        public async Task UpdateDeviceTypesAsync()
+        {
+            try
+            {
+                _deviceTypes = await _storage.GetDevicesTypesAsync();
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
+        }
+
         public void UpdateDeviceInfo(Device target)
         {
             InventoryNumber = target?.InventoryNumber;
             Type = target?.Type;
+        }
+
+        private async Task UpdateDeviceCommonInfoAsync()
+        {
+            await _storage.UpdateDeviceAsync(
+                _devicesListViewModel.SelectedItem.InventoryNumber,
+                new DeviceToCreate {
+                    InventoryNumber = InventoryNumber,
+                    TypeID = Type
+                }
+            );
         }
     }
 }
