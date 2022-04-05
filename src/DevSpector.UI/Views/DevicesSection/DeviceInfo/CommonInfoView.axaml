@@ -8,7 +8,7 @@
 		<TextBox Text="{Binding InventoryNumber}" Classes="main" />
 		<!-- <TextBlock Text="{x:Static l:Messages.Type}" Classes="note" /> -->
 		<TextBlock Text="Тип" Classes="note" />
-		<TextBox Text="{Binding Type}" Classes="main" />
+		<ComboBox Items="{Binding DeviceTypes}" SelectedItem="{Binding SelectedDeviceType}"></ComboBox>
 		<Button
 			Command="{Binding ApplyChangesCommand}"
 			Content="Применить" />
