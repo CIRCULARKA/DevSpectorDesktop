@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -45,7 +46,19 @@ namespace DevSpector.Desktop.UI.ViewModels
                             TypeID = SelectedDeviceType.ID
                         }
                     );
-                }
+                },
+                this.WhenAny(
+                    (vm) => vm.InventoryNumber,
+                    (vm) => {
+                        Device selectedDevice = _devicesListViewModel.SelectedItem;
+
+                        if (selectedDevice == null) return false;
+                        if (SelectedDeviceType == null) return false;
+
+                        return InventoryNumber != selectedDevice.InventoryNumber ||
+                            SelectedDeviceType.Name != selectedDevice.Type;
+                    }
+                )
             );
         }
 
@@ -71,7 +84,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public DeviceType SelectedDeviceType
         {
-            get => SelectedDeviceType;
+            get => _selectedDeviceType;
             set => this.RaiseAndSetIfChanged(ref _selectedDeviceType, value);
         }
 
@@ -80,6 +93,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             try
             {
                 _deviceTypes = await _storage.GetDevicesTypesAsync();
+                SelectedDeviceType = _deviceTypes.FirstOrDefault();
             }
             catch (Exception e)
             {
