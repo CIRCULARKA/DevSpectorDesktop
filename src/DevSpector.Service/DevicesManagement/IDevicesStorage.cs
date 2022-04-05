@@ -1,4 +1,4 @@
-using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.SDK.Models;
 using DevSpector.SDK.DTO;
@@ -7,12 +7,12 @@ namespace DevSpector.Desktop.Service
 {
     public interface IDevicesStorage
     {
-        IList<Device> GetDevicesAsync();
+        Task<IList<Device>> GetDevicesAsync();
 
-        void AddDeviceAsync(DeviceToCreate deviceInfo);
+        Task AddDeviceAsync(DeviceToCreate deviceInfo);
 
-        void RemoveDeviceAsync(string inventoryNumber);
+        Task RemoveDeviceAsync(string inventoryNumber);
 
-        void UpdateDeviceAsync(DeviceToCreate deviceInfo);
+        Task UpdateDeviceAsync(DeviceToCreate deviceInfo);
     }
 }
