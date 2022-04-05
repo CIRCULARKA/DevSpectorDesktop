@@ -17,6 +17,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private List<DeviceType> _deviceTypes;
 
+        private DeviceType _selectedDeviceType;
+
         private readonly IDevicesStorage _storage;
 
         private readonly IDevicesListViewModel _devicesListViewModel;
@@ -35,7 +37,15 @@ namespace DevSpector.Desktop.UI.ViewModels
             _messagesBroker = messagesBroker;
 
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
-                UpdateDeviceCommonInfoAsync
+                async () => {
+                    await _storage.UpdateDeviceAsync(
+                        _devicesListViewModel.SelectedItem.InventoryNumber,
+                        new DeviceToCreate {
+                            InventoryNumber = InventoryNumber,
+                            TypeID = SelectedDeviceType.ID
+                        }
+                    );
+                }
             );
         }
 
@@ -59,6 +69,12 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _deviceTypes, value);
         }
 
+        public DeviceType SelectedDeviceType
+        {
+            get => SelectedDeviceType;
+            set => this.RaiseAndSetIfChanged(ref _selectedDeviceType, value);
+        }
+
         public async Task UpdateDeviceTypesAsync()
         {
             try
@@ -75,17 +91,6 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             InventoryNumber = target?.InventoryNumber;
             Type = target?.Type;
-        }
-
-        private async Task UpdateDeviceCommonInfoAsync()
-        {
-            await _storage.UpdateDeviceAsync(
-                _devicesListViewModel.SelectedItem.InventoryNumber,
-                new DeviceToCreate {
-                    InventoryNumber = InventoryNumber,
-                    TypeID = Type
-                }
-            );
         }
     }
 }
