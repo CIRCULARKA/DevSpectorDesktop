@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -22,14 +21,14 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IDevicesEditor _editor;
 
-        private readonly IMessagesBrokerViewModel _messagesVM;
+        private readonly IMessagesBroker _messagesBroker;
 
         public DevicesListViewModel(
             IDevicesProvider devicesProvider,
             IApplicationEvents appEvents,
             IUserSession session,
             IDevicesEditor editor,
-            IMessagesBrokerViewModel messagesViewModel
+            IMessagesBroker messagesBroker
         )
         {
             _appEvents = appEvents;
@@ -38,7 +37,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _editor = editor;
 
-            _messagesVM = messagesViewModel;
+            _messagesBroker = messagesBroker;
 
             DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
                 DeleteDeviceAsync,
@@ -120,17 +119,17 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 await _editor.DeleteDeviceAsync(SelectedItem.InventoryNumber);
 
-                _messagesVM.Message = $"Устройство \"{SelectedItem.InventoryNumber}\" удалено";
+                _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
                 this.Items.Remove(SelectedItem);
             }
             catch (HttpRequestException)
             {
-                _messagesVM.Message = "Не удалось связаться с сервером";
+                _messagesBroker.NotifyUser("Не удалось связаться с сервером");
             }
             catch
             {
-                _messagesVM.Message = "Что-то пошло не так при удалении устройства";
+                _messagesBroker.NotifyUser( "Что-то пошло не так при удалении устройства");
             }
         }
     }
