@@ -7,9 +7,9 @@ namespace DevSpector.Desktop.Service
 {
     public interface IDevicesStorage
     {
-        Task<IList<Device>> GetDevicesAsync();
+        Task<List<Device>> GetDevicesAsync();
 
-        Task<IList<DeviceType>> GetDevicesTypesAsync();
+        Task<List<DeviceType>> GetDevicesTypesAsync();
 
         Task AddDeviceAsync(DeviceToCreate deviceInfo);
 

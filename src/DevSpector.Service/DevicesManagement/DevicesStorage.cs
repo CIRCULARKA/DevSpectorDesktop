@@ -22,7 +22,7 @@ namespace DevSpector.Desktop.Service
             _provider = provider;
         }
 
-        public async Task<IList<Device>> GetDevicesAsync()
+        public async Task<List<Device>> GetDevicesAsync()
         {
             var issueMessage = "Устройства не могут быть получены";
 
@@ -38,7 +38,7 @@ namespace DevSpector.Desktop.Service
             return result;
         }
 
-        public async Task<IList<DeviceType>> GetDevicesTypesAsync()
+        public async Task<List<DeviceType>> GetDevicesTypesAsync()
         {
             var issueMessage = "Типы устройств не могут быть получены";
 
