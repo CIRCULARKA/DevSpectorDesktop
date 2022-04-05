@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Net.Http;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.SDK.Providers;
-using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 using ReactiveUI;
@@ -15,27 +12,23 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private readonly IApplicationEvents _appEvents;
 
-        private readonly IDevicesProvider _devicesProvider;
-
         private readonly IUserSession _session;
 
-        private readonly IDevicesEditor _editor;
+        private readonly IDevicesStorage _storage;
 
         private readonly IMessagesBroker _messagesBroker;
 
         public DevicesListViewModel(
-            IDevicesProvider devicesProvider,
             IApplicationEvents appEvents,
             IUserSession session,
-            IDevicesEditor editor,
+            IDevicesStorage storage,
             IMessagesBroker messagesBroker
         )
         {
             _appEvents = appEvents;
             _session = session;
-            _devicesProvider = devicesProvider;
 
-            _editor = editor;
+            _storage = storage;
 
             _messagesBroker = messagesBroker;
 
@@ -79,7 +72,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _devicesProvider.GetDevicesAsync();
+            ItemsCache = await _storage.GetDevicesAsync();
             Items.Clear();
             foreach (var device in ItemsCache)
                 Items.Add(device);
@@ -100,15 +93,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                     NoItemsMessage = "Нет устройств";
                 }
             }
-            catch (ArgumentException)
+            catch (Exception e)
             {
                 AreThereItems = false;
-                NoItemsMessage = "Ошибка доступа";
-            }
-            catch
-            {
-                AreThereItems = false;
-                NoItemsMessage = "Что-то пошло не так";
+                NoItemsMessage = e.Message;
             }
             finally { AreItemsLoaded = true; }
         }
@@ -117,19 +105,15 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _editor.DeleteDeviceAsync(SelectedItem.InventoryNumber);
+                await _storage.RemoveDeviceAsync(SelectedItem.InventoryNumber);
 
                 _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
                 this.Items.Remove(SelectedItem);
             }
-            catch (HttpRequestException)
+            catch (Exception e)
             {
-                _messagesBroker.NotifyUser("Не удалось связаться с сервером");
-            }
-            catch
-            {
-                _messagesBroker.NotifyUser( "Что-то пошло не так при удалении устройства");
+                _messagesBroker.NotifyUser(e.Message);
             }
         }
     }
