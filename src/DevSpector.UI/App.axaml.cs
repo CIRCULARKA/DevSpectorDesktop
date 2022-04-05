@@ -37,6 +37,8 @@ namespace DevSpector.Desktop.UI
 
             EnableApplicationEvents();
 
+            AddServices();
+
             AddSDK();
 
             AddAuthorization();
@@ -112,6 +114,12 @@ namespace DevSpector.Desktop.UI
                 WithConstructorArgument("provider", dataProvider);
         }
 
+        private void AddServices()
+        {
+            _kernel.Bind<IMessagesBroker>().
+                To<MessagesBroker>().InSingletonScope();
+        }
+
         private void UseLanguage(string langCode)
         {
             _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
@@ -148,6 +156,7 @@ namespace DevSpector.Desktop.UI
             var usersListVM = _kernel.Get<IUsersListViewModel>();
             var userInfoVM = _kernel.Get<IUserInfoViewModel>();
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
+            var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
 
             //
             // Subscribe VMs UpdateDeviceInfo on Device selection
@@ -195,6 +204,13 @@ namespace DevSpector.Desktop.UI
                 mainView.Hide();
                 authView.Show();
                 authVM.ClearCredentials();
+            };
+
+            //
+            // Subscribe on notifying
+            //
+            appEvents.UserNotified += (message) => {
+                messagesBrokerVM.Message = message;
             };
         }
     }
