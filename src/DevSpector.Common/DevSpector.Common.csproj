@@ -12,7 +12,6 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.11" />
         <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />

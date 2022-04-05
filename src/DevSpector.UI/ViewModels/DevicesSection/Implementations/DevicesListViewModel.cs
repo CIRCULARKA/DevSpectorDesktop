@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.SDK.Providers;
+using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 using ReactiveUI;
@@ -16,16 +20,36 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
+        private readonly IDevicesEditor _editor;
+
+        private readonly IMessagesBrokerViewModel _messagesVM;
+
         public DevicesListViewModel(
             IDevicesProvider devicesProvider,
             IApplicationEvents appEvents,
-            IUserSession session
+            IUserSession session,
+            IDevicesEditor editor,
+            IMessagesBrokerViewModel messagesViewModel
         )
         {
             _appEvents = appEvents;
             _session = session;
             _devicesProvider = devicesProvider;
+
+            _editor = editor;
+
+            _messagesVM = messagesViewModel;
+
+            DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
+                DeleteDeviceAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (vm) => SelectedItem != null
+                )
+            );
         }
+
+        public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
 
         public override Device SelectedItem
         {
@@ -88,6 +112,26 @@ namespace DevSpector.Desktop.UI.ViewModels
                 NoItemsMessage = "Что-то пошло не так";
             }
             finally { AreItemsLoaded = true; }
+        }
+
+        private async Task DeleteDeviceAsync()
+        {
+            try
+            {
+                await _editor.DeleteDeviceAsync(SelectedItem.InventoryNumber);
+
+                _messagesVM.Message = $"Устройство \"{SelectedItem.InventoryNumber}\" удалено";
+
+                this.Items.Remove(SelectedItem);
+            }
+            catch (HttpRequestException)
+            {
+                _messagesVM.Message = "Не удалось связаться с сервером";
+            }
+            catch
+            {
+                _messagesVM.Message = "Что-то пошло не так при удалении устройства";
+            }
         }
     }
 }
