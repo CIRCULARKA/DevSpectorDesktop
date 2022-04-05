@@ -8,7 +8,18 @@
 		<TextBox Text="{Binding InventoryNumber}" Classes="main" />
 		<!-- <TextBlock Text="{x:Static l:Messages.Type}" Classes="note" /> -->
 		<TextBlock Text="Тип" Classes="note" />
-		<ComboBox Items="{Binding DeviceTypes}" SelectedItem="{Binding SelectedDeviceType}"></ComboBox>
+		<ComboBox
+			Items="{Binding DeviceTypes}"
+			SelectedItem="{Binding SelectedDeviceType}"
+			Margin="0 0 0 10">
+			<ComboBox.DataTemplates>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock FontSize="15" Text="{Binding Name}" />
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.DataTemplates>
+		</ComboBox>
 		<Button
 			Command="{Binding ApplyChangesCommand}"
 			Content="Применить" />
