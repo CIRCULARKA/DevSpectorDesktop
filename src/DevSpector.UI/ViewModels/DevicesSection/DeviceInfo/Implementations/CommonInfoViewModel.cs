@@ -50,7 +50,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 },
                 this.WhenAny(
                     (vm) => vm.InventoryNumber,
-                    (vm) => {
+                    (vm) => vm.SelectedDeviceType,
+                    (invNum, deviceType) => {
                         Device selectedDevice = _devicesListViewModel.SelectedItem;
 
                         if (selectedDevice == null) return false;
