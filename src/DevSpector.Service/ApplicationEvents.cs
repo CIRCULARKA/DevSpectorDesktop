@@ -37,5 +37,10 @@ namespace DevSpector.Desktop.Service
 
         public void RaiseLogout() =>
             Logout?.Invoke();
+
+        public event Action<string> UserNotified;
+
+        public void RaiseUserNotified(string message) =>
+            UserNotified?.Invoke(message);
     }
 }

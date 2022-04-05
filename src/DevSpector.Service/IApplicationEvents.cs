@@ -25,5 +25,9 @@ namespace DevSpector.Desktop.Service
         event Action Logout;
 
         void RaiseLogout();
+
+        event Action<string> UserNotified;
+
+        void RaiseUserNotified(string message);
     }
 }
