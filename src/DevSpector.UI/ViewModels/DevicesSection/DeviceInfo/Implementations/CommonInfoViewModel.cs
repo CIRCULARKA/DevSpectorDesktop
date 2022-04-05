@@ -1,5 +1,8 @@
+using System.Reactive;
 using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -9,7 +12,17 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _type;
 
-        public CommonInfoViewModel() { }
+        private readonly IDevicesEditor _editor;
+
+        public CommonInfoViewModel(
+            IDevicesEditor editor,
+            IMessagesBroker messagesBroker
+        )
+        {
+            _editor = editor;
+        }
+
+        public ReactiveCommand<Unit, Unit> ApplyChangesCommand { get; }
 
         public string InventoryNumber
         {
