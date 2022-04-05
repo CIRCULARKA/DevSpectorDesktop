@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Avalonia.Controls;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                _deviceTypes = await _storage.GetDevicesTypesAsync();
+                DeviceTypes = await _storage.GetDevicesTypesAsync();
                 SelectedDeviceType = _deviceTypes.FirstOrDefault();
             }
             catch (Exception e)
