@@ -38,6 +38,22 @@ namespace DevSpector.Desktop.Service
             return result;
         }
 
+        public async Task<IList<DeviceType>> GetDevicesTypesAsync()
+        {
+            var issueMessage = "Типы устройств не могут быть получены";
+
+            List<DeviceType> result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _provider.GetDeviceTypesAsync(),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+
+            return result;
+        }
+
         public async Task AddDeviceAsync(DeviceToCreate deviceInfo)
         {
             var issueMessage = "Устройство не может быть добавлено";
