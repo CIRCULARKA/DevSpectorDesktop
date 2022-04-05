@@ -1,6 +1,6 @@
 ﻿namespace DevSpector.Desktop.Service
 {
-    public class MessagesBroker
+    public class MessagesBroker : IMessagesBroker
     {
         private readonly IApplicationEvents _appEvents;
 
