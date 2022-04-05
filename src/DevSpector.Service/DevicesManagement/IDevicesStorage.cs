@@ -13,6 +13,6 @@ namespace DevSpector.Desktop.Service
 
         Task RemoveDeviceAsync(string inventoryNumber);
 
-        Task UpdateDeviceAsync(DeviceToCreate deviceInfo);
+        Task UpdateDeviceAsync(string targetInventoryNumber, DeviceToCreate deviceInfo);
     }
 }
