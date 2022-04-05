@@ -118,6 +118,8 @@ namespace DevSpector.Desktop.UI
         {
             _kernel.Bind<IMessagesBroker>().
                 To<MessagesBroker>().InSingletonScope();
+            _kernel.Bind<IDevicesStorage>().
+                To<DevicesStorage>().InSingletonScope();
         }
 
         private void UseLanguage(string langCode)
