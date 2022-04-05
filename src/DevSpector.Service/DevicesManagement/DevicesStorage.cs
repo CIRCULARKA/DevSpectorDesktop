@@ -24,13 +24,15 @@ namespace DevSpector.Desktop.Service
 
         public async Task<IList<Device>> GetDevicesAsync()
         {
+            var issueMessage = "Устройства не могут быть получены";
+
             List<Device> result = null;
 
             await ReThrowExceptionFrom(
                 async () => result = await _provider.GetDevicesAsync(),
-                "Устройства не могут быть получены - нет доступа",
-                "Устройства не могут быть получены - нет связи с сервером",
-                "Устройства не могут быть получены - неизвестная ошибка"
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
             );
 
             return result;
@@ -38,31 +40,37 @@ namespace DevSpector.Desktop.Service
 
         public async Task AddDeviceAsync(DeviceToCreate deviceInfo)
         {
+            var issueMessage = "Устройство не может быть добавлено";
+
             await ReThrowExceptionFrom(
                 async () => await _editor.CreateDeviceAsync(deviceInfo),
-                "Устройство не может быть добавлено - нет доступа",
-                "Устройство не может быть добавлено - нет связи с сервером",
-                "Устройство не может быть добавлено - неизвестная ошибка"
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
             );
         }
 
         public async Task RemoveDeviceAsync(string inventoryNumber)
         {
+            var issueMessage = "Устройство не может быть удалено";
+
             await ReThrowExceptionFrom(
                 async () => await _editor.DeleteDeviceAsync(inventoryNumber),
-                "Устройство не может быть удалено - нет доступа",
-                "Устройство не может быть удалено - нет связи с сервером",
-                "Устройство не может быть удалено - неизвестная ошибка"
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
             );
         }
 
         public async Task UpdateDeviceAsync(string targetInventoryNumber, DeviceToCreate deviceInfo)
         {
+            var issueMessage = "Устройство не может быть обновлено";
+
             await ReThrowExceptionFrom(
                 async () => await _editor.UpdateDeviceAsync(targetInventoryNumber, deviceInfo),
-                "Устройство не может быть удалено - нет доступа",
-                "Устройство не может быть удалено - нет связи с сервером",
-                "Устройство не может быть удалено - неизвестная ошибка"
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
             );
         }
 
