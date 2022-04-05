@@ -4,9 +4,9 @@
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
 	x:Class="DevSpector.Desktop.UI.Views.MessagesBrokerView">
 	<materialstyles:Card>
-		<StackPanel Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal" Height="15">
 			<TextBlock Text="{Binding Message}"
-				Foreground="Gray" FontSize="11"
+				FontSize="13"
 				HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</StackPanel>
 	</materialstyles:Card>
