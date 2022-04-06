@@ -13,6 +13,11 @@ namespace DevSpector.Desktop.Service
         public void RaiseDeviceSelected(Device Device) =>
             DeviceSelected?.Invoke(Device);
 
+        public event Action<Device> DeviceUpdated;
+
+        public void RaiseDeviceUpdated(Device updatedDevice) =>
+            DeviceUpdated?.Invoke(updatedDevice);
+
         public event Action<IEnumerable<Device>> SearchExecuted;
 
         public void RaiseSearchExecuted(IEnumerable<Device> filtered) =>
