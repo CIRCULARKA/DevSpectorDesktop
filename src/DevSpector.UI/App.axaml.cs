@@ -202,6 +202,13 @@ namespace DevSpector.Desktop.UI
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
             //
+            // Subscribe on device update
+            //
+            appEvents.DeviceUpdated += () => {
+                devicesListVM.InitializeList();
+            };
+
+            //
             // Subscribe on logout
             //
             appEvents.Logout += () => {
