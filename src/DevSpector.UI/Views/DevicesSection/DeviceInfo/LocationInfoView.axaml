@@ -6,8 +6,32 @@
 		<!-- <TextBlock Text="{x:Static l:Messages.BuildingBody}" Classes="note" /> -->
 		<TextBlock Text="Корпус" Classes="note" />
 		<TextBlock Text="{Binding Housing}" Classes="main" />
+		<ComboBox
+			Items="{Binding Housings}"
+			SelectedItem="{Binding SelectedHousing}"
+			Margin="0 0 0 10">
+			<ComboBox.DataTemplates>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock FontSize="15" Text="{Binding HousingName}" />
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.DataTemplates>
+		</ComboBox>
 		<!-- <TextBlock Text="{x:Static l:Messages.Cabinet}" Classes="note" /> -->
 		<TextBlock Text="Кабинет" Classes="note" />
-		<TextBlock Text="{Binding Cabinet}" Classes="main" />
+		<ComboBox
+			Items="{Binding Cabinets}"
+			SelectedItem="{Binding SelectedCabinet}"
+			Margin="0 0 0 10">
+			<ComboBox.DataTemplates>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock FontSize="15" Text="{Binding CabinetName}" />
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.DataTemplates>
+		</ComboBox>
+		<Button Content="Применить" Command="{Binding ApplyChangesCommand}" />
 	</StackPanel>
 </UserControl>
