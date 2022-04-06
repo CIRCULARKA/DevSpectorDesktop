@@ -107,10 +107,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 Cabinets = _housingCabinets[SelectedHousing.HousingName];
                 SelectedCabinet = Cabinets.FirstOrDefault(c => c.CabinetName == target.Cabinet);
             }
-            catch (Exception e)
-            {
-                // _messagesBroker.NotifyUser(e.Message + "__2__");
-            }
+            catch (Exception) { }
         }
 
         public async Task LoadHousingsAsync()
