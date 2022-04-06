@@ -183,6 +183,9 @@ namespace DevSpector.Desktop.UI
 
                 commonInfoVM.LoadDeviceTypesAsync();
 
+                locationInfoVM.LoadHousingsAsync();
+                locationInfoVM.LoadCabinetsAsync();
+
                 authView.Hide();
                 mainView.Show();
             };
