@@ -11,7 +11,5 @@ namespace DevSpector.Desktop.UI.ViewModels
         List<Cabinet> Cabinets { get; set; }
 
         Task LoadHousingsAsync();
-
-        Task LoadCabinetsAsync();
     }
 }
