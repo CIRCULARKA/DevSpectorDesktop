@@ -129,6 +129,18 @@ namespace DevSpector.Desktop.Service
             );
         }
 
+        public async Task MoveDeviceAsync(string inventoryNumber, string cabinetID)
+        {
+            var issueMessage = "Устройство не может быть перемещено";
+
+            await ReThrowExceptionFrom(
+                async () => await _editor.MoveAsync(inventoryNumber, cabinetID),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+        }
+
         private async Task ReThrowExceptionFrom(
             Func<Task> action,
             string noAccessMessage,
