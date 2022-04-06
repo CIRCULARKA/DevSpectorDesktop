@@ -30,7 +30,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public void UpdateDeviceInfo(Device target)
         {
-            Software = target.Software;
+            if (target == null)
+                Software = null;
+            else
+                Software = target.Software;
         }
     }
 }
