@@ -155,7 +155,7 @@ namespace DevSpector.Desktop.Service
 
         public async Task RemoveSoftwareAsync(string inventoryNumber, Software software)
         {
-            var issueMessage = "Не удалось добавить ПО к устройству";
+            var issueMessage = "Не удалось удалить ПО";
 
             await ReThrowExceptionFrom(
                 async () => await _editor.RemoveSoftwareAsync(inventoryNumber, software),
