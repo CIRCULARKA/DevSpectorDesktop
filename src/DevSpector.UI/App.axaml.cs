@@ -178,12 +178,11 @@ namespace DevSpector.Desktop.UI
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
 
-                devicesListVM.InitializeList();
-                usersListVM.InitializeList();
-
+                locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
 
-                locationInfoVM.LoadHousingsAsync();
+                devicesListVM.InitializeList();
+                usersListVM.InitializeList();
 
                 authView.Hide();
                 mainView.Show();
