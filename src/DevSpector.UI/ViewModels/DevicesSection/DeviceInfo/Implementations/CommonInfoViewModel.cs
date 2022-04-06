@@ -26,10 +26,13 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IMessagesBroker _messagesBroker;
 
+        private readonly IApplicationEvents _appEvents;
+
         public CommonInfoViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
-            IDevicesListViewModel devicesListVM
+            IDevicesListViewModel devicesListVM,
+            IApplicationEvents appEvents
         )
         {
             _storage = storage;
@@ -37,8 +40,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _messagesBroker = messagesBroker;
 
+            _appEvents = appEvents;
+
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
-                UpdateDeviceAsync,
+                UpdateDeviceCommonInfo,
                 this.WhenAny(
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
@@ -101,19 +106,27 @@ namespace DevSpector.Desktop.UI.ViewModels
                 SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == target?.Type);
         }
 
-        private async Task UpdateDeviceAsync()
+        private async Task UpdateDeviceCommonInfo()
         {
             try
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
+                string newInventoryNumber = selectedDevice.InventoryNumber == InventoryNumber ?
+                    null : InventoryNumber;
+
+                string newType = selectedDevice.Type == SelectedDeviceType.Name ?
+                    null : SelectedDeviceType.ID;
+
                 await _storage.UpdateDeviceAsync(
                     selectedDevice.InventoryNumber,
                     new DeviceToCreate {
-                        InventoryNumber = selectedDevice.InventoryNumber == InventoryNumber ? null : InventoryNumber,
-                        TypeID = selectedDevice.Type == SelectedDeviceType.Name ? null : SelectedDeviceType.ID
+                        InventoryNumber = newInventoryNumber,
+                        TypeID = newType
                     }
                 );
+
+                _appEvents.RaiseDeviceUpdated();
 
                 _messagesBroker.NotifyUser($"Устройство \"{selectedDevice.InventoryNumber}\" успешно обновлено");
             }
