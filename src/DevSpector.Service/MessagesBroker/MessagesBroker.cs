@@ -18,7 +18,7 @@ namespace DevSpector.Desktop.Service
 
         private string PrependCurrentTime(string message)
         {
-            return $"[{DateTime.Now.ToShortTimeString()}]: {message}";
+            return $"[{DateTime.Now.ToLongTimeString()}]: {message}";
         }
     }
 }
