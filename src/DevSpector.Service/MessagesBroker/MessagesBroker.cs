@@ -1,4 +1,6 @@
-﻿namespace DevSpector.Desktop.Service
+﻿using System;
+
+namespace DevSpector.Desktop.Service
 {
     public class MessagesBroker : IMessagesBroker
     {
@@ -11,7 +13,12 @@
 
         public void NotifyUser(string message)
         {
-            _appEvents.RaiseUserNotified(message);
+            _appEvents.RaiseUserNotified(PrependCurrentTime(message));
+        }
+
+        private string PrependCurrentTime(string message)
+        {
+            return $"[{DateTime.Now.ToShortTimeString()}]: {message}";
         }
     }
 }
