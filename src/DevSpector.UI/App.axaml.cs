@@ -161,20 +161,6 @@ namespace DevSpector.Desktop.UI
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
 
             //
-            // Subscribe VMs UpdateDeviceInfo on Device selection
-            //
-            var targetVMsAmount = 4;
-            var deviceInfoVMs = new List<IDeviceInfoViewModel>(targetVMsAmount);
-
-            deviceInfoVMs.Add(commonInfoVM);
-            deviceInfoVMs.Add(locationInfoVM);
-            deviceInfoVMs.Add(softwareInfoVM);
-            deviceInfoVMs.Add(networkInfoVM);
-
-            foreach (var vm in deviceInfoVMs)
-                appEvents.DeviceSelected += vm.UpdateDeviceInfo;
-
-            //
             // Update current user info on user change
             //
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
@@ -195,11 +181,25 @@ namespace DevSpector.Desktop.UI
                 devicesListVM.InitializeList();
                 usersListVM.InitializeList();
 
-                commonInfoVM.UpdateDeviceTypesAsync();
+                commonInfoVM.LoadDeviceTypesAsync();
 
                 authView.Hide();
                 mainView.Show();
             };
+
+            //
+            // Subscribe VMs UpdateDeviceInfo on Device selection
+            //
+            var targetVMsAmount = 4;
+            var deviceInfoVMs = new List<IDeviceInfoViewModel>(targetVMsAmount);
+
+            deviceInfoVMs.Add(commonInfoVM);
+            deviceInfoVMs.Add(locationInfoVM);
+            deviceInfoVMs.Add(softwareInfoVM);
+            deviceInfoVMs.Add(networkInfoVM);
+
+            foreach (var vm in deviceInfoVMs)
+                appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
             //
             // Subscribe on logout

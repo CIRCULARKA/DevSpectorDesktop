@@ -9,6 +9,6 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         DeviceType SelectedDeviceType { get; set; }
 
-        Task UpdateDeviceTypesAsync();
+        Task LoadDeviceTypesAsync();
     }
 }

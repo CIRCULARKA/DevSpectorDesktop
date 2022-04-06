@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Avalonia.Controls;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -39,15 +38,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             _messagesBroker = messagesBroker;
 
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
-                async () => {
-                    await _storage.UpdateDeviceAsync(
-                        _devicesListViewModel.SelectedItem.InventoryNumber,
-                        new DeviceToCreate {
-                            InventoryNumber = InventoryNumber,
-                            TypeID = SelectedDeviceType.ID
-                        }
-                    );
-                },
+                UpdateDeviceAsync,
                 this.WhenAny(
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
@@ -90,7 +81,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedDeviceType, value);
         }
 
-        public async Task UpdateDeviceTypesAsync()
+        public async Task LoadDeviceTypesAsync()
         {
             try
             {
@@ -106,7 +97,30 @@ namespace DevSpector.Desktop.UI.ViewModels
         public void UpdateDeviceInfo(Device target)
         {
             InventoryNumber = target?.InventoryNumber;
-            Type = target?.Type;
+            if (DeviceTypes != null)
+                SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == target?.Type);
+        }
+
+        private async Task UpdateDeviceAsync()
+        {
+            try
+            {
+                Device selectedDevice = _devicesListViewModel.SelectedItem;
+
+                await _storage.UpdateDeviceAsync(
+                    selectedDevice.InventoryNumber,
+                    new DeviceToCreate {
+                        InventoryNumber = selectedDevice.InventoryNumber == InventoryNumber ? null : InventoryNumber,
+                        TypeID = selectedDevice.Type == SelectedDeviceType.Name ? null : SelectedDeviceType.ID
+                    }
+                );
+
+                _messagesBroker.NotifyUser($"Устройство \"{selectedDevice.InventoryNumber}\" успешно обновлено");
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
     }
 }
