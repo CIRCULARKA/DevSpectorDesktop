@@ -1,7 +1,25 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="DevSpector.Desktop.UI.Views.SoftwareInfoView">
-		<StackPanel>
-			<TextBlock Text="{Binding Software}" Classes="main" />
-		</StackPanel>
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Class="DevSpector.Desktop.UI.Views.SoftwareInfoView">
+	<StackPanel>
+        <ListBox BorderThickness="0" Height="{Binding #base.Height}"
+            Items="{Binding Software}" SelectedItem="{Binding SelectedSoftware}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding SoftwareName}" Foreground="White" FontSize="16" />
+                            <TextBlock Text="{Binding SoftwareVersion}" Foreground="Gray" FontSize="16" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+		</ListBox>
+        <Button
+            Content="Добавить"
+            Command="{Binding AddSoftwareCommand}" />
+        <Button
+            Content="Удалить"
+            Command="{Binding RemoveSoftwareCommand}" />
+	</StackPanel>
 </UserControl>
