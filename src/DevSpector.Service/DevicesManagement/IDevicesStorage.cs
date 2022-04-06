@@ -11,6 +11,10 @@ namespace DevSpector.Desktop.Service
 
         Task<List<DeviceType>> GetDevicesTypesAsync();
 
+        Task<List<Housing>> GetHousingsAsync();
+
+        Task<List<Cabinet>> GetCabinetsAsync(string housingID);
+
         Task AddDeviceAsync(DeviceToCreate deviceInfo);
 
         Task RemoveDeviceAsync(string inventoryNumber);

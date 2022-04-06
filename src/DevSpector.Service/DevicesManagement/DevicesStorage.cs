@@ -14,12 +14,19 @@ namespace DevSpector.Desktop.Service
     {
         private readonly IDevicesEditor _editor;
 
-        private readonly IDevicesProvider _provider;
+        private readonly IDevicesProvider _devicesProvider;
 
-        public DevicesStorage(IDevicesEditor editor, IDevicesProvider provider)
+        private readonly ILocationProvider _locationProvider;
+
+        public DevicesStorage(
+            IDevicesEditor editor,
+            IDevicesProvider devicesProvider,
+            ILocationProvider locationProvider
+        )
         {
             _editor = editor;
-            _provider = provider;
+            _devicesProvider = devicesProvider;
+            _locationProvider = locationProvider;
         }
 
         public async Task<List<Device>> GetDevicesAsync()
@@ -29,7 +36,7 @@ namespace DevSpector.Desktop.Service
             List<Device> result = null;
 
             await ReThrowExceptionFrom(
-                async () => result = await _provider.GetDevicesAsync(),
+                async () => result = await _devicesProvider.GetDevicesAsync(),
                 $"{issueMessage} - нет доступа",
                 $"{issueMessage} - нет связи с сервером",
                 $"{issueMessage} - неизвестная ошибка"
@@ -45,7 +52,39 @@ namespace DevSpector.Desktop.Service
             List<DeviceType> result = null;
 
             await ReThrowExceptionFrom(
-                async () => result = await _provider.GetDeviceTypesAsync(),
+                async () => result = await _devicesProvider.GetDeviceTypesAsync(),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+
+            return result;
+        }
+
+        public async Task<List<Cabinet>> GetCabinetsAsync(string housingID)
+        {
+            var issueMessage = "Не удалось загрузить список корпусов";
+
+            List<Cabinet> result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _locationProvider.GetHousingCabinetsAsync(housingID),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+
+            return result;
+        }
+
+        public async Task<List<Housing>> GetHousingsAsync()
+        {
+            var issueMessage = "Не удалось загрузить коппусы";
+
+            List<Housing> result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _locationProvider.GetHousingsAsync(),
                 $"{issueMessage} - нет доступа",
                 $"{issueMessage} - нет связи с сервером",
                 $"{issueMessage} - неизвестная ошибка"

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using DevSpector.SDK.Models;
+
 namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface ILocationInfoViewModel : IDeviceInfoViewModel
     {
-        string Housing { get; set; }
+        List<Housing> Housings { get; set; }
 
-        string Cabinet { get; set; }
+        List<Cabinet> Cabinets { get; set; }
     }
 }
