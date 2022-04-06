@@ -141,6 +141,30 @@ namespace DevSpector.Desktop.Service
             );
         }
 
+        public async Task AddSoftwareAsync(string inventoryNumber, Software software)
+        {
+            var issueMessage = "Не удалось добавить ПО к устройству";
+
+            await ReThrowExceptionFrom(
+                async () => await _editor.AddSoftwareAsync(inventoryNumber, software),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+        }
+
+        public async Task RemoveSoftwareAsync(string inventoryNumber, Software software)
+        {
+            var issueMessage = "Не удалось добавить ПО к устройству";
+
+            await ReThrowExceptionFrom(
+                async () => await _editor.RemoveSoftwareAsync(inventoryNumber, software),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+        }
+
         private async Task ReThrowExceptionFrom(
             Func<Task> action,
             string noAccessMessage,

@@ -22,5 +22,9 @@ namespace DevSpector.Desktop.Service
         Task UpdateDeviceAsync(string targetInventoryNumber, DeviceToCreate deviceInfo);
 
         Task MoveDeviceAsync(string inventoryNumber, string cabinetID);
+
+        Task AddSoftwareAsync(string inventoryNumber, Software software);
+
+        Task RemoveSoftwareAsync(string inventoryNumber, Software software);
     }
 }
