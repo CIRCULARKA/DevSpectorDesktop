@@ -44,8 +44,8 @@
                 <ListBox
                     Grid.Row="1"
                     BorderThickness="0"
-                    Items="{Binding Software}"
-                    SelectedItem="{Binding SelectedSoftware}">
+                    Items="{Binding Items}"
+                    SelectedItem="{Binding SelectedItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
