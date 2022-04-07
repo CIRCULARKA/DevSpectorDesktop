@@ -120,10 +120,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     newSoft
                 );
 
-                Software.Add(newSoft);
-                var temp = Software;
-                Software = null;
-                Software = temp;
+                AddToList(newSoft);
 
                 if (SoftwareVersion != null)
                     _messagesBroker.NotifyUser($"ПО \"{SoftwareName}\" с версией \"{SoftwareVersion}\" добавлено");
@@ -156,10 +153,22 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
         }
 
+        private void AddToList(Software soft)
+        {
+            Software.Add(soft);
+
+            var temp = Software;
+            Software = null;
+            Software = temp;
+
+            SelectedSoftware = soft;
+        }
+
         private void RemoveFromList(Software soft)
         {
             int previousSelectedIndex = Software.IndexOf(soft);
             Software.Remove(soft);
+
             var temp = Software;
             Software = null;
             Software = temp;
