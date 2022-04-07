@@ -16,7 +16,7 @@
 					MinMenuSize="70" MaxMenuSize="200" SelectedIndex="1"
 					Grid.Row="1"> -->
 				<shared:ModernMenu Title="Меню" StartMinimized="True"
-					MinMenuSize="70" MaxMenuSize="200" SelectedIndex="1">
+					MinMenuSize="70" MaxMenuSize="200" SelectedIndex="0">
 					<!-- <shared:ModernMenuItem MinimizedTitle="{StaticResource devicesIcon}" RegularTitle="{x:Static l:Messages.Devices}"
 						Content="{Binding DevicesMainView}" /> -->
 					<shared:ModernMenuItem MinimizedTitle="{StaticResource devicesIcon}" RegularTitle="Устройства"
