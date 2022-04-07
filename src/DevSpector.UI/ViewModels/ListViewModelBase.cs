@@ -20,7 +20,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         protected ListViewModelBase()
         {
-            Items =new ObservableCollection<TModel>();
+            Items = new ObservableCollection<TModel>();
             ItemsCache = new List<TModel>();
         }
 
