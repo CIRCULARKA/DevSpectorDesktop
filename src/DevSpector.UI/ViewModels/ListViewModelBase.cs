@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,5 +53,25 @@ namespace DevSpector.Desktop.UI.ViewModels
         public abstract void LoadItemsFromList(IEnumerable<TModel> items);
 
         protected abstract Task LoadItems();
+
+        protected virtual void AddToList(TModel item)
+        {
+            Items.Add(item);
+
+            SelectedItem = item;
+        }
+
+        protected virtual void RemoveFromList(TModel item)
+        {
+            int previousSelectedIndex = Items.IndexOf(item);
+            Items.Remove(item);
+
+            if (previousSelectedIndex < 1) {
+                SelectedItem = Items.FirstOrDefault();
+                return;
+            }
+
+            SelectedItem = Items.Skip(previousSelectedIndex - 1).FirstOrDefault();
+        }
     }
 }
