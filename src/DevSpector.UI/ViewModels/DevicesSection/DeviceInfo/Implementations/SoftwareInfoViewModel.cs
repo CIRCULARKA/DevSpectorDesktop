@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -38,8 +39,20 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _messagesBroker = messagesBroker;
 
+            AddSoftwareCommand = ReactiveCommand.CreateFromTask(
+                AddSoftwareAsync,
+                this.WhenAny(
+                    (vm) => vm.SoftwareName,
+                    (vm) => {
+                        if (string.IsNullOrWhiteSpace(SoftwareName)) return false;
+                        if (SoftwareName.Length < 3) return false;
+                        return true;
+                    }
+                )
+            );
+
             RemoveSoftwareCommand = ReactiveCommand.CreateFromTask(
-                RemoveSoftware
+                RemoveSoftwareAsync
             );
 
             SwitchInputFieldsCommand = ReactiveCommand.Create(
@@ -108,6 +121,9 @@ namespace DevSpector.Desktop.UI.ViewModels
                 );
 
                 Software.Add(newSoft);
+                var temp = Software;
+                Software = null;
+                Software = temp;
 
                 if (SoftwareVersion != null)
                     _messagesBroker.NotifyUser($"ПО \"{SoftwareName}\" с версией \"{SoftwareVersion}\" добавлено");
@@ -120,7 +136,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
         }
 
-        public async Task RemoveSoftware()
+        public async Task RemoveSoftwareAsync()
         {
             try
             {
@@ -128,13 +144,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, _selectedSoftware);
 
-                Software.Remove(SelectedSoftware);
-
                 Software removedSoftware = SelectedSoftware;
 
-                var temp = Software;
-                Software = null;
-                Software = temp;
+                RemoveFromList(SelectedSoftware);
 
                 _messagesBroker.NotifyUser($"ПО \"{removedSoftware.SoftwareName}\" удалено");
             }
@@ -142,6 +154,22 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 _messagesBroker.NotifyUser(e.Message);
             }
+        }
+
+        private void RemoveFromList(Software soft)
+        {
+            int previousSelectedIndex = Software.IndexOf(soft);
+            Software.Remove(soft);
+            var temp = Software;
+            Software = null;
+            Software = temp;
+
+            if (previousSelectedIndex < 1) {
+                SelectedSoftware = Software.FirstOrDefault();
+                return;
+            }
+
+            SelectedSoftware = Software.Skip(previousSelectedIndex - 1).FirstOrDefault();
         }
     }
 }
