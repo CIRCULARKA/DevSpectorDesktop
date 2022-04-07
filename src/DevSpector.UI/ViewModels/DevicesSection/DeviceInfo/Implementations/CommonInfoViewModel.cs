@@ -49,14 +49,16 @@ namespace DevSpector.Desktop.UI.ViewModels
                 this.WhenAny(
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
-                    (invNum, deviceType) => {
+                    (vm) => vm.ModelName,
+                    (invNum, deviceType, modelName) => {
                         Device selectedDevice = _devicesListViewModel.SelectedItem;
 
                         if (selectedDevice == null) return false;
                         if (SelectedDeviceType == null) return false;
 
                         return InventoryNumber != selectedDevice.InventoryNumber ||
-                            SelectedDeviceType.Name != selectedDevice.Type;
+                            SelectedDeviceType.Name != selectedDevice.Type ||
+                            ModelName != selectedDevice.ModelName;
                     }
                 )
             );
@@ -125,6 +127,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 string newType = selectedDevice.Type == SelectedDeviceType.Name ?
                     null : SelectedDeviceType.ID;
+
+                string newModelName = selectedDevice.ModelName == ModelName ?
+                    null : ModelName;
 
                 await _storage.UpdateDeviceAsync(
                     selectedDevice.InventoryNumber,
