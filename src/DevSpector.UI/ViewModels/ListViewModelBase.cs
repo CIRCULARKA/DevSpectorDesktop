@@ -50,7 +50,19 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public abstract void InitializeList();
 
-        public abstract void LoadItemsFromList(IEnumerable<TModel> items);
+        public virtual void LoadItemsFromList(IEnumerable<TModel> items)
+        {
+            Items.Clear();
+
+            foreach (var item in items)
+                Items.Add(item);
+
+            if (Items.Count == 0) {
+                AreThereItems = false;
+                NoItemsMessage = "Нет элементов";
+            }
+            else AreThereItems = true;
+        }
 
         protected virtual void AddToList(TModel item)
         {
