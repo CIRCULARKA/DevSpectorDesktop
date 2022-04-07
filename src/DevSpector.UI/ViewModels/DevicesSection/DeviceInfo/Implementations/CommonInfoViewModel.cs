@@ -14,8 +14,6 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private string _inventoryNumber;
 
-        private string _type;
-
         private string _modelName;
 
         private List<DeviceType> _deviceTypes;
