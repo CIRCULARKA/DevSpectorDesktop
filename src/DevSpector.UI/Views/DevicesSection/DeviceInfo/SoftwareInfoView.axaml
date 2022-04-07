@@ -1,33 +1,60 @@
 <UserControl xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    xmlns:aura="using:Aura.UI.Controls"
 	x:Class="DevSpector.Desktop.UI.Views.SoftwareInfoView">
-	<Grid RowDefinitions="*,Auto">
-        <ListBox
-            Grid.Row="0"
-            BorderThickness="0"
-            Items="{Binding Software}"
-            SelectedItem="{Binding SelectedSoftware}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="({Binding SoftwareName}" Foreground="White" FontSize="16" />
-                            <TextBlock Text="{Binding SoftwareVersion}" Foreground="Gray" FontSize="16" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-		</ListBox>
-        <StackPanel
-            Grid.Row="1"
-            Margin="0 5 0 0">
-            <Button
-                Content="Добавить"
-                Command="{Binding AddSoftwareCommand}"
-                Margin="0 0 0 5" />
-            <Button
-                Content="Удалить"
-                Command="{Binding RemoveSoftwareCommand}" />
-        </StackPanel>
-	</Grid>
+    <materialstyles:Card Grid.Row="0" Grid.Column="0" Margin="0 0 15 0">
+        <aura:GroupBox>
+            <aura:GroupBox.Header>
+                <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Software}" /> -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Classes="Headline5"
+                        Text="ПО" />
+                    <!-- <Button
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Classes="Flat">
+                        <Button.Content>
+                            <TextBlock
+                                Foreground="Gray"
+                                Text="+"
+                                FontWeight="UltraBlack" />
+                        </Button.Content>
+                    </Button> -->
+                </Grid>
+            </aura:GroupBox.Header>
+            <Grid RowDefinitions="*,Auto">
+                <ListBox
+                    Grid.Row="0"
+                    BorderThickness="0"
+                    Items="{Binding Software}"
+                    SelectedItem="{Binding SelectedSoftware}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding SoftwareName}" Foreground="White" FontSize="16" />
+                                    <TextBlock Text="{Binding SoftwareVersion}" Foreground="Gray" FontSize="16" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0 5 0 0">
+                    <Button
+                        Content="Добавить"
+                        Command="{Binding AddSoftwareCommand}"
+                        Margin="0 0 0 5" />
+                    <Button
+                        Content="Удалить"
+                        Command="{Binding RemoveSoftwareCommand}" />
+                </StackPanel>
+            </Grid>
+        </aura:GroupBox>
+    </materialstyles:Card>
 </UserControl>
