@@ -72,15 +72,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
         }
 
-        public string Type
-        {
-            get { return _type == null ? "N/A" : _type; }
-            set => this.RaiseAndSetIfChanged(ref _type, value);
-        }
-
         public string ModelName
         {
-            get { return _modelName == null ? "N/A" : _modelName; }
+            get => _modelName;
             set => this.RaiseAndSetIfChanged(ref _modelName, value);
         }
 
@@ -114,6 +108,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             InventoryNumber = target?.InventoryNumber;
             if (DeviceTypes != null)
                 SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == target?.Type);
+            ModelName = target?.ModelName;
         }
 
         private async Task UpdateDeviceCommonInfo()
@@ -135,6 +130,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     selectedDevice.InventoryNumber,
                     new DeviceToCreate {
                         InventoryNumber = newInventoryNumber,
+                        ModelName = newModelName,
                         TypeID = newType
                     }
                 );
