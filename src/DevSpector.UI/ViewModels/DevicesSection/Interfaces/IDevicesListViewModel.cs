@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public interface IDevicesListViewModel : IListViewModel<Device> { }
+    public interface IDevicesListViewModel : IListViewModel<Device>, IInitializableListViewModel<Device> { }
 }

@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class DevicesListViewModel : ListViewModelBase<Device>, IDevicesListViewModel, IInitializableListViewModel<Device>
+    public class DevicesListViewModel : ListViewModelBase<Device>, IDevicesListViewModel
     {
         private readonly IApplicationEvents _appEvents;
 
