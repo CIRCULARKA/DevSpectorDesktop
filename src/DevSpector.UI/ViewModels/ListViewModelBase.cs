@@ -48,8 +48,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             set { this.RaiseAndSetIfChanged(ref _noItemsMessage, value); }
         }
 
-        public abstract void InitializeList();
-
         public virtual void LoadItemsFromList(IEnumerable<TModel> items)
         {
             Items.Clear();

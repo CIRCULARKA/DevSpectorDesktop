@@ -78,7 +78,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 Items.Add(device);
         }
 
-        public override async void InitializeList()
+        public async void InitializeList()
         {
             try
             {
