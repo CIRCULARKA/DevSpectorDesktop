@@ -52,8 +52,6 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public abstract void LoadItemsFromList(IEnumerable<TModel> items);
 
-        protected abstract Task LoadItems();
-
         protected virtual void AddToList(TModel item)
         {
             Items.Add(item);
