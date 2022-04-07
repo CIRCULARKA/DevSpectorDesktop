@@ -18,7 +18,5 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string NoItemsMessage { get; set; }
 
         void LoadItemsFromList(IEnumerable<TModel> items);
-
-        void InitializeList();
     }
 }
