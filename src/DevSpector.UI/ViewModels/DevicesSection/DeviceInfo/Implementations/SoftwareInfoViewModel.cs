@@ -18,8 +18,6 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _softwareVersion;
 
-        private List<Software> _software;
-
         private readonly IDevicesStorage _storage;
 
         private readonly IDevicesListViewModel _devicesListViewModel;
@@ -50,7 +48,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
 
             RemoveSoftwareCommand = ReactiveCommand.CreateFromTask(
-                RemoveSoftwareAsync
+                RemoveSoftwareAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (selectedSoft) => selectedSoft != null
+                )
             );
 
             SwitchInputFieldsCommand = ReactiveCommand.Create(
@@ -82,12 +84,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _softwareVersion, value);
         }
 
-        public List<Software> Software
-        {
-            get => _software;
-            set => this.RaiseAndSetIfChanged(ref _software, value);
-        }
-
         public override Software SelectedItem
         {
             get => _selectedItem;
@@ -96,10 +92,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public void UpdateDeviceInfo(Device target)
         {
-            if (target == null)
-                Software = null;
-            else
-                Software = target.Software;
+            if (target == null) return;
+
+            Items.Clear();
+            foreach (var soft in target.Software)
+                Items.Add(soft);
         }
 
         public async Task AddSoftwareAsync()
@@ -137,7 +134,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, _selectedItem);
+                await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 Software removedSoftware = SelectedItem;
 
