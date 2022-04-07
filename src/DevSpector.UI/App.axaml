@@ -41,6 +41,7 @@
 
         <StyleInclude Source="/Shared/CommonStyles.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuStyle.axaml" />
+        <StyleInclude Source="avares://DevSpector.Common/Styles/MessagesPanelStyle.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuItemStyle.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/HiddenableTextBlockStyle.axaml" />
 
