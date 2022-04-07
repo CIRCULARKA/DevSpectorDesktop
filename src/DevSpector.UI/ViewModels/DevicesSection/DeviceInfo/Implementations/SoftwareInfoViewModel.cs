@@ -102,8 +102,6 @@ namespace DevSpector.Desktop.UI.ViewModels
                 Software = target.Software;
         }
 
-        public override void InitializeList() { }
-
         public async Task AddSoftwareAsync()
         {
             try
