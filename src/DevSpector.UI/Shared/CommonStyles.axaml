@@ -16,4 +16,7 @@
     <Style Selector="materialstyles|Card">
         <Setter Property="assist:ShadowAssist.ShadowDepth" Value="9" />
     </Style>
+    <Style Selector="Button.crudButton">
+        <Setter Property="Width" Value="33" />
+    </Style>
 </Styles>
