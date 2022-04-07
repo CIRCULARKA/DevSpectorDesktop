@@ -27,7 +27,7 @@
                     </Button>
                     <!-- Add button -->
                     <Button
-                        Command="{Binding SwitchInputFieldsToAddCommand}"
+                        Command="{Binding SwitchInputFieldsCommand}"
                         Classes="Flat crudButton"
                         HorizontalAlignment="Right">
                         <Button.Content>
