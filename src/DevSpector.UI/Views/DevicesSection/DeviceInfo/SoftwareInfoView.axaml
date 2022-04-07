@@ -27,7 +27,8 @@
             </aura:GroupBox.Header>
             <Grid RowDefinitions="Auto,*,Auto">
                 <StackPanel
-                    Grid.Row="0">
+                    Grid.Row="0"
+                    IsVisible="{Binding CanInputSoftwareInfo}">
                     <TextBox
                         Text="{Binding SoftwareName}"
                         Watermark="Название" />
