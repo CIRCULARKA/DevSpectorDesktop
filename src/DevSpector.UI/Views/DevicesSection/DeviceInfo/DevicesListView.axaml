@@ -11,6 +11,7 @@
                     <TextBlock
                         Classes="Headline5"
                         Text="Устройства" />
+                    <!-- Remove button -->
                     <Button
                         Command="{Binding DeleteDeviceCommand}"
                         Classes="Flat crudButton"
@@ -23,8 +24,10 @@
                             </Viewbox>
                         </Button.Content>
                     </Button>
+                    <!-- Add button -->
                     <Button
                         Command="{Binding SwitchInputFieldsCommand}"
+                        CommandParameter="False"
                         Classes="Flat crudButton"
                         HorizontalAlignment="Right">
                         <Button.Content>
@@ -35,7 +38,11 @@
                             </Viewbox>
                         </Button.Content>
                     </Button>
-                    <Button>
+                    <!-- Edit button -->
+                    <Button
+                        Command="{Binding SwitchInputFieldsCommand}"
+                        CommandParameter="True"
+                        Classes="Flat crudButton">
                         <Button.Content>
                             <Viewbox Width="18" Height="18">
                                 <Canvas Width="24" Height="24">
