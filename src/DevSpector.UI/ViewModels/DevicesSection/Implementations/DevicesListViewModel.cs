@@ -43,7 +43,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _messagesBroker = messagesBroker;
 
-            SwitchInputFields = ReactiveCommand.CreateFromTask(
+            SwitchInputFieldsCommand = ReactiveCommand.CreateFromTask(
                 async () => {
                     CanAddDevice = !CanAddDevice;
 
@@ -65,7 +65,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
         }
 
-        public ReactiveCommand<Unit, Unit> SwitchInputFields { get; }
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
 
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
 
