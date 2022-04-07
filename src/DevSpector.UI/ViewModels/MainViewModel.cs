@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Avalonia.Controls;
 using DevSpector.Desktop.UI.Views;
 
@@ -18,7 +19,15 @@ namespace DevSpector.Desktop.UI.ViewModels
             SessionBrokerView = sessionBrokerView;
             SettingsView = settingsView;
             MessagesBrokerView = messagesView;
+
+            Messages = new List<string> {
+                "hello",
+                "ma",
+                "friend"
+            };
         }
+
+        public List<string> Messages { get; }
 
         public UserControl DevicesMainView { get; }
 
