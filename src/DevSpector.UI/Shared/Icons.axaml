@@ -26,4 +26,9 @@
                 Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
         </Canvas>
     </Viewbox>
+    <Viewbox x:Key="circlePlusIcon" Width="18" Height="18">
+        <Canvas Width="24" Height="24">
+            <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+        </Canvas>
+    </Viewbox>
 </ResourceDictionary>
