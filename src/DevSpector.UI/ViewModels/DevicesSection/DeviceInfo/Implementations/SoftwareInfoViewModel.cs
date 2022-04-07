@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ReactiveUI;
+using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.Desktop.Service;
 
@@ -10,6 +11,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class SoftwareInfoViewModel : ViewModelBase, ISoftwareInfoViewModel
     {
+        private bool _canInputSoftwareInfo;
+
         private string _softwareName;
 
         private string _softwareVersion;
@@ -38,9 +41,23 @@ namespace DevSpector.Desktop.UI.ViewModels
             RemoveSoftwareCommand = ReactiveCommand.CreateFromTask(
                 RemoveSoftware
             );
+
+            SwitchInputFieldsCommand = ReactiveCommand.Create(
+                () => { CanInputSoftwareInfo = !CanInputSoftwareInfo; }
+            );
         }
 
+        public ReactiveCommand<Unit, Unit> AddSoftwareCommand { get; }
+
         public ReactiveCommand<Unit, Unit> RemoveSoftwareCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
+
+        public bool CanInputSoftwareInfo
+        {
+            get => _canInputSoftwareInfo;
+            set => this.RaiseAndSetIfChanged(ref _canInputSoftwareInfo, value);
+        }
 
         public string SoftwareName
         {
@@ -72,6 +89,35 @@ namespace DevSpector.Desktop.UI.ViewModels
                 Software = null;
             else
                 Software = target.Software;
+        }
+
+        public async Task AddSoftwareAsync()
+        {
+            try
+            {
+                Device selectedDevice = _devicesListViewModel.SelectedItem;
+
+                var newSoft = new Software {
+                    SoftwareName = SoftwareName,
+                    SoftwareVersion = SoftwareVersion
+                };
+
+                await _storage.AddSoftwareAsync(
+                    selectedDevice.InventoryNumber,
+                    newSoft
+                );
+
+                Software.Add(newSoft);
+
+                if (SoftwareVersion != null)
+                    _messagesBroker.NotifyUser($"ПО \"{SoftwareName}\" с версией \"{SoftwareVersion}\" добавлено");
+                else
+                    _messagesBroker.NotifyUser($"ПО \"{SoftwareName}\" добавлено");
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
 
         public async Task RemoveSoftware()
