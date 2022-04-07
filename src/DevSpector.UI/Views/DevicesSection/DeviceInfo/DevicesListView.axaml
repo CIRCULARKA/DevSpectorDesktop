@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        xmlns:sys="using:System"
         xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:aura="using:Aura.UI.Controls"
         x:Class="DevSpector.Desktop.UI.Views.DevicesListView">
@@ -26,8 +27,7 @@
                     </Button>
                     <!-- Add button -->
                     <Button
-                        Command="{Binding SwitchInputFieldsCommand}"
-                        CommandParameter="False"
+                        Command="{Binding SwitchInputFieldsToAddCommand}"
                         Classes="Flat crudButton"
                         HorizontalAlignment="Right">
                         <Button.Content>
@@ -40,8 +40,7 @@
                     </Button>
                     <!-- Edit button -->
                     <Button
-                        Command="{Binding SwitchInputFieldsCommand}"
-                        CommandParameter="True"
+                        Command="{Binding SwitchInputFieldsToEditCommand}"
                         Classes="Flat crudButton">
                         <Button.Content>
                             <Viewbox Width="18" Height="18">
@@ -53,8 +52,33 @@
                     </Button>
                 </StackPanel>
             </aura:GroupBox.Header>
-            <Grid RowDefinitions="*,Auto" ColumnDefinitions="*">
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+                <StackPanel
+                    IsVisible="{Binding CanAddOrDeleteDevice}">
+                    <TextBox
+                        Text="{Binding InventoryNumber}"
+                        Watermark="Инвентарный номер" />
+                    <TextBox
+                        Text="{Binding ModelName}"
+                        Watermark="Название модели" />
+                    <ComboBox
+                        Items="{Binding DeviceTypes}"
+                        SelectedItem="{Binding SelectedDeviceType}">
+                        <ComboBox.DataTemplates>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock FontSize="15" Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.DataTemplates>
+                    </ComboBox>
+                    <Button
+                        Margin="0 5 0 5"
+                        Content="Применить"
+                        Command="{Binding AddDeviceCommand}" />
+                </StackPanel>
                 <ListBox
+                    Grid.Row="1"
                     BorderThickness="0"
                     Height="{Binding #base.Height}"
                     Margin="0 0 0 5"
@@ -87,11 +111,6 @@
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         FontSize="26" Foreground="Gray" />
                 </Panel>
-                <StackPanel Grid.Row="1">
-                    <Button
-                        Content="Редактировать"
-                        Command="{Binding ShowUpdateDeviceDialogCommand}" />
-                </StackPanel>
             </Grid>
         </aura:GroupBox>
     </materialstyles:Card>
