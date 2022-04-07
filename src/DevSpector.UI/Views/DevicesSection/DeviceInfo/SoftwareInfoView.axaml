@@ -3,32 +3,44 @@
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
     xmlns:aura="using:Aura.UI.Controls"
 	x:Class="DevSpector.Desktop.UI.Views.SoftwareInfoView">
-    <materialstyles:Card Grid.Row="0" Grid.Column="0" Margin="0 0 15 0">
-        <aura:GroupBox>
+    <materialstyles:Card>
+        <aura:GroupBox Width="{Binding $parent.Width}">
             <aura:GroupBox.Header>
                 <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Software}" /> -->
-                <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
                         Classes="Headline5"
                         Text="ПО" />
-                    <!-- <Button
-                        Grid.Column="1"
+                    <Button
+                        Command="{Binding RemoveSoftwareCommand}"
+                        Width="33"
                         HorizontalAlignment="Right"
-                        Classes="Flat">
-                        <Button.Content>
-                            <TextBlock
-                                Foreground="Gray"
-                                Text="+"
-                                FontWeight="UltraBlack" />
-                        </Button.Content>
-                    </Button> -->
-                </Grid>
+                        Content="{StaticResource circleMinusIcon}"
+                        Classes="Flat" />
+                    <Button
+                        Command="{Binding SwitchInputFieldsCommand}"
+                        Width="33"
+                        HorizontalAlignment="Right"
+                        Content="{StaticResource circlePlusIcon}"
+                        Classes="Flat" />
+                </StackPanel>
             </aura:GroupBox.Header>
-            <Grid RowDefinitions="*,Auto">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <StackPanel
+                    Grid.Row="0">
+                    <TextBox
+                        Text="{Binding SoftwareName}"
+                        Watermark="Название" />
+                    <TextBox
+                        Text="{Binding SoftwareVersion}"
+                        Watermark="Версия" />
+                    <Button
+                        Content="Добавить"
+                        Classes="Flat"
+                        Command="{Binding AddSoftwareCommand}" />
+                </StackPanel>
                 <ListBox
-                    Grid.Row="0"
+                    Grid.Row="1"
                     BorderThickness="0"
                     Items="{Binding Software}"
                     SelectedItem="{Binding SelectedSoftware}">
@@ -43,17 +55,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="0 5 0 0">
-                    <Button
-                        Content="Добавить"
-                        Command="{Binding AddSoftwareCommand}"
-                        Margin="0 0 0 5" />
-                    <Button
-                        Content="Удалить"
-                        Command="{Binding RemoveSoftwareCommand}" />
-                </StackPanel>
             </Grid>
         </aura:GroupBox>
     </materialstyles:Card>
