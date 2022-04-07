@@ -4,7 +4,7 @@
     xmlns:aura="using:Aura.UI.Controls"
 	x:Class="DevSpector.Desktop.UI.Views.SoftwareInfoView">
     <materialstyles:Card>
-        <aura:GroupBox Width="{Binding $parent.Width}">
+        <aura:GroupBox>
             <aura:GroupBox.Header>
                 <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Software}" /> -->
                 <StackPanel Orientation="Horizontal">
@@ -37,7 +37,8 @@
                         Watermark="Версия" />
                     <Button
                         Content="Добавить"
-                        Classes="Flat"
+                        Margin="0 0 0 5"
+                        Classes="Outline"
                         Command="{Binding AddSoftwareCommand}" />
                 </StackPanel>
                 <ListBox
