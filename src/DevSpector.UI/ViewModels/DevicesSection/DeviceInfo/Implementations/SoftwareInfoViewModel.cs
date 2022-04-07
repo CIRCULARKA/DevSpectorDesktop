@@ -10,7 +10,7 @@ using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class SoftwareInfoViewModel : ViewModelBase, ISoftwareInfoViewModel
+    public class SoftwareInfoViewModel : ListViewModelBase<Software>, ISoftwareInfoViewModel
     {
         private bool _canInputSoftwareInfo;
 
@@ -19,8 +19,6 @@ namespace DevSpector.Desktop.UI.ViewModels
         private string _softwareVersion;
 
         private List<Software> _software;
-
-        private Software _selectedSoftware;
 
         private readonly IDevicesStorage _storage;
 
@@ -90,10 +88,10 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _software, value);
         }
 
-        public Software SelectedSoftware
+        public override Software SelectedItem
         {
-            get => _selectedSoftware;
-            set => this.RaiseAndSetIfChanged(ref _selectedSoftware, value);
+            get => _selectedItem;
+            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
         public void UpdateDeviceInfo(Device target)
@@ -103,6 +101,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             else
                 Software = target.Software;
         }
+
+        public override void InitializeList() { }
 
         public async Task AddSoftwareAsync()
         {
@@ -139,11 +139,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, _selectedSoftware);
+                await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, _selectedItem);
 
-                Software removedSoftware = SelectedSoftware;
+                Software removedSoftware = SelectedItem;
 
-                RemoveFromList(SelectedSoftware);
+                RemoveFromList(SelectedItem);
 
                 _messagesBroker.NotifyUser($"ПО \"{removedSoftware.SoftwareName}\" удалено");
             }
@@ -151,34 +151,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 _messagesBroker.NotifyUser(e.Message);
             }
-        }
-
-        private void AddToList(Software soft)
-        {
-            Software.Add(soft);
-
-            var temp = Software;
-            Software = null;
-            Software = temp;
-
-            SelectedSoftware = soft;
-        }
-
-        private void RemoveFromList(Software soft)
-        {
-            int previousSelectedIndex = Software.IndexOf(soft);
-            Software.Remove(soft);
-
-            var temp = Software;
-            Software = null;
-            Software = temp;
-
-            if (previousSelectedIndex < 1) {
-                SelectedSoftware = Software.FirstOrDefault();
-                return;
-            }
-
-            SelectedSoftware = Software.Skip(previousSelectedIndex - 1).FirstOrDefault();
         }
     }
 }
