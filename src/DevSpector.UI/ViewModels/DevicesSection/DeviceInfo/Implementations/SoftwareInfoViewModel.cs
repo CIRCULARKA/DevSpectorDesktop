@@ -10,6 +10,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class SoftwareInfoViewModel : ViewModelBase, ISoftwareInfoViewModel
     {
+        private string _softwareName;
+
+        private string _softwareVersion;
+
         private List<Software> _software;
 
         private Software _selectedSoftware;
@@ -37,6 +41,18 @@ namespace DevSpector.Desktop.UI.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> RemoveSoftwareCommand { get; }
+
+        public string SoftwareName
+        {
+            get => _softwareName;
+            set => this.RaiseAndSetIfChanged(ref _softwareName, value);
+        }
+
+        public string SoftwareVersion
+        {
+            get => _softwareVersion;
+            set => this.RaiseAndSetIfChanged(ref _softwareVersion, value);
+        }
 
         public List<Software> Software
         {
