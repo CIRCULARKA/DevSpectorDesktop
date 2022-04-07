@@ -16,6 +16,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _type;
 
+        private string _modelName;
+
         private List<DeviceType> _deviceTypes;
 
         private DeviceType _selectedDeviceType;
@@ -72,6 +74,12 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             get { return _type == null ? "N/A" : _type; }
             set => this.RaiseAndSetIfChanged(ref _type, value);
+        }
+
+        public string ModelName
+        {
+            get { return _modelName == null ? "N/A" : _modelName; }
+            set => this.RaiseAndSetIfChanged(ref _modelName, value);
         }
 
         public List<DeviceType> DeviceTypes
