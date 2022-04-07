@@ -18,6 +18,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IMessagesBroker _messagesBroker;
 
+        private string _inventoryNumber;
+
+        private string _modelName;
+
+        private DeviceType _selectedDeviceType;
+
         public DevicesListViewModel(
             IApplicationEvents appEvents,
             IUserSession session,
@@ -42,6 +48,24 @@ namespace DevSpector.Desktop.UI.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
+
+        public string InventoryNumber
+        {
+            get => _inventoryNumber;
+            set => this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+        }
+
+        public string ModelName
+        {
+            get => _modelName;
+            set => this.RaiseAndSetIfChanged(ref _modelName, value);
+        }
+
+        public DeviceType SelectedDeviceType
+        {
+            get => _selectedDeviceType;
+            set => this.RaiseAndSetIfChanged(ref _selectedDeviceType, value);
+        }
 
         public override Device SelectedItem
         {
@@ -84,11 +108,13 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 await LoadItems();
 
-                if (Items.Count > 0) {
+                if (Items.Count > 0)
+                {
                     AreThereItems = true;
                     SelectedItem = Items[0];
                 }
-                else {
+                else
+                {
                     AreThereItems = false;
                     NoItemsMessage = "Нет устройств";
                 }
