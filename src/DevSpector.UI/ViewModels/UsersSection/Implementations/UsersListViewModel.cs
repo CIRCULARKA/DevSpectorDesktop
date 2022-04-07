@@ -51,16 +51,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             else AreThereItems = true;
         }
 
-        protected override async Task LoadItems()
-        {
-            AreItemsLoaded = false;
-
-            ItemsCache = await _usersProvider.GetUsersAsync();
-            Items.Clear();
-            foreach (var user in ItemsCache)
-                Items.Add(user);
-         }
-
         public override async void InitializeList()
         {
             try
@@ -88,5 +78,16 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
             finally { AreItemsLoaded = true; }
         }
+
+        private async Task LoadItems()
+        {
+            AreItemsLoaded = false;
+
+            ItemsCache = await _usersProvider.GetUsersAsync();
+            Items.Clear();
+            foreach (var user in ItemsCache)
+                Items.Add(user);
+        }
+
     }
 }
