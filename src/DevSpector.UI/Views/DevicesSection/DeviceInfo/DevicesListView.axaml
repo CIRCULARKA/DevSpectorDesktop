@@ -12,8 +12,23 @@
     <materialstyles:Card>
         <aura:GroupBox>
             <aura:GroupBox.Header>
-                <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Devices}" /> -->
-                <TextBlock Classes="Headline5" Text="Устройства" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Classes="Headline5"
+                        Text="Устройства" />
+                    <Button
+                        Command="{Binding DeleteDeviceCommand}"
+                        Width="33"
+                        HorizontalAlignment="Right"
+                        Content="{StaticResource circleMinusIcon}"
+                        Classes="Flat" />
+                    <Button
+                        Command="{Binding SwitchInputFieldsCommand}"
+                        Width="33"
+                        HorizontalAlignment="Right"
+                        Content="{StaticResource circlePlusIcon}"
+                        Classes="Flat" />
+                </StackPanel>
             </aura:GroupBox.Header>
             <Grid RowDefinitions="*,Auto" ColumnDefinitions="*">
                 <ListBox BorderThickness="0" Height="{Binding #base.Height}"
@@ -55,10 +70,6 @@
                         Classes="crudButton"
                         Content="Редактировать"
                         Command="{Binding ShowUpdateDeviceDialogCommand}" />
-                    <Button
-                        Classes="crudButton"
-                        Content="Удалить"
-                        Command="{Binding DeleteDeviceCommand}" />
                 </StackPanel>
             </Grid>
         </aura:GroupBox>

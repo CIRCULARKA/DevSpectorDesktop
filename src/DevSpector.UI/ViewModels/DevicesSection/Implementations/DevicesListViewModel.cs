@@ -68,7 +68,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             else AreThereItems = true;
         }
 
-        protected override async Task LoadItems()
+        private async Task LoadItems()
         {
             AreItemsLoaded = false;
 
