@@ -1,10 +1,7 @@
 using System;
-using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using ReactiveUI;
-using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.Desktop.Service;
 
@@ -51,7 +48,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 RemoveSoftwareAsync,
                 this.WhenAny(
                     (vm) => vm.SelectedItem,
-                    (selectedSoft) => selectedSoft != null
+                    (selectedSoft) => SelectedItem != null
                 )
             );
 

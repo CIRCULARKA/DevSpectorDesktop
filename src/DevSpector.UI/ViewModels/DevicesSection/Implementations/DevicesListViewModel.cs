@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -22,7 +23,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _modelName;
 
+        private bool _canAddOrEditDevice;
+
         private DeviceType _selectedDeviceType;
+
+        private List<DeviceType> _deviceTypes;
 
         public DevicesListViewModel(
             IApplicationEvents appEvents,
@@ -38,6 +43,38 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _messagesBroker = messagesBroker;
 
+            SwitchInputFieldsToEditCommand = ReactiveCommand.CreateFromTask(
+                async () => {
+                    CanAddOrDeleteDevice = !CanAddOrDeleteDevice;
+
+                    if (CanAddOrDeleteDevice == false) return;
+
+                    await LoadDeviceTypesAsync();
+
+                    InventoryNumber = SelectedItem.InventoryNumber;
+                    ModelName = SelectedItem.ModelName;
+                    SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == SelectedItem.Type);
+
+                    CanAddOrDeleteDevice = true;
+                }
+            );
+
+            SwitchInputFieldsToEditCommand = ReactiveCommand.CreateFromTask(
+                async () => {
+                    CanAddOrDeleteDevice = !CanAddOrDeleteDevice;
+
+                    if (CanAddOrDeleteDevice == false) return;
+
+                    await LoadDeviceTypesAsync();
+
+                    InventoryNumber = null;
+                    ModelName = null;
+                    SelectedDeviceType = DeviceTypes.FirstOrDefault();
+
+                    CanAddOrDeleteDevice = true;
+                }
+            );
+
             DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
                 DeleteDeviceAsync,
                 this.WhenAny(
@@ -47,7 +84,23 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
         }
 
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsToAddCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsToEditCommand { get; }
+
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
+
+        public bool CanAddOrDeleteDevice
+        {
+            get => _canAddOrEditDevice;
+            set => this.RaiseAndSetIfChanged(ref _canAddOrEditDevice, value);
+        }
+
+        public List<DeviceType> DeviceTypes
+        {
+            get => _deviceTypes;
+            set => this.RaiseAndSetIfChanged(ref _deviceTypes, value);
+        }
 
         public string InventoryNumber
         {
@@ -136,6 +189,18 @@ namespace DevSpector.Desktop.UI.ViewModels
                 _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
                 this.Items.Remove(SelectedItem);
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
+        }
+
+        private async Task LoadDeviceTypesAsync()
+        {
+            try
+            {
+                DeviceTypes = await _storage.GetDevicesTypesAsync();
             }
             catch (Exception e)
             {
