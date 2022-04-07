@@ -46,9 +46,6 @@
                     <TextBox
                         Text="{Binding InventoryNumber}"
                         Watermark="Инвентарный номер" />
-                    <TextBox
-                        Text="{Binding ModelName}"
-                        Watermark="Название модели" />
                     <ComboBox
                         Items="{Binding DeviceTypes}"
                         SelectedItem="{Binding SelectedDeviceType}">
