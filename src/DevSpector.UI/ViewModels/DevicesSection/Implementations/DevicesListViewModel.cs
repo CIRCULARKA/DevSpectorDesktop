@@ -23,7 +23,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _modelName;
 
-        private bool _canAddOrEditDevice;
+        private bool _canAddDevice;
 
         private DeviceType _selectedDeviceType;
 
@@ -43,36 +43,17 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             _messagesBroker = messagesBroker;
 
-            SwitchInputFieldsToEditCommand = ReactiveCommand.CreateFromTask(
+            SwitchInputFields = ReactiveCommand.CreateFromTask(
                 async () => {
-                    CanAddOrDeleteDevice = !CanAddOrDeleteDevice;
-
-                    if (CanAddOrDeleteDevice == false) return;
+                    CanAddDevice = !CanAddDevice;
 
                     await LoadDeviceTypesAsync();
-
-                    InventoryNumber = SelectedItem.InventoryNumber;
-                    ModelName = SelectedItem.ModelName;
                     SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == SelectedItem.Type);
-
-                    CanAddOrDeleteDevice = true;
-                }
-            );
-
-            SwitchInputFieldsToEditCommand = ReactiveCommand.CreateFromTask(
-                async () => {
-                    CanAddOrDeleteDevice = !CanAddOrDeleteDevice;
-
-                    if (CanAddOrDeleteDevice == false) return;
-
-                    await LoadDeviceTypesAsync();
-
-                    InventoryNumber = null;
-                    ModelName = null;
-                    SelectedDeviceType = DeviceTypes.FirstOrDefault();
-
-                    CanAddOrDeleteDevice = true;
-                }
+                },
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (device) => SelectedItem != null
+                )
             );
 
             DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
@@ -84,16 +65,14 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
         }
 
-        public ReactiveCommand<Unit, Unit> SwitchInputFieldsToAddCommand { get; }
-
-        public ReactiveCommand<Unit, Unit> SwitchInputFieldsToEditCommand { get; }
+        public ReactiveCommand<Unit, Unit> SwitchInputFields { get; }
 
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
 
-        public bool CanAddOrDeleteDevice
+        public bool CanAddDevice
         {
-            get => _canAddOrEditDevice;
-            set => this.RaiseAndSetIfChanged(ref _canAddOrEditDevice, value);
+            get => _canAddDevice;
+            set => this.RaiseAndSetIfChanged(ref _canAddDevice, value);
         }
 
         public List<DeviceType> DeviceTypes
