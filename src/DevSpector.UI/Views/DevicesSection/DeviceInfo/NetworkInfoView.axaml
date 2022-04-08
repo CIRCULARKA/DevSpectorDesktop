@@ -34,7 +34,18 @@
 						</Button>
 					</StackPanel>
 				</aura:GroupBox.Header>
-				<ListBox Items="{Binding IPAddresses}" SelectedItem="{Binding SelectedIP}" />
+				<Panel>
+					<ListBox
+						IsVisible="{Binding !CanAddIP}"
+						Items="{Binding Items}"
+						SelectedItem="{Binding SelectedItem}" />
+					<StackPanel IsVisible="{Binding CanAddIP}">
+						<ListBox Items="{Binding FreeIP}" SelectedItem="{Binding SelectedFreeIP}" />
+						<Button
+							Content="Добавить"
+							Command="{Binding AddFreeIPToDeviceCommand}" />
+					</StackPanel>
+				</Panel>
 			</aura:GroupBox>
 		</materialstyles:Card>
 </UserControl>
