@@ -6,6 +6,7 @@ using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Providers;
+using DevSpector.SDK.Networking;
 using DevSpector.SDK.Exceptions;
 
 namespace DevSpector.Desktop.Service
@@ -18,15 +19,19 @@ namespace DevSpector.Desktop.Service
 
         private readonly ILocationProvider _locationProvider;
 
+        private readonly INetworkManager _networkManager;
+
         public DevicesStorage(
             IDevicesEditor editor,
             IDevicesProvider devicesProvider,
-            ILocationProvider locationProvider
+            ILocationProvider locationProvider,
+            INetworkManager networkManager
         )
         {
             _editor = editor;
             _devicesProvider = devicesProvider;
             _locationProvider = locationProvider;
+            _networkManager = networkManager;
         }
 
         public async Task<List<Device>> GetDevicesAsync()
@@ -85,6 +90,22 @@ namespace DevSpector.Desktop.Service
 
             await ReThrowExceptionFrom(
                 async () => result = await _locationProvider.GetHousingsAsync(),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+
+            return result;
+        }
+
+        public async Task<List<string>> GetFreeIP()
+        {
+            var issueMessage = "Не удалось загрузить свободные IP-адреса";
+
+            List<string> result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _networkManager.GetFreeIPAsync(),
                 $"{issueMessage} - нет доступа",
                 $"{issueMessage} - нет связи с сервером",
                 $"{issueMessage} - неизвестная ошибка"
