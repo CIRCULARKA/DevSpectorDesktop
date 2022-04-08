@@ -43,15 +43,9 @@
             <UserControl
                 Margin="0 0 0 15"
                 Content="{Binding LocationInfo}"/>
-            <materialstyles:Card Grid.Row="1">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.NetworkInfo}" /> -->
-                        <TextBlock Classes="Headline5" Text="Сетевая информация" />
-                    </aura:GroupBox.Header>
-                    <UserControl VerticalAlignment="Stretch" Content="{Binding NetworkInfo}" />
-                </aura:GroupBox>
-            </materialstyles:Card>
+                <UserControl
+                    Grid.Row="1"
+                    Content="{Binding NetworkInfo}" />
         </Grid>
     </Grid>
 </UserControl>

@@ -1,13 +1,40 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
+		xmlns:aura="using:Aura.UI.Controls"
+		xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
         x:Class="DevSpector.Desktop.UI.Views.NetworkInfoView">
-		<StackPanel>
-			<!-- <TextBlock Text="{x:Static l:Messages.NetworkName}" Classes="note" /> -->
-			<TextBlock Text="Сетевое имя" Classes="note" />
-			<TextBox Text="{Binding NetworkName}" Classes="main" />
-			<!-- <TextBlock Text="{x:Static l:Messages.IPAddresses}" Classes="note" /> -->
-			<TextBlock Text="IP-адреса" Classes="note" />
-			<ListBox Items="{Binding IPAddresses}" SelectedItem="{Binding SelectedIP}" />
-		</StackPanel>
+		<materialstyles:Card>
+			<aura:GroupBox>
+				<aura:GroupBox.Header>
+					<StackPanel Orientation="Horizontal">
+						<!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.IPAddresses}" /> -->
+						<TextBlock Classes="Headline5" Text="IP-адреса" />
+						<Button
+							Classes="Flat crudButton"
+							Command="{Binding RemoveIPCommand}">
+							<Button.Content>
+								<Viewbox Width="18" Height="18">
+									<Canvas Width="24" Height="24">
+										<Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+									</Canvas>
+								</Viewbox>
+							</Button.Content>
+						</Button>
+						<Button
+							Classes="Flat crudButton"
+							Command="{Binding AddIPCommand}">
+							<Button.Content>
+								<Viewbox Width="18" Height="18">
+									<Canvas Width="24" Height="24">
+										<Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+									</Canvas>
+								</Viewbox>
+							</Button.Content>
+						</Button>
+					</StackPanel>
+				</aura:GroupBox.Header>
+				<ListBox Items="{Binding IPAddresses}" SelectedItem="{Binding SelectedIP}" />
+			</aura:GroupBox>
+		</materialstyles:Card>
 </UserControl>
