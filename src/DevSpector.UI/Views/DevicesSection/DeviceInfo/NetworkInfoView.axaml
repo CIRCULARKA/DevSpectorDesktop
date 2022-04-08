@@ -38,7 +38,15 @@
 					<ListBox
 						IsVisible="{Binding !CanAddIP}"
 						Items="{Binding ItemsToDisplay}"
-						SelectedItem="{Binding SelectedItem}" />
+						SelectedItem="{Binding SelectedItem}">
+							<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock
+									Text="{Binding .}"
+									Foreground="White" FontSize="16" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
 					<UserControl
 						IsVisible="{Binding CanAddIP}"
 						Content="{Binding FreeIPView}" />
