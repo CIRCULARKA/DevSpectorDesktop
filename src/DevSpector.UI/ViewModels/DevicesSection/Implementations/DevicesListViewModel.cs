@@ -198,12 +198,16 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.AddDeviceAsync(new DeviceToCreate {
+                var newDevice = new DeviceToCreate {
                     InventoryNumber = InventoryNumber,
                     TypeID = SelectedDeviceType.ID
-                });
+                };
+
+                await _storage.AddDeviceAsync(newDevice);
 
                 InitializeList();
+
+                SelectedItem = Items.FirstOrDefault(d => d.InventoryNumber == newDevice.InventoryNumber);
 
                 _messagesBroker.NotifyUser(
                     $"Устройство \"{InventoryNumber}\" добавлено"
