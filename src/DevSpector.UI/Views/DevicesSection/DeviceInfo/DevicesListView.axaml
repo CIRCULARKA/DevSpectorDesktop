@@ -67,7 +67,7 @@
                     BorderThickness="0"
                     Height="{Binding #base.Height}"
                     Margin="0 0 0 5"
-                    Items="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                    Items="{Binding ItemsToDisplay}" SelectedItem="{Binding SelectedItem}"
                     IsVisible="{Binding AreThereItems}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

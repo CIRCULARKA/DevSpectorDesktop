@@ -43,7 +43,7 @@
                 <ListBox
                     Grid.Row="1"
                     BorderThickness="0"
-                    Items="{Binding Items}"
+                    Items="{Binding ItemsToDisplay}"
                     SelectedItem="{Binding SelectedItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
