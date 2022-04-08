@@ -9,9 +9,9 @@
 			<aura:GroupBox.Header>
 				<StackPanel Orientation="Horizontal">
 					<!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.CommonInfo}" /> -->
-					<TextBlock Classes="Headline5" Text="Общая информация" />
+					<TextBlock Classes="Headline5" Text="Общее" />
 					<Button
-						Classes="Flat"
+						Classes="Flat crudButton"
 						Command="{Binding ApplyChangesCommand}">
 						<Button.Content>
 							<Viewbox Width="18" Height="18">
