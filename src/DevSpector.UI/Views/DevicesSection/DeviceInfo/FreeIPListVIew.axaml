@@ -7,7 +7,16 @@
 	<StackPanel>
 		<ListBox
 			Items="{Binding ItemsToDisplay}"
-			SelectedItem="{Binding SelectedItem}" />
+			SelectedItem="{Binding SelectedItem}">
+				<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock
+						Text="{Binding SoftwareName}"
+						VerticalAlignment="Bottom"
+						Foreground="White" FontSize="16" />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 		<Button
 			Content="Добавить"
 			Command="{Binding AddFreeIPToDeviceCommand}" />
