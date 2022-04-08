@@ -9,7 +9,7 @@ using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class FreeIPListViewModel : ListViewModelBase<string>, IFreeIPListViewModel, IInitializableListViewModel<string>
+    public class FreeIPListViewModel : ListViewModelBase<string>, IFreeIPListViewModel
     {
         private readonly IDevicesStorage _storage;
 

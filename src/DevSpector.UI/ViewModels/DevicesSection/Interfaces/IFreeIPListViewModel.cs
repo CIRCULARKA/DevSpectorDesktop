@@ -1,4 +1,4 @@
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public interface IFreeIPListViewModel { }
+    public interface IFreeIPListViewModel : IInitializableListViewModel<string> { }
 }
