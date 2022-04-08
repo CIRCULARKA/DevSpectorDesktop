@@ -174,7 +174,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
+                Device deviceToRemove = SelectedItem;
+
                 RemoveFromList(SelectedItem);
+
+                _appEvents.RaiseDeviceDeleted(deviceToRemove);
             }
             catch (Exception e)
             {
