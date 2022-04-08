@@ -11,8 +11,7 @@
 				<ListBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock
-						Text="{Binding SoftwareName}"
-						VerticalAlignment="Bottom"
+						Text="{Binding .}"
 						Foreground="White" FontSize="16" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
