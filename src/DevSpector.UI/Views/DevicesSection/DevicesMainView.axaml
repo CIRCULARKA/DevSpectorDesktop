@@ -34,17 +34,10 @@
                 Grid.Column="0"
                 Margin="0 0 15 0"
                 Content="{Binding CommonInfo}" />
-            <materialstyles:Card Grid.Row="0" Grid.Column="1">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Location}" /> -->
-                        <TextBlock Classes="Headline5" Text="Расположение" />
-                    </aura:GroupBox.Header>
-                    <ScrollViewer>
-                        <UserControl Content="{Binding LocationInfo}" />
-                    </ScrollViewer>
-                </aura:GroupBox>
-            </materialstyles:Card>
+            <UserControl
+                Grid.Row="0"
+                Grid.Column="1"
+                Content="{Binding LocationInfo}"/>
         </Grid>
         <Grid RowDefinitions="*" ColumnDefinitions="*,*" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
             <UserControl

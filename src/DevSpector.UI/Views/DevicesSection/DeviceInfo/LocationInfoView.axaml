@@ -4,12 +4,24 @@
     xmlns:aura="using:Aura.UI.Controls"
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
 	x:Class="DevSpector.Desktop.UI.Views.LocationInfoView">
-
 	<materialstyles:Card>
 		<aura:GroupBox>
 			<aura:GroupBox.Header>
-				<!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Location}" /> -->
-				<TextBlock Classes="Headline5" Text="Расположение" />
+				<StackPanel Orientation="Horizontal">
+					<!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Location}" /> -->
+					<TextBlock Classes="Headline5" Text="Расположение" />
+					<Button
+						Classes="Flat crudButton"
+						Command="{Binding ApplyChangesCommand}">
+						<Button.Content>
+							<Viewbox Width="18" Height="18">
+								<Canvas Width="24" Height="24">
+									<Path Fill="Gray" Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
+								</Canvas>
+							</Viewbox>
+						</Button.Content>
+					</Button>
+				</StackPanel>
 			</aura:GroupBox.Header>
 			<ScrollViewer>
 				<StackPanel>
@@ -42,7 +54,6 @@
 							</DataTemplate>
 						</ComboBox.DataTemplates>
 					</ComboBox>
-					<Button Content="Применить" Command="{Binding ApplyChangesCommand}" />
 				</StackPanel>
 			</ScrollViewer>
 		</aura:GroupBox>

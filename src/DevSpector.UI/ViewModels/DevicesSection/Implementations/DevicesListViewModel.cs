@@ -205,6 +205,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 await _storage.AddDeviceAsync(newDevice);
 
+                CanAddDevice = false;
+
                 InitializeList();
 
                 SelectedItem = Items.FirstOrDefault();
