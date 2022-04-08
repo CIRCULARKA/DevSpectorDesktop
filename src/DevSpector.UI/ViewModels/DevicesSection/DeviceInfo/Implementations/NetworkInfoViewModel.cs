@@ -1,5 +1,3 @@
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
 using ReactiveUI;
 using DevSpector.SDK.Models;
@@ -10,7 +8,7 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private string _networkName;
 
-        private string _ipAddresses;
+        private List<string> _ipAddresses;
 
         public NetworkInfoViewModel() { }
 
@@ -20,38 +18,17 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _networkName, value);
         }
 
-        public string IPAddresses
+        public List<string> IPAddresses
         {
-            get { return _ipAddresses == null ? "Нет IP-адресов" : _ipAddresses; }
-            set { this.RaiseAndSetIfChanged(ref _ipAddresses, value); }
+            get => _ipAddresses;
+            set => this.RaiseAndSetIfChanged(ref _ipAddresses, value);
         }
 
         public void UpdateDeviceInfo(Device target)
         {
             NetworkName = target?.NetworkName;
 
-            IPAddresses = target == null ? null :
-                CreateStringFromIP(target.IPAddresses);
-        }
-
-        private string CreateStringFromIP(IEnumerable<string> ips)
-        {
-            var ipCount = ips.Count();
-
-            if (ipCount == 0)
-                return "Нет IP-адресов";
-
-            var newLines = ipCount;
-            const int IpAddressMaxLength = 19;
-
-            var builder = new StringBuilder(
-                (ipCount * IpAddressMaxLength) + newLines
-            );
-
-            foreach (var ip in ips)
-                builder.Append(ip).Append("\n");
-
-            return builder.ToString();
+            IPAddresses = target?.IPAddresses;
         }
     }
 }
