@@ -9,6 +9,7 @@
     <Style Selector="TextBlock.note">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Margin" Value="0 0 0 -5" />
     </Style>
     <Style Selector="TextBlock.Headline5">
         <Setter Property="Foreground" Value="{DynamicResource SecondaryHueLightBrush}" />
