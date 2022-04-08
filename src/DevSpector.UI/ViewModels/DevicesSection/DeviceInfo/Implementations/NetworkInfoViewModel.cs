@@ -1,34 +1,25 @@
-using System.Collections.Generic;
 using ReactiveUI;
 using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class NetworkInfoViewModel : ViewModelBase, INetworkInfoViewModel
+    public class NetworkInfoViewModel : ListViewModelBase<string>, INetworkInfoViewModel
     {
-        private string _networkName;
-
-        private List<string> _ipAddresses;
-
         public NetworkInfoViewModel() { }
 
-        public string NetworkName
+        public override string SelectedItem
         {
-            get { return _networkName == null ? "N/A" : _networkName; }
-            set => this.RaiseAndSetIfChanged(ref _networkName, value);
-        }
-
-        public List<string> IPAddresses
-        {
-            get => _ipAddresses;
-            set => this.RaiseAndSetIfChanged(ref _ipAddresses, value);
+            get => _selectedItem;
+            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
         public void UpdateDeviceInfo(Device target)
         {
-            NetworkName = target?.NetworkName;
+            if (target == null) return;
 
-            IPAddresses = target?.IPAddresses;
+            Items.Clear();
+            foreach (var ip in target.IPAddresses)
+                Items.Add(ip);
         }
     }
 }
