@@ -7,6 +7,7 @@ using DevSpector.Desktop.Service;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using ReactiveUI;
+using Avalonia.Data;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -49,12 +50,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                     CanAddDevice = !CanAddDevice;
 
                     await LoadDeviceTypesAsync();
-                    SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == SelectedItem.Type);
-                },
-                this.WhenAny(
-                    (vm) => vm.SelectedItem,
-                    (device) => SelectedItem != null
-                )
+                    SelectedDeviceType = DeviceTypes.FirstOrDefault();
+                }
             );
 
             AddDeviceCommand = ReactiveCommand.CreateFromTask(
@@ -91,7 +88,14 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string InventoryNumber
         {
             get => _inventoryNumber;
-            set => this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+            set
+            {
+                if (value.Length < 10)
+                    throw new DataValidationException("Длина инвентарного номер не может быть меньше 10 символов");
+                if (value.Length > 20)
+                    throw new DataValidationException("Длина инвентарного номера не может превышать 20 символов");
+                this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+            }
         }
 
         public string ModelName
