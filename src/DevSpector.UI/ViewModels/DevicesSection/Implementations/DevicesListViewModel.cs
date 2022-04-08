@@ -141,7 +141,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 ItemsToDisplay.Add(device);
         }
 
-        public async void InitializeList()
+        public async void UpdateList()
         {
             try
             {
@@ -207,7 +207,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 CanAddDevice = false;
 
-                InitializeList();
+                UpdateList();
 
                 SelectedItem = ItemsToDisplay.FirstOrDefault();
 

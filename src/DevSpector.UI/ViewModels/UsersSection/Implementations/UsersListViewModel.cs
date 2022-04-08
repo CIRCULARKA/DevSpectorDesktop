@@ -51,7 +51,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             else AreThereItems = true;
         }
 
-        public async void InitializeList()
+        public async void UpdateList()
         {
             try
             {

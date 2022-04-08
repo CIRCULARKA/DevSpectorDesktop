@@ -181,8 +181,8 @@ namespace DevSpector.Desktop.UI
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
 
-                devicesListVM.InitializeList();
-                usersListVM.InitializeList();
+                devicesListVM.UpdateList();
+                usersListVM.UpdateList();
 
                 authView.Hide();
                 mainView.Show();
@@ -206,7 +206,7 @@ namespace DevSpector.Desktop.UI
             // Subscribe on device update
             //
             appEvents.DeviceUpdated += () => {
-                devicesListVM.InitializeList();
+                devicesListVM.UpdateList();
             };
 
             //
