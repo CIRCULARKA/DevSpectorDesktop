@@ -36,16 +36,16 @@
                 Margin="0 0 0 15" />
             <UserControl
                 Grid.Row="1"
-                Content="{Binding SoftwareInfo}" />
+                Content="{Binding NetworkInfo}" />
         </Grid>
         <Grid RowDefinitions="Auto,*"
             Grid.Column="2">
             <UserControl
                 Margin="0 0 0 15"
                 Content="{Binding LocationInfo}"/>
-                <UserControl
-                    Grid.Row="1"
-                    Content="{Binding NetworkInfo}" />
+            <UserControl
+                Grid.Row="1"
+                Content="{Binding SoftwareInfo}" />
         </Grid>
     </Grid>
 </UserControl>
