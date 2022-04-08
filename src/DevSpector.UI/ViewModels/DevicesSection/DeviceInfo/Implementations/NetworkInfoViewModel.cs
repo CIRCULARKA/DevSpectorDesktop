@@ -13,10 +13,6 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private bool _canAddIP;
 
-        private ObservableCollection<string> _freeIP;
-
-        private string _selectedFreeIP;
-
         private readonly IDevicesStorage _storage;
 
         private readonly IMessagesBroker _messagesBroker;
@@ -29,8 +25,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             IDevicesListViewModel devicesListViewModel
         )
         {
-            _freeIP = new ObservableCollection<string>();
-
             _storage = storage;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
@@ -40,22 +34,27 @@ namespace DevSpector.Desktop.UI.ViewModels
                     CanAddIP = !CanAddIP;
                 }
             );
+
+            RemoveIPCommand = ReactiveCommand.CreateFromTask(
+                RemoveIPFromDeviceAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (vm) => {
+                        if (SelectedItem == null) return false;
+                        return true;
+                    }
+                )
+            );
         }
 
         public ReactiveCommand<Unit, Unit> SwitchFreeIPListCommand { get; }
 
-        public ObservableCollection<string> FreeIP => _freeIP;
+        public ReactiveCommand<Unit, Unit> RemoveIPCommand { get; }
 
         public bool CanAddIP
         {
             get => _canAddIP;
             set => this.RaiseAndSetIfChanged(ref _canAddIP, value);
-        }
-
-        public string SelectedFreeIP
-        {
-            get => _selectedFreeIP;
-            set => this.RaiseAndSetIfChanged(ref _selectedFreeIP, value);
         }
 
         public override string SelectedItem
@@ -73,17 +72,15 @@ namespace DevSpector.Desktop.UI.ViewModels
                 ItemsToDisplay.Add(ip);
         }
 
-        public async Task LoadFreeIP()
+        public async Task RemoveIPFromDeviceAsync()
         {
             try
             {
-                List<string> updatedList = await _storage.GetFreeIPAsync();
+                Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await Task.Run(() => {
-                    FreeIP.Clear();
-                    foreach (var ip in updatedList)
-                        FreeIP.Add(ip);
-                });
+                await _storage.RemoveIPAsync(selectedDevice.InventoryNumber, SelectedItem);
+
+                _messagesBroker.NotifyUser($"IP-адрес \"{SelectedItem}\" удалён у устройства \"{selectedDevice.InventoryNumber}\"");
             }
             catch (Exception e)
             {
