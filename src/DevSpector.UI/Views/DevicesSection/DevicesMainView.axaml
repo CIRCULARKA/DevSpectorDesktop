@@ -2,9 +2,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:DevSpector.Desktop.UI.ViewModels"
     xmlns:res="using:DevSpector.Desktop.UI.Assets"
-    xmlns:aura="using:Aura.UI.Controls"
     xmlns:auranav="using:Aura.UI.Controls.Navigation"
     xmlns:auraxaml="using:Aura.UI.Xaml"
+    xmlns:aura="using:Aura.UI.Controls"
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
     xmlns:assist="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
@@ -29,17 +29,11 @@
             Margin="0 0 15 0"
             Content="{Binding DevicesList}" />
         <Grid RowDefinitions="*" ColumnDefinitions="*,*" Grid.Row="0" Grid.Column="1" Margin="0 0 0 15">
-            <materialstyles:Card Grid.Row="0" Grid.Column="0" Margin="0 0 15 0">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.CommonInfo}" /> -->
-                        <TextBlock Classes="Headline5" Text="Общая информация" />
-                    </aura:GroupBox.Header>
-                    <ScrollViewer>
-                        <UserControl Content="{Binding CommonInfo}" />
-                    </ScrollViewer>
-                </aura:GroupBox>
-            </materialstyles:Card>
+            <UserControl
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0 0 15 0"
+                Content="{Binding CommonInfo}" />
             <materialstyles:Card Grid.Row="0" Grid.Column="1">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
