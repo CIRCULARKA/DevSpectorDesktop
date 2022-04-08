@@ -207,7 +207,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 InitializeList();
 
-                SelectedItem = ItemsCache.FirstOrDefault(d => d.InventoryNumber == newDevice.InventoryNumber);
+                SelectedItem = Items.FirstOrDefault();
 
                 _messagesBroker.NotifyUser(
                     $"Устройство \"{InventoryNumber}\" добавлено"
