@@ -159,6 +159,7 @@ namespace DevSpector.Desktop.UI
             var userInfoVM = _kernel.Get<IUserInfoViewModel>();
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
+            var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
 
             //
             // Update current user info on user change
@@ -183,6 +184,8 @@ namespace DevSpector.Desktop.UI
 
                 devicesListVM.UpdateList();
                 usersListVM.UpdateList();
+
+                freeIPListVM.UpdateList();
 
                 authView.Hide();
                 mainView.Show();
