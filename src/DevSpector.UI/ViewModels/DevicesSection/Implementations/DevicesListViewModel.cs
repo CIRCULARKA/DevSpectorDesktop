@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using ReactiveUI;
 
@@ -56,6 +57,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                 )
             );
 
+            AddDeviceCommand = ReactiveCommand.CreateFromTask(
+                AddDeviceAsync
+            );
+
             DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
                 DeleteDeviceAsync,
                 this.WhenAny(
@@ -66,6 +71,8 @@ namespace DevSpector.Desktop.UI.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> AddDeviceCommand { get; }
 
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
 
@@ -167,7 +174,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
-                this.Items.Remove(SelectedItem);
+                RemoveFromList(SelectedItem);
             }
             catch (Exception e)
             {
@@ -180,6 +187,27 @@ namespace DevSpector.Desktop.UI.ViewModels
             try
             {
                 DeviceTypes = await _storage.GetDevicesTypesAsync();
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
+        }
+
+        private async Task AddDeviceAsync()
+        {
+            try
+            {
+                await _storage.AddDeviceAsync(new DeviceToCreate {
+                    InventoryNumber = InventoryNumber,
+                    TypeID = SelectedDeviceType.ID
+                });
+
+                InitializeList();
+
+                _messagesBroker.NotifyUser(
+                    $"Устройство \"{InventoryNumber}\" добавлено"
+                );
             }
             catch (Exception e)
             {
