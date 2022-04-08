@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
+    xmlns:aura="using:Aura.UI.Controls"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+	x:Class="DevSpector.Desktop.UI.Views.FreeIPListView">
+	<StackPanel>
+		<ListBox
+			Items="{Binding ItemsToDisplay}"
+			SelectedItem="{Binding SelectedItem}" />
+		<Button
+			Content="Добавить"
+			Command="{Binding AddFreeIPToDeviceCommand}" />
+	</StackPanel>
+</UserControl>
