@@ -14,6 +14,10 @@ namespace DevSpector.Desktop.Service
 
         void RaiseDeviceUpdated();
 
+        event Action<Device> DeviceDeleted;
+
+        void RaiseDeviceDeleted(Device device);
+
         event Action<IEnumerable<Device>> SearchExecuted;
 
         void RaiseSearchExecuted(IEnumerable<Device> filtered);
