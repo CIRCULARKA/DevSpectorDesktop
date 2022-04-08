@@ -23,8 +23,7 @@
 
                 <!--
                     Material.Avalonia
-                    Primary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Themes/Recommended/Primary
-                    Secondary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Themes/Recommended/Accent
+                    Primary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Recommended
                 -->
                 <themes:BundledTheme BaseTheme="Dark" PrimaryColor="Indigo" SecondaryColor="Lime" />
 

@@ -31,8 +31,7 @@
 						Content="{Binding SettingsView}" IsBottom="True" />
 				</shared:ModernMenu>
 			</Border>
-			<ContentControl Grid.Row="2"
-				Content="{Binding MessagesBrokerView}" VerticalAlignment="Bottom" />
+			<ContentControl Grid.Row="2" Content="{Binding MessagesBrokerView}" VerticalAlignment="Bottom" />
 		</Grid>
 		<!-- <shared:MessagesPanel
 			VerticalAlignment="Bottom"
