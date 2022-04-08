@@ -39,7 +39,6 @@ namespace DevSpector.Desktop.UI.ViewModels
                     }
                 )
             );
-
         }
 
         public ReactiveCommand<Unit, Unit> AddFreeIPToDeviceCommand { get; }
@@ -79,6 +78,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
                 await _storage.AddIPAsync(selectedDevice.InventoryNumber, SelectedItem);
+
+                RemoveFromList(SelectedItem);
 
                 _messagesBroker.NotifyUser(
                     $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
