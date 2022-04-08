@@ -17,15 +17,19 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
+        private readonly IApplicationEvents _appEvents;
+
         public FreeIPListViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
-            IDevicesListViewModel devicesListViewModel
+            IDevicesListViewModel devicesListViewModel,
+            IApplicationEvents appEvents
         )
         {
             _storage = storage;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
+            _appEvents = appEvents;
 
             AddFreeIPToDeviceCommand = ReactiveCommand.CreateFromTask(
                 AddIPToDeviceAsync,
@@ -80,6 +84,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 await _storage.AddIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 RemoveFromList(SelectedItem);
+
+                _appEvents.RaiseOnIPAddressAdded(device: selectedDevice, ip: SelectedItem);
 
                 _messagesBroker.NotifyUser(
                     $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
