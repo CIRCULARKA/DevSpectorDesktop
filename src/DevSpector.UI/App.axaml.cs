@@ -207,7 +207,12 @@ namespace DevSpector.Desktop.UI
                 freeIPListVM.UpdateList();
             };
 
+            appEvents.IPAddressAdded += (d, ip) => {
+                devicesListVM.AddIPToSelectedDevice(ip);
+            };
+
             appEvents.IPAddressDeleted += (d, ip) => {
+                devicesListVM.RemoveIPFromSelectedDevice(ip);
                 freeIPListVM.UpdateList();
             };
 

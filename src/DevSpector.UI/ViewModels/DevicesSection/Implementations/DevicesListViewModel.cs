@@ -166,6 +166,18 @@ namespace DevSpector.Desktop.UI.ViewModels
             finally { AreItemsLoaded = true; }
         }
 
+        public void AddIPToSelectedDevice(string ip)
+        {
+            if (ip == null) return;
+            SelectedItem.IPAddresses.Add(ip);
+        }
+
+        public void RemoveIPFromSelectedDevice(string ip)
+        {
+            if (ip == null) return;
+            SelectedItem.IPAddresses.Remove(ip);
+        }
+
         private async Task DeleteDeviceAsync()
         {
             try

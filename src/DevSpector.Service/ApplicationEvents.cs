@@ -57,5 +57,10 @@ namespace DevSpector.Desktop.Service
 
         public void RaiseOnIPAddressDeleted(Device device, string ip) =>
             IPAddressDeleted?.Invoke(device, ip);
+
+        public event Action<Device, string> IPAddressAdded;
+
+        public void RaiseOnIPAddressAdded(Device device, string ip) =>
+            IPAddressAdded?.Invoke(device, ip);
     }
 }
