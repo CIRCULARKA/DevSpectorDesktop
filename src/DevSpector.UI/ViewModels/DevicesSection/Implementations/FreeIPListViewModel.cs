@@ -43,6 +43,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                     ItemsCache.Clear();
                     foreach (var ip in updatedList)
                         ItemsCache.Add(ip);
+
+                    ItemsToDisplay.Clear();
+                    foreach (var ip in ItemsCache)
+                        ItemsToDisplay.Add(ip);
                 });
             }
             catch (Exception e)
