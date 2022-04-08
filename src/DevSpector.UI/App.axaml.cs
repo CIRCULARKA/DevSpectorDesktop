@@ -161,19 +161,10 @@ namespace DevSpector.Desktop.UI
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
             var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
 
-            //
-            // Update current user info on user change
-            //
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
-            //
-            // Subscribe Devices list update on search
-            //
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
-            //
-            // Subscribe on authrorization
-            //
             appEvents.UserAuthorized += (u) => {
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
@@ -192,8 +183,9 @@ namespace DevSpector.Desktop.UI
             };
 
             //
-            // Subscribe VMs UpdateDeviceInfo on Device selection
+            // Subscribe VM's UpdateDeviceInfo on Device selection
             //
+
             var targetVMsAmount = 4;
             var deviceInfoVMs = new List<IDeviceInfoViewModel>(targetVMsAmount);
 
@@ -206,24 +198,25 @@ namespace DevSpector.Desktop.UI
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
             //
-            // Subscribe on device update
-            //
+
             appEvents.DeviceUpdated += () => {
                 devicesListVM.UpdateList();
             };
 
-            //
-            // Subscribe on logout
-            //
+            appEvents.DeviceDeleted += (d) => {
+                freeIPListVM.UpdateList();
+            };
+
+            appEvents.IPAddressDeleted += (d, ip) => {
+                freeIPListVM.UpdateList();
+            };
+
             appEvents.Logout += () => {
                 mainView.Hide();
                 authView.Show();
                 authVM.ClearCredentials();
             };
 
-            //
-            // Subscribe on notifying
-            //
             appEvents.UserNotified += (message) => {
                 messagesBrokerVM.Message = message;
             };
