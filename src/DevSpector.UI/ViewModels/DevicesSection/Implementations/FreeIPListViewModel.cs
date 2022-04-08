@@ -83,13 +83,14 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 await _storage.AddIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
+                _messagesBroker.NotifyUser(
+                    $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
+                );
+
                 RemoveFromList(SelectedItem);
 
                 _appEvents.RaiseOnIPAddressAdded(device: selectedDevice, ip: SelectedItem);
 
-                _messagesBroker.NotifyUser(
-                    $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
-                );
             }
             catch (Exception e)
             {
