@@ -52,5 +52,10 @@ namespace DevSpector.Desktop.Service
 
         public void RaiseUserNotified(string message) =>
             UserNotified?.Invoke(message);
+
+        public event Action<Device, string> IPAddressDeleted;
+
+        public void RaiseOnIPAddressDeleted(Device device, string ip) =>
+            IPAddressDeleted?.Invoke(device, ip);
     }
 }
