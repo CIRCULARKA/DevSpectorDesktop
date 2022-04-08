@@ -21,14 +21,19 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
+        private readonly IApplicationEvents _appEvents;
+
         public NetworkInfoViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListViewModel,
-            FreeIPListView freeIPListView
+            FreeIPListView freeIPListView,
+            IApplicationEvents appEvents
         )
         {
             FreeIPListView = freeIPListView;
+
+            _appEvents = appEvents;
 
             _storage = storage;
             _messagesBroker = messagesBroker;
@@ -93,7 +98,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 _messagesBroker.NotifyUser($"IP-адрес \"{SelectedItem}\" удалён у устройства \"{selectedDevice.InventoryNumber}\"");
 
+                string ipToRemove = SelectedItem;
+
                 RemoveFromList(SelectedItem);
+
+                _appEvents.RaiseOnIPAddressDeleted(_devicesListViewModel.SelectedItem, ipToRemove);
             }
             catch (Exception e)
             {
