@@ -119,12 +119,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public override void LoadItemsFromList(IEnumerable<Device> devices)
         {
-            Items.Clear();
+            ItemsToDisplay.Clear();
 
             foreach (var device in devices)
-                Items.Add(device);
+                ItemsToDisplay.Add(device);
 
-            if (Items.Count == 0) {
+            if (ItemsToDisplay.Count == 0) {
                 AreThereItems = false;
                 NoItemsMessage = "Устройства не найдены";
             }
@@ -136,9 +136,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             AreItemsLoaded = false;
 
             ItemsCache = await _storage.GetDevicesAsync();
-            Items.Clear();
+            ItemsToDisplay.Clear();
             foreach (var device in ItemsCache)
-                Items.Add(device);
+                ItemsToDisplay.Add(device);
         }
 
         public async void InitializeList()
@@ -147,10 +147,10 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 await LoadItems();
 
-                if (Items.Count > 0)
+                if (ItemsToDisplay.Count > 0)
                 {
                     AreThereItems = true;
-                    SelectedItem = Items[0];
+                    SelectedItem = ItemsToDisplay[0];
                 }
                 else
                 {
@@ -209,7 +209,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 InitializeList();
 
-                SelectedItem = Items.FirstOrDefault();
+                SelectedItem = ItemsToDisplay.FirstOrDefault();
 
                 _messagesBroker.NotifyUser(
                     $"Устройство \"{InventoryNumber}\" добавлено"

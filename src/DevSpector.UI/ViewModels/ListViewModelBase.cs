@@ -19,11 +19,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         protected ListViewModelBase()
         {
-            Items = new ObservableCollection<TModel>();
+            ItemsToDisplay = new ObservableCollection<TModel>();
             ItemsCache = new List<TModel>();
         }
 
-        public ObservableCollection<TModel> Items { get; }
+        public ObservableCollection<TModel> ItemsToDisplay { get; }
 
         public List<TModel> ItemsCache { get; set; }
 
@@ -49,12 +49,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public virtual void LoadItemsFromList(IEnumerable<TModel> items)
         {
-            Items.Clear();
+            ItemsToDisplay.Clear();
 
             foreach (var item in items)
-                Items.Add(item);
+                ItemsToDisplay.Add(item);
 
-            if (Items.Count == 0) {
+            if (ItemsToDisplay.Count == 0) {
                 AreThereItems = false;
                 NoItemsMessage = "Нет элементов";
             }
@@ -63,15 +63,15 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         protected virtual void AddToList(TModel item)
         {
-            Items.Add(item);
+            ItemsToDisplay.Add(item);
 
             SelectedItem = item;
         }
 
         protected virtual void RemoveFromList(TModel item)
         {
-            int previousSelectedIndex = Items.IndexOf(item);
-            Items.Remove(item);
+            int previousSelectedIndex = ItemsToDisplay.IndexOf(item);
+            ItemsToDisplay.Remove(item);
             ItemsCache.Remove(item);
 
             if (ItemsCache.Count == 0)
@@ -81,11 +81,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
 
             if (previousSelectedIndex < 1) {
-                SelectedItem = Items.FirstOrDefault();
+                SelectedItem = ItemsToDisplay.FirstOrDefault();
                 return;
             }
 
-            SelectedItem = Items.Skip(previousSelectedIndex - 1).FirstOrDefault();
+            SelectedItem = ItemsToDisplay.Skip(previousSelectedIndex - 1).FirstOrDefault();
         }
     }
 }

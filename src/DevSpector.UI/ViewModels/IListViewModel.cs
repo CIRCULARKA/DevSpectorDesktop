@@ -5,7 +5,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface IListViewModel<TModel>
     {
-        ObservableCollection<TModel> Items { get; }
+        ObservableCollection<TModel> ItemsToDisplay { get; }
 
         public List<TModel> ItemsCache { get; set; }
 

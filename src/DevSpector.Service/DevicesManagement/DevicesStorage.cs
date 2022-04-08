@@ -98,7 +98,7 @@ namespace DevSpector.Desktop.Service
             return result;
         }
 
-        public async Task<List<string>> GetFreeIP()
+        public async Task<List<string>> GetFreeIPAsync()
         {
             var issueMessage = "Не удалось загрузить свободные IP-адреса";
 
@@ -180,6 +180,30 @@ namespace DevSpector.Desktop.Service
 
             await ReThrowExceptionFrom(
                 async () => await _editor.RemoveSoftwareAsync(inventoryNumber, software),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+        }
+
+        public async Task AddIPAsync(string inventoryNumber, string ip)
+        {
+            var issueMessage = "Не удалось добавить IP к устройству";
+
+            await ReThrowExceptionFrom(
+                async () => await _editor.AssignIPAsync(inventoryNumber, ip),
+                $"{issueMessage} - нет доступа",
+                $"{issueMessage} - нет связи с сервером",
+                $"{issueMessage} - неизвестная ошибка"
+            );
+        }
+
+        public async Task RemoveIPAsync(string inventoryNumber, string ip)
+        {
+            var issueMessage = "Не удалось удалить IP с устройства";
+
+            await ReThrowExceptionFrom(
+                async () => await _editor.RemoveIPAsync(inventoryNumber, ip),
                 $"{issueMessage} - нет доступа",
                 $"{issueMessage} - нет связи с сервером",
                 $"{issueMessage} - неизвестная ошибка"

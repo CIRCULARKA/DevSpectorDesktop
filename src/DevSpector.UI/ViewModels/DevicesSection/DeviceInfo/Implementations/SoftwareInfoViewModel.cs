@@ -95,9 +95,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             if (target == null) return;
 
-            Items.Clear();
+            ItemsToDisplay.Clear();
             foreach (var soft in target.Software)
-                Items.Add(soft);
+                ItemsToDisplay.Add(soft);
         }
 
         public async Task AddSoftwareAsync()

@@ -15,7 +15,7 @@ namespace DevSpector.Desktop.Service
 
         Task<List<Cabinet>> GetCabinetsAsync(string housingID);
 
-        Task<List<string>> GetFreeIP();
+        Task<List<string>> GetFreeIPAsync();
 
         Task AddDeviceAsync(DeviceToCreate deviceInfo);
 
@@ -28,5 +28,9 @@ namespace DevSpector.Desktop.Service
         Task AddSoftwareAsync(string inventoryNumber, Software software);
 
         Task RemoveSoftwareAsync(string inventoryNumber, Software software);
+
+        Task AddIPAsync(string inventoryNumber, string ip);
+
+        Task RemoveIPAsync(string inventoryNumber, string ip);
     }
 }
