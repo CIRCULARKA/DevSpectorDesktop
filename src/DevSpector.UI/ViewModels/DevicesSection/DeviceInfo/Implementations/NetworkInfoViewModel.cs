@@ -29,25 +29,10 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             _freeIP = new ObservableCollection<string>();
 
-            AddFreeIPToDeviceCommand = ReactiveCommand.CreateFromTask(
-                AddIPToDeviceAsync,
-                this.WhenAny(
-                    (vm) => vm.SelectedFreeIP,
-                    (vm) => vm._devicesListViewModel.SelectedItem,
-                    (freeIp, selectedDevice) => {
-                        if (SelectedFreeIP == null) return false;
-                        if (_devicesListViewModel.SelectedItem == null) return false;
-                        return true;
-                    }
-                )
-            );
-
             _storage = storage;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
         }
-
-        public ReactiveCommand<Unit, Unit> AddFreeIPToDeviceCommand { get; }
 
         public ObservableCollection<string> FreeIP => _freeIP;
 
@@ -70,24 +55,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             ItemsToDisplay.Clear();
             foreach (var ip in target.IPAddresses)
                 ItemsToDisplay.Add(ip);
-        }
-
-        public async Task AddIPToDeviceAsync()
-        {
-            try
-            {
-                Device selectedDevice = _devicesListViewModel.SelectedItem;
-
-                await _storage.AddIPAsync(selectedDevice.InventoryNumber, SelectedFreeIP);
-
-                _messagesBroker.NotifyUser(
-                    $"IP-адрес \"{SelectedFreeIP}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
-                );
-            }
-            catch (Exception e)
-            {
-                _messagesBroker.NotifyUser(e.Message);
-            }
         }
 
         public async Task LoadFreeIP()
