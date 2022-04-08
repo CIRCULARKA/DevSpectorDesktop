@@ -7,7 +7,7 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         ObservableCollection<TModel> Items { get; }
 
-        public IEnumerable<TModel> ItemsCache { get; set; }
+        public List<TModel> ItemsCache { get; set; }
 
         public abstract TModel SelectedItem { get; set; }
 
