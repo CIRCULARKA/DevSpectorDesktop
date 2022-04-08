@@ -4,8 +4,14 @@
     xmlns:aura="using:Aura.UI.Controls"
     xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
 	x:Class="DevSpector.Desktop.UI.Views.FreeIPListView">
-	<StackPanel>
+	<Grid RowDefinitions="Auto,*,Auto">
+		<TextBlock
+			Classes="note"
+			TextWrapping="Wrap"
+			Text="Выберите нужный IP-адрес из свободных IP-адресов" />
 		<ListBox
+			Margin="0 5 0 5"
+			Grid.Row="1"
 			Items="{Binding ItemsToDisplay}"
 			SelectedItem="{Binding SelectedItem}">
 				<ListBox.ItemTemplate>
@@ -17,7 +23,8 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<Button
+			Grid.Row="2"
 			Content="Добавить"
 			Command="{Binding AddFreeIPToDeviceCommand}" />
-	</StackPanel>
+	</Grid>
 </UserControl>
