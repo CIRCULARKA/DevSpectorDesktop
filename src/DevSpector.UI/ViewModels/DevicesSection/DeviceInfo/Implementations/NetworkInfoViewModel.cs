@@ -3,9 +3,11 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using ReactiveUI;
 using DevSpector.SDK.Models;
 using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Views;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -22,9 +24,12 @@ namespace DevSpector.Desktop.UI.ViewModels
         public NetworkInfoViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
-            IDevicesListViewModel devicesListViewModel
+            IDevicesListViewModel devicesListViewModel,
+            FreeIPListView freeIPListView
         )
         {
+            FreeIPListView = freeIPListView;
+
             _storage = storage;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
@@ -50,6 +55,8 @@ namespace DevSpector.Desktop.UI.ViewModels
         public ReactiveCommand<Unit, Unit> SwitchFreeIPListCommand { get; }
 
         public ReactiveCommand<Unit, Unit> RemoveIPCommand { get; }
+
+        public UserControl FreeIPListView { get; }
 
         public bool CanAddIP
         {

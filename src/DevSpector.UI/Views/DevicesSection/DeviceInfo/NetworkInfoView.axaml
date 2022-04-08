@@ -49,7 +49,7 @@
 					</ListBox>
 					<UserControl
 						IsVisible="{Binding CanAddIP}"
-						Content="{Binding FreeIPView}" />
+						Content="{Binding FreeIPListView}" />
 				</Panel>
 			</aura:GroupBox>
 		</materialstyles:Card>
