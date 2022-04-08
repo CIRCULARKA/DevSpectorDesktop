@@ -209,6 +209,7 @@ namespace DevSpector.Desktop.UI
 
             appEvents.IPAddressAdded += (d, ip) => {
                 devicesListVM.AddIPToSelectedDevice(ip);
+                networkInfoVM.UpdateDeviceInfo(d);
             };
 
             appEvents.IPAddressDeleted += (d, ip) => {
