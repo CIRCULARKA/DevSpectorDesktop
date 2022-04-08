@@ -87,9 +87,9 @@ namespace DevSpector.Desktop.UI.ViewModels
                     $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""
                 );
 
-                RemoveFromList(SelectedItem);
-
                 _appEvents.RaiseOnIPAddressAdded(device: selectedDevice, ip: SelectedItem);
+
+                RemoveFromList(SelectedItem);
             }
             catch (Exception e)
             {
