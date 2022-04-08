@@ -49,8 +49,17 @@
                         <DataTemplate>
                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding SoftwareName}" Foreground="White" FontSize="16" />
-                                    <TextBlock Text="{Binding SoftwareVersion}" Foreground="Gray" FontSize="16" />
+                                    <TextBlock
+                                        Text="{Binding SoftwareName}"
+                                        VerticalAlignment="Bottom"
+                                        Foreground="White" FontSize="16" />
+                                    <TextBlock
+                                        Text=" " />
+                                    <TextBlock
+                                        Text="{Binding SoftwareVersion}"
+                                        VerticalAlignment="Bottom"
+                                        Foreground="Gray"
+                                        FontSize="14" />
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
