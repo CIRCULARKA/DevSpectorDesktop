@@ -23,7 +23,7 @@
 						</Button>
 						<Button
 							Classes="Flat crudButton"
-							Command="{Binding AddIPCommand}">
+							Command="{Binding SwitchFreeIPListCommand}">
 							<Button.Content>
 								<Viewbox Width="18" Height="18">
 									<Canvas Width="24" Height="24">

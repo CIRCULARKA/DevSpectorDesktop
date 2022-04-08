@@ -11,6 +11,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class NetworkInfoViewModel : ListViewModelBase<string>, INetworkInfoViewModel
     {
+        private bool _canAddIP;
+
         private ObservableCollection<string> _freeIP;
 
         private string _selectedFreeIP;
@@ -32,9 +34,23 @@ namespace DevSpector.Desktop.UI.ViewModels
             _storage = storage;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
+
+            SwitchFreeIPListCommand = ReactiveCommand.Create(
+                () => {
+                    CanAddIP = !CanAddIP;
+                }
+            );
         }
 
+        public ReactiveCommand<Unit, Unit> SwitchFreeIPListCommand { get; }
+
         public ObservableCollection<string> FreeIP => _freeIP;
+
+        public bool CanAddIP
+        {
+            get => _canAddIP;
+            set => this.RaiseAndSetIfChanged(ref _canAddIP, value);
+        }
 
         public string SelectedFreeIP
         {
