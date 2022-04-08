@@ -50,7 +50,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
                     (vm) => vm.ModelName,
-                    (invNum, deviceType, modelName) => {
+                    (vm) => vm.NetworkName,
+                    (invNum, deviceType, modelName, networkName) => {
                         Device selectedDevice = _devicesListViewModel.SelectedItem;
 
                         if (selectedDevice == null) return false;
