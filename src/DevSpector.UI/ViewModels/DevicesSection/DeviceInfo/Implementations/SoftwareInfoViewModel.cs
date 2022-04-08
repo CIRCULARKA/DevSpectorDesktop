@@ -53,7 +53,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
 
             SwitchInputFieldsCommand = ReactiveCommand.Create(
-                () => { CanInputSoftwareInfo = !CanInputSoftwareInfo; }
+                () => { CanInputSoftwareInfo = !CanInputSoftwareInfo; },
+                this.WhenAny(
+                    (vm) => vm._devicesListViewModel.SelectedItem,
+                    (device) => _devicesListViewModel.SelectedItem != null
+                )
             );
         }
 
