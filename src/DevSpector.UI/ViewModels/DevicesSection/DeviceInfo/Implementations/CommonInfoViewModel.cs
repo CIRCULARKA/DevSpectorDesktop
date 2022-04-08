@@ -16,6 +16,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _modelName;
 
+        private string _networkName;
+
         private List<DeviceType> _deviceTypes;
 
         private DeviceType _selectedDeviceType;
@@ -56,7 +58,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                         return InventoryNumber != selectedDevice.InventoryNumber ||
                             SelectedDeviceType.Name != selectedDevice.Type ||
-                            ModelName != selectedDevice.ModelName;
+                            ModelName != selectedDevice.ModelName ||
+                            NetworkName != selectedDevice.NetworkName;
                     }
                 )
             );
@@ -74,6 +77,12 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             get => _modelName;
             set => this.RaiseAndSetIfChanged(ref _modelName, value);
+        }
+
+        public string NetworkName
+        {
+            get => _networkName;
+            set => this.RaiseAndSetIfChanged(ref _networkName, value);
         }
 
         public List<DeviceType> DeviceTypes
@@ -107,6 +116,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             if (DeviceTypes != null)
                 SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == target?.Type);
             ModelName = target?.ModelName;
+            NetworkName = target?.NetworkName;
         }
 
         private async Task UpdateDeviceCommonInfo()
@@ -124,11 +134,15 @@ namespace DevSpector.Desktop.UI.ViewModels
                 string newModelName = selectedDevice.ModelName == ModelName ?
                     null : ModelName;
 
+                string newNetworkName = selectedDevice.NetworkName == NetworkName ?
+                    null : NetworkName;
+
                 await _storage.UpdateDeviceAsync(
                     selectedDevice.InventoryNumber,
                     new DeviceToCreate {
                         InventoryNumber = newInventoryNumber,
                         ModelName = newModelName,
+                        NetworkName = newNetworkName,
                         TypeID = newType
                     }
                 );

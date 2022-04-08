@@ -28,6 +28,8 @@
 					<!-- <TextBlock Text="{x:Static l:Messages.InventoryNumber}" Classes="note" /> -->
 					<TextBlock Text="Инвентарный номер" Classes="note" />
 					<TextBox Text="{Binding InventoryNumber}" Classes="main" />
+					<TextBlock Text="Сетевое имя" Classes="note" />
+					<TextBox Text="{Binding NetworkName}" Classes="main" />
 					<!-- <TextBlock Text="{x:Static l:Messages.Type}" Classes="note" /> -->
 					<TextBlock Text="Модель" Classes="note" />
 					<TextBox Text="{Binding ModelName}" Classes="main" />
