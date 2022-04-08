@@ -9,48 +9,47 @@
     xmlns:assist="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
     x:Class="DevSpector.Desktop.UI.Views.DevicesMainView">
-    <Grid RowDefinitions="Auto,*,*" ColumnDefinitions="2*,4*">
-        <materialstyles:Card Grid.Row="0" Grid.Column="0"
-            Margin="0 0 15 15">
-            <aura:GroupBox>
-                <aura:GroupBox.Header>
-                    <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Search}" /> -->
-                    <TextBlock Classes="Headline5" Text="Поиск" />
-                </aura:GroupBox.Header>
-                <StackPanel>
-                    <UserControl Content="{Binding Search}" />
-                </StackPanel>
-            </aura:GroupBox>
-        </materialstyles:Card>
-        <UserControl
-            Grid.Row="1"
-            Grid.RowSpan="2"
+    <Grid RowDefinitions="*" ColumnDefinitions="*,*,*">
+        <Grid RowDefinitions="Auto,*"
             Grid.Column="0"
-            Margin="0 0 15 0"
-            Content="{Binding DevicesList}" />
-        <Grid RowDefinitions="*" ColumnDefinitions="*,*" Grid.Row="0" Grid.Column="1" Margin="0 0 0 15">
+            Margin="0 0 15 0">
+            <materialstyles:Card Margin="0 0 0 15">
+                <aura:GroupBox>
+                    <aura:GroupBox.Header>
+                        <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.Search}" /> -->
+                        <TextBlock Classes="Headline5" Text="Поиск" />
+                    </aura:GroupBox.Header>
+                    <StackPanel>
+                        <UserControl Content="{Binding Search}" />
+                    </StackPanel>
+                </aura:GroupBox>
+            </materialstyles:Card>
             <UserControl
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0 0 15 0"
-                Content="{Binding CommonInfo}" />
-            <UserControl
-                Grid.Row="0"
-                Grid.Column="1"
-                Content="{Binding LocationInfo}"/>
+                Grid.Row="1"
+                Content="{Binding DevicesList}" />
         </Grid>
-        <Grid RowDefinitions="*" ColumnDefinitions="*,*" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+        <Grid RowDefinitions="Auto,*"
+            Grid.Column="1"
+            Margin="0 0 15 0">
             <UserControl
-                Grid.Row="0" Grid.Column="0"
-                Margin="0 0 15 0"
+                Content="{Binding CommonInfo}"
+                Margin="0 0 0 15" />
+            <UserControl
+                Grid.Row="1"
                 Content="{Binding SoftwareInfo}" />
-            <materialstyles:Card Grid.Row="0" Grid.Column="1">
+        </Grid>
+        <Grid RowDefinitions="Auto,*"
+            Grid.Column="2">
+            <UserControl
+                Margin="0 0 0 15"
+                Content="{Binding LocationInfo}"/>
+            <materialstyles:Card Grid.Row="1">
                 <aura:GroupBox>
                     <aura:GroupBox.Header>
                         <!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.NetworkInfo}" /> -->
                         <TextBlock Classes="Headline5" Text="Сетевая информация" />
                     </aura:GroupBox.Header>
-                    <UserControl Content="{Binding NetworkInfo}" />
+                    <UserControl VerticalAlignment="Stretch" Content="{Binding NetworkInfo}" />
                 </aura:GroupBox>
             </materialstyles:Card>
         </Grid>
