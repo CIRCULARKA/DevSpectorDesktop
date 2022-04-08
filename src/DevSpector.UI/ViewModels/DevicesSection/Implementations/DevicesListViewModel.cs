@@ -90,10 +90,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             get => _inventoryNumber;
             set
             {
-                if (value.Length < 10)
-                    throw new DataValidationException("Длина инвентарного номер не может быть меньше 10 символов");
-                if (value.Length > 20)
-                    throw new DataValidationException("Длина инвентарного номера не может превышать 20 символов");
                 this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
             }
         }
@@ -211,7 +207,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 InitializeList();
 
-                SelectedItem = Items.FirstOrDefault(d => d.InventoryNumber == newDevice.InventoryNumber);
+                SelectedItem = ItemsCache.FirstOrDefault(d => d.InventoryNumber == newDevice.InventoryNumber);
 
                 _messagesBroker.NotifyUser(
                     $"Устройство \"{InventoryNumber}\" добавлено"
