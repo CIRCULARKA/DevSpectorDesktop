@@ -74,6 +74,12 @@ namespace DevSpector.Desktop.UI.ViewModels
             Items.Remove(item);
             ItemsCache.Remove(item);
 
+            if (ItemsCache.Count == 0)
+            {
+                AreThereItems = false;
+                return;
+            }
+
             if (previousSelectedIndex < 1) {
                 SelectedItem = Items.FirstOrDefault();
                 return;
