@@ -90,7 +90,6 @@ namespace DevSpector.Desktop.UI.ViewModels
                 RemoveFromList(SelectedItem);
 
                 _appEvents.RaiseOnIPAddressAdded(device: selectedDevice, ip: SelectedItem);
-
             }
             catch (Exception e)
             {
