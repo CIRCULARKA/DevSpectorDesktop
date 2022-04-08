@@ -96,6 +96,10 @@ namespace DevSpector.Desktop.UI.ViewModels
             if (target == null) return;
 
             Task.Run(() => {
+                ItemsCache.Clear();
+                foreach (var soft in target.Software)
+                    ItemsCache.Add(soft);
+
                 ItemsToDisplay.Clear();
                 foreach (var soft in target.Software)
                     ItemsToDisplay.Add(soft);
