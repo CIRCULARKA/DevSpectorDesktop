@@ -67,6 +67,10 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             if (target == null) return;
 
+            ItemsCache.Clear();
+            foreach (var ip in target.IPAddresses)
+                ItemsCache.Add(ip);
+
             ItemsToDisplay.Clear();
             foreach (var ip in target.IPAddresses)
                 ItemsToDisplay.Add(ip);
@@ -81,6 +85,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 await _storage.RemoveIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 _messagesBroker.NotifyUser($"IP-адрес \"{SelectedItem}\" удалён у устройства \"{selectedDevice.InventoryNumber}\"");
+
+                RemoveFromList(SelectedItem);
             }
             catch (Exception e)
             {
