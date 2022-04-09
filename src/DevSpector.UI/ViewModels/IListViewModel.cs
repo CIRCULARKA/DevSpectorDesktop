@@ -5,9 +5,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface IListViewModel<TModel>
     {
-        ObservableCollection<TModel> Items { get; }
+        ObservableCollection<TModel> ItemsToDisplay { get; }
 
-        public IEnumerable<TModel> ItemsCache { get; set; }
+        public List<TModel> ItemsCache { get; set; }
 
         public abstract TModel SelectedItem { get; set; }
 
@@ -18,7 +18,5 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string NoItemsMessage { get; set; }
 
         void LoadItemsFromList(IEnumerable<TModel> items);
-
-        void InitializeList();
     }
 }

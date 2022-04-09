@@ -1,57 +1,113 @@
-using System.Text;
-using System.Linq;
+using System;
+using System.Reactive;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Views;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class NetworkInfoViewModel : ViewModelBase, INetworkInfoViewModel
+    public class NetworkInfoViewModel : ListViewModelBase<string>, INetworkInfoViewModel
     {
-        private string _networkName;
+        private bool _canAddIP;
 
-        private string _ipAddresses;
+        private readonly IDevicesStorage _storage;
 
-        public NetworkInfoViewModel() { }
+        private readonly IMessagesBroker _messagesBroker;
 
-        public string NetworkName
+        private readonly IDevicesListViewModel _devicesListViewModel;
+
+        private readonly IApplicationEvents _appEvents;
+
+        public NetworkInfoViewModel(
+            IDevicesStorage storage,
+            IMessagesBroker messagesBroker,
+            IDevicesListViewModel devicesListViewModel,
+            FreeIPListView freeIPListView,
+            IApplicationEvents appEvents
+        )
         {
-            get { return _networkName == null ? "N/A" : _networkName; }
-            set => this.RaiseAndSetIfChanged(ref _networkName, value);
+            FreeIPListView = freeIPListView;
+
+            _appEvents = appEvents;
+
+            _storage = storage;
+            _messagesBroker = messagesBroker;
+            _devicesListViewModel = devicesListViewModel;
+
+            SwitchFreeIPListCommand = ReactiveCommand.Create(
+                () => {
+                    CanAddIP = !CanAddIP;
+                }
+            );
+
+            RemoveIPCommand = ReactiveCommand.CreateFromTask(
+                RemoveIPFromDeviceAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (vm) => {
+                        if (SelectedItem == null) return false;
+                        return true;
+                    }
+                )
+            );
         }
 
-        public string IPAddresses
+        public ReactiveCommand<Unit, Unit> SwitchFreeIPListCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> RemoveIPCommand { get; }
+
+        public UserControl FreeIPListView { get; }
+
+        public bool CanAddIP
         {
-            get { return _ipAddresses == null ? "Нет IP-адресов" : _ipAddresses; }
-            set { this.RaiseAndSetIfChanged(ref _ipAddresses, value); }
+            get => _canAddIP;
+            set => this.RaiseAndSetIfChanged(ref _canAddIP, value);
+        }
+
+        public override string SelectedItem
+        {
+            get => _selectedItem;
+            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
         public void UpdateDeviceInfo(Device target)
         {
-            NetworkName = target?.NetworkName;
+            if (target == null) return;
 
-            IPAddresses = target == null ? null :
-                CreateStringFromIP(target.IPAddresses);
+            ItemsCache.Clear();
+            foreach (var ip in target.IPAddresses)
+                ItemsCache.Add(ip);
+
+            ItemsToDisplay.Clear();
+            foreach (var ip in target.IPAddresses)
+                ItemsToDisplay.Add(ip);
         }
 
-        private string CreateStringFromIP(IEnumerable<string> ips)
+        public async Task RemoveIPFromDeviceAsync()
         {
-            var ipCount = ips.Count();
+            try
+            {
+                Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-            if (ipCount == 0)
-                return "Нет IP-адресов";
+                await _storage.RemoveIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
-            var newLines = ipCount;
-            const int IpAddressMaxLength = 19;
+                _messagesBroker.NotifyUser($"IP-адрес \"{SelectedItem}\" удалён у устройства \"{selectedDevice.InventoryNumber}\"");
 
-            var builder = new StringBuilder(
-                (ipCount * IpAddressMaxLength) + newLines
-            );
+                string ipToRemove = SelectedItem;
 
-            foreach (var ip in ips)
-                builder.Append(ip).Append("\n");
+                RemoveFromList(SelectedItem);
 
-            return builder.ToString();
+                _appEvents.RaiseOnIPAddressDeleted(_devicesListViewModel.SelectedItem, ipToRemove);
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
     }
 }

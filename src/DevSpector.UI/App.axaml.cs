@@ -37,6 +37,8 @@ namespace DevSpector.Desktop.UI
 
             EnableApplicationEvents();
 
+            AddServices();
+
             AddSDK();
 
             AddAuthorization();
@@ -112,6 +114,14 @@ namespace DevSpector.Desktop.UI
                 WithConstructorArgument("provider", dataProvider);
         }
 
+        private void AddServices()
+        {
+            _kernel.Bind<IMessagesBroker>().
+                To<MessagesBroker>().InSingletonScope();
+            _kernel.Bind<IDevicesStorage>().
+                To<DevicesStorage>().InSingletonScope();
+        }
+
         private void UseLanguage(string langCode)
         {
             _kernel.Bind<ILanguageSwitcher>().To<LanguageSwitcher>();
@@ -148,10 +158,34 @@ namespace DevSpector.Desktop.UI
             var usersListVM = _kernel.Get<IUsersListViewModel>();
             var userInfoVM = _kernel.Get<IUserInfoViewModel>();
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
+            var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
+            var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
+
+            appEvents.UserSelected += userInfoVM.UpdateUserInfo;
+
+            appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
+
+            appEvents.UserAuthorized += (u) => {
+                _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
+
+                sessionBrokerVM.UpdateLoggedUserInfo(u);
+
+                locationInfoVM.LoadHousingsAsync();
+                commonInfoVM.LoadDeviceTypesAsync();
+
+                devicesListVM.UpdateList();
+                usersListVM.UpdateList();
+
+                freeIPListVM.UpdateList();
+
+                authView.Hide();
+                mainView.Show();
+            };
 
             //
-            // Subscribe VMs UpdateDeviceInfo on Device selection
+            // Subscribe VM's UpdateDeviceInfo on Device selection
             //
+
             var targetVMsAmount = 4;
             var deviceInfoVMs = new List<IDeviceInfoViewModel>(targetVMsAmount);
 
@@ -164,37 +198,33 @@ namespace DevSpector.Desktop.UI
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
             //
-            // Update current user info on user change
-            //
-            appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
-            //
-            // Subscribe Devices list update on search
-            //
-            appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
-
-            //
-            // Subscribe on authrorization
-            //
-            appEvents.UserAuthorized += (u) => {
-                _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
-
-                sessionBrokerVM.UpdateLoggedUserInfo(u);
-
-                devicesListVM.InitializeList();
-                usersListVM.InitializeList();
-
-                authView.Hide();
-                mainView.Show();
+            appEvents.DeviceUpdated += () => {
+                devicesListVM.UpdateList();
             };
 
-            //
-            // Subscribe on logout
-            //
+            appEvents.DeviceDeleted += (d) => {
+                freeIPListVM.UpdateList();
+            };
+
+            appEvents.IPAddressAdded += (d, ip) => {
+                devicesListVM.AddIPToSelectedDevice(ip);
+                networkInfoVM.UpdateDeviceInfo(d);
+            };
+
+            appEvents.IPAddressDeleted += (d, ip) => {
+                devicesListVM.RemoveIPFromSelectedDevice(ip);
+                freeIPListVM.UpdateList();
+            };
+
             appEvents.Logout += () => {
                 mainView.Hide();
                 authView.Show();
                 authVM.ClearCredentials();
+            };
+
+            appEvents.UserNotified += (message) => {
+                messagesBrokerVM.Message = message;
             };
         }
     }

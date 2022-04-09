@@ -1,37 +1,102 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        xmlns:sys="using:System"
+        xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:aura="using:Aura.UI.Controls"
         x:Class="DevSpector.Desktop.UI.Views.DevicesListView">
-    <Grid RowDefinitions="*" ColumnDefinitions="*">
-        <ListBox BorderThickness="0" Height="{Binding #base.Height}"
-            Items="{Binding Items}" SelectedItem="{Binding SelectedItem}"
-            IsVisible="{Binding AreThereItems}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
-                        <Viewbox Width="48" Height="48" Margin="0 0 10 0">
-                            <Canvas Width="24" Height="24">
-                                <Path Fill="{DynamicResource PrimaryHueLightBrush}"
-                                    Data="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" />
-                            </Canvas>
-                        </Viewbox>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding NetworkName}" Foreground="White" FontSize="20" />
-                            <TextBlock Text="{Binding Type}" Foreground="Gray" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Panel Height="{Binding #base.Height}" IsVisible="{Binding !AreThereItems}">
-            <progRing:ProgressRing IsVisible="{Binding !AreItemsLoaded}"
-                IsActive="{Binding !AreItemsLoaded}" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="50" Height="50" />
-            <TextBlock Text="{Binding NoItemsMessage}"
-                IsVisible="{Binding AreItemsLoaded}"
-                Margin="3 0 3 0"
-                TextWrapping="Wrap" TextAlignment="Center"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                FontSize="26" Foreground="Gray" />
-        </Panel>
-    </Grid>
+    <materialstyles:Card>
+        <aura:GroupBox>
+            <aura:GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Classes="Headline5"
+                        Text="Устройства" />
+                    <!-- Remove button -->
+                    <Button
+                        Command="{Binding DeleteDeviceCommand}"
+                        Classes="Flat crudButton"
+                        HorizontalAlignment="Right">
+                        <Button.Content>
+                            <Viewbox Width="18" Height="18">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                    <!-- Add button -->
+                    <Button
+                        Command="{Binding SwitchInputFieldsCommand}"
+                        Classes="Flat crudButton"
+                        HorizontalAlignment="Right">
+                        <Button.Content>
+                            <Viewbox Width="18" Height="18">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </aura:GroupBox.Header>
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+                <StackPanel
+                    IsVisible="{Binding CanAddDevice}">
+                    <TextBox
+                        Text="{Binding InventoryNumber}"
+                        Watermark="Инвентарный номер" />
+                    <ComboBox
+                        Items="{Binding DeviceTypes}"
+                        SelectedItem="{Binding SelectedDeviceType}">
+                        <ComboBox.DataTemplates>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock FontSize="15" Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.DataTemplates>
+                    </ComboBox>
+                    <Button
+                        Margin="0 5 0 5"
+                        Content="Применить"
+                        Command="{Binding AddDeviceCommand}" />
+                </StackPanel>
+                <ListBox
+                    Grid.Row="1"
+                    BorderThickness="0"
+                    Height="{Binding #base.Height}"
+                    Margin="0 0 0 5"
+                    Items="{Binding ItemsToDisplay}" SelectedItem="{Binding SelectedItem}"
+                    IsVisible="{Binding AreThereItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
+                                <Viewbox Width="48" Height="48" Margin="0 0 10 0">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Fill="{DynamicResource PrimaryHueLightBrush}"
+                                            Data="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding NetworkName}" Foreground="White" FontSize="20" />
+                                    <TextBlock Text="{Binding Type}" Foreground="Gray" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Panel Height="{Binding #base.Height}" IsVisible="{Binding !AreThereItems}">
+                    <progRing:ProgressRing IsVisible="{Binding !AreItemsLoaded}"
+                        IsActive="{Binding !AreItemsLoaded}" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="50" Height="50" />
+                    <TextBlock Text="{Binding NoItemsMessage}"
+                        IsVisible="{Binding AreItemsLoaded}"
+                        Margin="3 0 3 0"
+                        TextWrapping="Wrap" TextAlignment="Center"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        FontSize="26" Foreground="Gray" />
+                </Panel>
+            </Grid>
+        </aura:GroupBox>
+    </materialstyles:Card>
 </UserControl>

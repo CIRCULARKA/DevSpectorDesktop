@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -6,6 +7,8 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         string InventoryNumber { get; set; }
 
-        string Type { get; set; }
+        DeviceType SelectedDeviceType { get; set; }
+
+        Task LoadDeviceTypesAsync();
     }
 }

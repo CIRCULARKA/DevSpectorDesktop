@@ -1,0 +1,42 @@
+<Styles xmlns="https://github.com/avaloniaui"
+    xmlns:views="using:DevSpector.Desktop.UI.Views.Shared"
+    xmlns:assist="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="views|MessagesPanel">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="views:MessagesPanel">
+                <Border
+                    Margin="0 100 0 0"
+                    BorderBrush="{DynamicResource MaterialDesignPaper}"
+                    BorderThickness="0"
+                    BoxShadow="0 -3 50 1 #1A1A1A"
+                    Padding="10 5 5 5"
+                    Background="{DynamicResource MaterialDesignPaper}">
+                    <!-- Background="{DynamicResource MaterialDesignCardBackground}"> -->
+                    <ListBox
+                        Items="{TemplateBinding Messages}" />
+                </Border>
+                <!-- <ItemsPresenter Items="{TemplateBinding Messages}">
+                    <ItemsPresenter.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="10 5 5 5"
+                                Background="Gray">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0 5 0 0"
+                                        Text="{Binding Path=.}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsPresenter.ItemTemplate>
+                    <ItemsPresenter.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsPresenter.ItemsPanel>
+                </ItemsPresenter> -->
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

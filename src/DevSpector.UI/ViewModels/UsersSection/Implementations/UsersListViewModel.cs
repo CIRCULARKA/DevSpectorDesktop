@@ -39,37 +39,27 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public override void LoadItemsFromList(IEnumerable<User> items)
         {
-            Items.Clear();
+            ItemsToDisplay.Clear();
 
             foreach (var item in items)
-                Items.Add(item);
+                ItemsToDisplay.Add(item);
 
-            if (Items.Count == 0) {
+            if (ItemsToDisplay.Count == 0) {
                 AreThereItems = false;
                 NoItemsMessage = "Пользователи не найдены";
             }
             else AreThereItems = true;
         }
 
-        protected override async Task LoadItems()
-        {
-            AreItemsLoaded = false;
-
-            ItemsCache = await _usersProvider.GetUsersAsync();
-            Items.Clear();
-            foreach (var user in ItemsCache)
-                Items.Add(user);
-         }
-
-        public override async void InitializeList()
+        public async void UpdateList()
         {
             try
             {
                 await LoadItems();
 
-                if (Items.Count > 0) {
+                if (ItemsToDisplay.Count > 0) {
                     AreThereItems = true;
-                    SelectedItem = Items[0];
+                    SelectedItem = ItemsToDisplay[0];
                 }
                 else {
                     AreThereItems = false;
@@ -88,5 +78,16 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
             finally { AreItemsLoaded = true; }
         }
+
+        private async Task LoadItems()
+        {
+            AreItemsLoaded = false;
+
+            ItemsCache = await _usersProvider.GetUsersAsync();
+            ItemsToDisplay.Clear();
+            foreach (var user in ItemsCache)
+                ItemsToDisplay.Add(user);
+        }
+
     }
 }

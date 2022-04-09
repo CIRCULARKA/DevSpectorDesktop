@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ReactiveUI;
@@ -19,13 +19,13 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         protected ListViewModelBase()
         {
-            Items =new ObservableCollection<TModel>();
+            ItemsToDisplay = new ObservableCollection<TModel>();
             ItemsCache = new List<TModel>();
         }
 
-        public ObservableCollection<TModel> Items { get; }
+        public ObservableCollection<TModel> ItemsToDisplay { get; }
 
-        public IEnumerable<TModel> ItemsCache { get; set; }
+        public List<TModel> ItemsCache { get; set; }
 
         public abstract TModel SelectedItem { get; set; }
 
@@ -47,10 +47,45 @@ namespace DevSpector.Desktop.UI.ViewModels
             set { this.RaiseAndSetIfChanged(ref _noItemsMessage, value); }
         }
 
-        public abstract void InitializeList();
+        public virtual void LoadItemsFromList(IEnumerable<TModel> items)
+        {
+            ItemsToDisplay.Clear();
 
-        public abstract void LoadItemsFromList(IEnumerable<TModel> items);
+            foreach (var item in items)
+                ItemsToDisplay.Add(item);
 
-        protected abstract Task LoadItems();
+            if (ItemsToDisplay.Count == 0) {
+                AreThereItems = false;
+                NoItemsMessage = "Нет элементов";
+            }
+            else AreThereItems = true;
+        }
+
+        protected virtual void AddToList(TModel item)
+        {
+            ItemsToDisplay.Add(item);
+
+            SelectedItem = item;
+        }
+
+        protected virtual void RemoveFromList(TModel item)
+        {
+            int previousSelectedIndex = ItemsToDisplay.IndexOf(item);
+            ItemsToDisplay.Remove(item);
+            ItemsCache.Remove(item);
+
+            if (ItemsCache.Count == 0)
+            {
+                AreThereItems = false;
+                return;
+            }
+
+            if (previousSelectedIndex < 1) {
+                SelectedItem = ItemsToDisplay.FirstOrDefault();
+                return;
+            }
+
+            SelectedItem = ItemsToDisplay.Skip(previousSelectedIndex - 1).FirstOrDefault();
+        }
     }
 }

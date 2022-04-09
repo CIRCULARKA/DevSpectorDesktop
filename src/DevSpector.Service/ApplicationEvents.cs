@@ -13,6 +13,16 @@ namespace DevSpector.Desktop.Service
         public void RaiseDeviceSelected(Device Device) =>
             DeviceSelected?.Invoke(Device);
 
+        public event Action DeviceUpdated;
+
+        public void RaiseDeviceUpdated() =>
+            DeviceUpdated?.Invoke();
+
+        public event Action<Device> DeviceDeleted;
+
+        public void RaiseDeviceDeleted(Device device) =>
+            DeviceDeleted?.Invoke(device);
+
         public event Action<IEnumerable<Device>> SearchExecuted;
 
         public void RaiseSearchExecuted(IEnumerable<Device> filtered) =>
@@ -37,5 +47,20 @@ namespace DevSpector.Desktop.Service
 
         public void RaiseLogout() =>
             Logout?.Invoke();
+
+        public event Action<string> UserNotified;
+
+        public void RaiseUserNotified(string message) =>
+            UserNotified?.Invoke(message);
+
+        public event Action<Device, string> IPAddressDeleted;
+
+        public void RaiseOnIPAddressDeleted(Device device, string ip) =>
+            IPAddressDeleted?.Invoke(device, ip);
+
+        public event Action<Device, string> IPAddressAdded;
+
+        public void RaiseOnIPAddressAdded(Device device, string ip) =>
+            IPAddressAdded?.Invoke(device, ip);
     }
 }

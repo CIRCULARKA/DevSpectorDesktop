@@ -23,8 +23,7 @@
 
                 <!--
                     Material.Avalonia
-                    Primary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Themes/Recommended/Primary
-                    Secondary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Themes/Recommended/Accent
+                    Primary colors: https://github.com/AvaloniaCommunity/Material.Avalonia/tree/dev/Material.Colors/Recommended
                 -->
                 <themes:BundledTheme BaseTheme="Dark" PrimaryColor="Indigo" SecondaryColor="Lime" />
 
@@ -41,6 +40,7 @@
 
         <StyleInclude Source="/Shared/CommonStyles.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuStyle.axaml" />
+        <StyleInclude Source="avares://DevSpector.Common/Styles/MessagesPanelStyle.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/ModernMenuItemStyle.axaml" />
         <StyleInclude Source="avares://DevSpector.Common/Styles/HiddenableTextBlockStyle.axaml" />
 

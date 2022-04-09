@@ -1,9 +1,7 @@
 using System.Collections.Generic;
+using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public interface ISoftwareInfoViewModel : IDeviceInfoViewModel
-    {
-        string Software { get; set; }
-    }
+    public interface ISoftwareInfoViewModel : IDeviceInfoViewModel { }
 }

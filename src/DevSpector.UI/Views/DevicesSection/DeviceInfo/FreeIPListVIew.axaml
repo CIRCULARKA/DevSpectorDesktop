@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
+    xmlns:aura="using:Aura.UI.Controls"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+	x:Class="DevSpector.Desktop.UI.Views.FreeIPListView">
+	<Grid RowDefinitions="Auto,*,Auto">
+		<TextBlock
+			Classes="note"
+			TextWrapping="Wrap"
+			Text="Выберите нужный IP-адрес из свободных IP-адресов" />
+		<ListBox
+			Margin="0 5 0 5"
+			Grid.Row="1"
+			Items="{Binding ItemsToDisplay}"
+			SelectedItem="{Binding SelectedItem}">
+				<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock
+						Text="{Binding .}"
+						Foreground="White" FontSize="16" />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<Button
+			Grid.Row="2"
+			Content="Добавить"
+			Command="{Binding AddFreeIPToDeviceCommand}" />
+	</Grid>
+</UserControl>

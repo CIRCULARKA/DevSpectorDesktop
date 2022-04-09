@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.SDK.Providers;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using ReactiveUI;
+using Avalonia.Data;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -12,19 +15,95 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private readonly IApplicationEvents _appEvents;
 
-        private readonly IDevicesProvider _devicesProvider;
-
         private readonly IUserSession _session;
 
+        private readonly IDevicesStorage _storage;
+
+        private readonly IMessagesBroker _messagesBroker;
+
+        private string _inventoryNumber;
+
+        private string _modelName;
+
+        private bool _canAddDevice;
+
+        private DeviceType _selectedDeviceType;
+
+        private List<DeviceType> _deviceTypes;
+
         public DevicesListViewModel(
-            IDevicesProvider devicesProvider,
             IApplicationEvents appEvents,
-            IUserSession session
+            IUserSession session,
+            IDevicesStorage storage,
+            IMessagesBroker messagesBroker
         )
         {
             _appEvents = appEvents;
             _session = session;
-            _devicesProvider = devicesProvider;
+
+            _storage = storage;
+
+            _messagesBroker = messagesBroker;
+
+            SwitchInputFieldsCommand = ReactiveCommand.CreateFromTask(
+                async () => {
+                    CanAddDevice = !CanAddDevice;
+
+                    await LoadDeviceTypesAsync();
+                    SelectedDeviceType = DeviceTypes.FirstOrDefault();
+                }
+            );
+
+            AddDeviceCommand = ReactiveCommand.CreateFromTask(
+                AddDeviceAsync
+            );
+
+            DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
+                DeleteDeviceAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (vm) => SelectedItem != null
+                )
+            );
+        }
+
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> AddDeviceCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
+
+        public bool CanAddDevice
+        {
+            get => _canAddDevice;
+            set => this.RaiseAndSetIfChanged(ref _canAddDevice, value);
+        }
+
+        public List<DeviceType> DeviceTypes
+        {
+            get => _deviceTypes;
+            set => this.RaiseAndSetIfChanged(ref _deviceTypes, value);
+        }
+
+        public string InventoryNumber
+        {
+            get => _inventoryNumber;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+            }
+        }
+
+        public string ModelName
+        {
+            get => _modelName;
+            set => this.RaiseAndSetIfChanged(ref _modelName, value);
+        }
+
+        public DeviceType SelectedDeviceType
+        {
+            get => _selectedDeviceType;
+            set => this.RaiseAndSetIfChanged(ref _selectedDeviceType, value);
         }
 
         public override Device SelectedItem
@@ -40,54 +119,122 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public override void LoadItemsFromList(IEnumerable<Device> devices)
         {
-            Items.Clear();
+            ItemsToDisplay.Clear();
 
             foreach (var device in devices)
-                Items.Add(device);
+                ItemsToDisplay.Add(device);
 
-            if (Items.Count == 0) {
+            if (ItemsToDisplay.Count == 0) {
                 AreThereItems = false;
                 NoItemsMessage = "Устройства не найдены";
             }
             else AreThereItems = true;
         }
 
-        protected override async Task LoadItems()
+        private async Task LoadItems()
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _devicesProvider.GetDevicesAsync();
-            Items.Clear();
+            ItemsCache = await _storage.GetDevicesAsync();
+            ItemsToDisplay.Clear();
             foreach (var device in ItemsCache)
-                Items.Add(device);
+                ItemsToDisplay.Add(device);
         }
 
-        public override async void InitializeList()
+        public async void UpdateList()
         {
             try
             {
                 await LoadItems();
 
-                if (Items.Count > 0) {
+                if (ItemsToDisplay.Count > 0)
+                {
                     AreThereItems = true;
-                    SelectedItem = Items[0];
+                    SelectedItem = ItemsToDisplay[0];
                 }
-                else {
+                else
+                {
                     AreThereItems = false;
                     NoItemsMessage = "Нет устройств";
                 }
             }
-            catch (ArgumentException)
+            catch (Exception e)
             {
                 AreThereItems = false;
-                NoItemsMessage = "Ошибка доступа";
-            }
-            catch
-            {
-                AreThereItems = false;
-                NoItemsMessage = "Что-то пошло не так";
+                NoItemsMessage = e.Message;
             }
             finally { AreItemsLoaded = true; }
+        }
+
+        public void AddIPToSelectedDevice(string ip)
+        {
+            if (ip == null) return;
+            SelectedItem.IPAddresses.Add(ip);
+        }
+
+        public void RemoveIPFromSelectedDevice(string ip)
+        {
+            if (ip == null) return;
+            SelectedItem.IPAddresses.Remove(ip);
+        }
+
+        private async Task DeleteDeviceAsync()
+        {
+            try
+            {
+                await _storage.RemoveDeviceAsync(SelectedItem.InventoryNumber);
+
+                _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
+
+                Device deviceToRemove = SelectedItem;
+
+                RemoveFromList(SelectedItem);
+
+                _appEvents.RaiseDeviceDeleted(deviceToRemove);
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
+        }
+
+        private async Task LoadDeviceTypesAsync()
+        {
+            try
+            {
+                DeviceTypes = await _storage.GetDevicesTypesAsync();
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
+        }
+
+        private async Task AddDeviceAsync()
+        {
+            try
+            {
+                var newDevice = new DeviceToCreate {
+                    InventoryNumber = InventoryNumber,
+                    TypeID = SelectedDeviceType.ID
+                };
+
+                await _storage.AddDeviceAsync(newDevice);
+
+                CanAddDevice = false;
+
+                UpdateList();
+
+                SelectedItem = ItemsToDisplay.FirstOrDefault();
+
+                _messagesBroker.NotifyUser(
+                    $"Устройство \"{InventoryNumber}\" добавлено"
+                );
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
     }
 }
