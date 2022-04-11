@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.SDK.Providers;
@@ -10,6 +11,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class UsersListViewModel : ListViewModelBase<User>, IUsersListViewModel
     {
+        private bool _canAddUsers;
+
+        private List<UserGroup> _userGroups;
+
+        private UserGroup _selectedUserGroup;
+
         private readonly IApplicationEvents _appEvents;
 
         private readonly IUsersProvider _usersProvider;
@@ -25,6 +32,19 @@ namespace DevSpector.Desktop.UI.ViewModels
             _appEvents = appEvents;
             _session = session;
             _usersProvider = usersProvider;
+
+            // RemoveUserCommand = ReactiveCommand.Create(
+            // );
+        }
+
+        public ReactiveCommand<Unit, Unit> AddUserCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> RemoveUserCommand { get; }
+
+        public UserGroup SelectedUserGroup
+        {
+            get => _selectedUserGroup;
+            set => this.RaiseAndSetIfChanged(ref _selectedUserGroup, value);
         }
 
         public override User SelectedItem
@@ -35,6 +55,12 @@ namespace DevSpector.Desktop.UI.ViewModels
                 this.RaiseAndSetIfChanged(ref _selectedItem, value);
                 _appEvents.RaiseUserSelected(_selectedItem);
             }
+        }
+
+        public bool CanAddUsers
+        {
+            get => _canAddUsers;
+            set => this.RaiseAndSetIfChanged(ref _canAddUsers, value);
         }
 
         public override void LoadItemsFromList(IEnumerable<User> items)
@@ -89,5 +115,9 @@ namespace DevSpector.Desktop.UI.ViewModels
                 ItemsToDisplay.Add(user);
         }
 
+        private async Task RemoveUserAsync()
+        {
+
+        }
     }
 }

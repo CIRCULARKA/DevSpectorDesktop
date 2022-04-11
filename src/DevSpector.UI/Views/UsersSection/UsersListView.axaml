@@ -43,7 +43,8 @@
                 RowDefinitions="Auto,*,Auto,Auto"
                 ColumnDefinitions="*">
                 <StackPanel
-                    Grid.Row="0">
+                    Grid.Row="0"
+                    IsVisible="{Binding CanAddUsers}">
                     <TextBox
                         Text="{Binding Login}"
                         Watermark="Логин" />
