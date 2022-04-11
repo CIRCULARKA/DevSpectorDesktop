@@ -48,6 +48,10 @@
                     <TextBox
                         Text="{Binding Login}"
                         Watermark="Логин" />
+                    <TextBox
+                        Text="{Binding Password}"
+                        Watermark="Пароль"
+                        PasswordChar="*" />
                     <ComboBox
                         Items="{Binding UserGroups}"
                         SelectedItem="{Binding SelectedUserGroup}">
