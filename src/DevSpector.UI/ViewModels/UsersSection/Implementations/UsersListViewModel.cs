@@ -22,6 +22,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _password;
 
+        private string _firstName;
+
+        private string _surname;
+
+        private string _patronymic;
+
         private readonly IApplicationEvents _appEvents;
 
         private readonly IUserSession _session;
@@ -102,6 +108,24 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             get => _password;
             set => this.RaiseAndSetIfChanged(ref _password, value);
+        }
+
+        public string FirstName
+        {
+            get => _firstName;
+            set => this.RaiseAndSetIfChanged(ref _firstName, value);
+        }
+
+        public string Surname
+        {
+            get => _surname;
+            set => this.RaiseAndSetIfChanged(ref _surname, value);
+        }
+
+        public string Patronymic
+        {
+            get => _patronymic;
+            set => this.RaiseAndSetIfChanged(ref _patronymic, value);
         }
 
         public bool CanAddUsers
