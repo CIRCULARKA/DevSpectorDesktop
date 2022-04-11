@@ -136,7 +136,7 @@ namespace DevSpector.Desktop.Service
         {
             await ReThrowExceptionFrom(
                 async () => await _editor.RemoveSoftwareAsync(inventoryNumber, software),
-                "Не удалось удалить ПО",
+                "Не удалось удалить ПО"
             );
         }
 
