@@ -22,6 +22,18 @@ namespace DevSpector.Desktop.Service
             _usersProvider = provider;
         }
 
+        public async Task<List<User>> GetUsersAsync()
+        {
+            List<User> users = null;
+
+            await ReThrowExceptionFrom(
+                async () => users = await _usersProvider.GetUsersAsync(),
+                "Не удалось получить группы пользователей"
+            );
+
+            return users;
+        }
+
         public async Task<List<UserGroup>> GetUserGroupsAsync()
         {
             List<UserGroup> result = null;
