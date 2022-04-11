@@ -23,19 +23,28 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUsersStorage _storage;
 
+        private readonly IMessagesBroker _messagesBroker;
+
         public UsersListViewModel(
             IUsersStorage storage,
             IApplicationEvents appEvents,
-            IUserSession session
+            IUserSession session,
+            IMessagesBroker messagesBroker
         )
         {
             _storage = storage;
+            _messagesBroker = messagesBroker;
 
             _appEvents = appEvents;
             _session = session;
 
-            // RemoveUserCommand = ReactiveCommand.Create(
-            // );
+            RemoveUserCommand = ReactiveCommand.CreateFromTask(
+                RemoveUserAsync,
+                this.WhenAny(
+                    (vm) => vm.SelectedItem,
+                    (vm) => SelectedItem != null
+                )
+            );
         }
 
         public ReactiveCommand<Unit, Unit> AddUserCommand { get; }
@@ -120,11 +129,15 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-            }
-            catch (System.Exception)
-            {
+                await _storage.RemoveUserAsync(SelectedItem.Login);
 
-                throw;
+                _messagesBroker.NotifyUser($"Пользователь \"{SelectedItem.Login}\" удалён");
+
+                RemoveFromList(SelectedItem);
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
             }
         }
     }
