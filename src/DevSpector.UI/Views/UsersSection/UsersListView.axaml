@@ -11,14 +11,52 @@
         Grid.RowSpan="2">
         <aura:GroupBox>
             <aura:GroupBox.Header>
-                <TextBlock
-                    Classes="Headline5"
-                    Text="Пользователи" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Classes="Headline5"
+                        Text="Пользователи" />
+                    <Button
+                        Classes="Flat crudButton"
+                        Command="{Binding SwitchInputFieldsCommand}">
+                        <Button.Content>
+                            <Viewbox Width="18" Height="18">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                    <Button
+                        Classes="Flat crudButton"
+                        Command="{Binding RemoveUserCommand}">
+                        <Button.Content>
+                            <Viewbox Width="18" Height="18">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </aura:GroupBox.Header>
             <Grid
-                RowDefinitions="*,Auto,Auto"
+                RowDefinitions="Auto,*,Auto,Auto"
                 ColumnDefinitions="*">
+                <StackPanel
+                    Grid.Row="0">
+                    <TextBox
+                        Text="{Binding Login}"
+                        Watermark="Логин" />
+                    <ComboBox
+                        Items="{Binding UserGroups}"
+                        SelectedItem="{Binding SelectedUserGroup}" />
+                    <Button
+                        Margin="0 5 0 5"
+                        Content="Добавить"
+                        Command="{Binding AddUserCommand}" />
+                </StackPanel>
                 <ListBox
+                    Grid.Row="1"
                     BorderThickness="0"
                     Height="{Binding #base.Height}"
                     Items="{Binding ItemsToDisplay}"
@@ -56,15 +94,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button
-                    Grid.Row="1"
-                    Content="Добавить"
-                    Height="35"
-                    Margin="0 5 0 5" />
-                <Button
-                    Grid.Row="2"
-                    Content="Удалить"
-                    Height="35" />
                 <Panel
                     Grid.RowSpan="3"
                     Height="{Binding #base.Height}"
