@@ -44,7 +44,17 @@ namespace DevSpector.Desktop.UI.ViewModels
             _session = session;
 
             AddUserCommand = ReactiveCommand.CreateFromTask(
-                AddUserAsync
+                AddUserAsync,
+                this.WhenAny(
+                    (vm) => vm.Login,
+                    (vm) => vm.Password,
+                    (login, pass) => {
+                        if (string.IsNullOrWhiteSpace(Login)) return false;
+                        if (string.IsNullOrWhiteSpace(Password)) return false;
+
+                        return true;
+                    }
+                )
             );
 
             RemoveUserCommand = ReactiveCommand.CreateFromTask(
