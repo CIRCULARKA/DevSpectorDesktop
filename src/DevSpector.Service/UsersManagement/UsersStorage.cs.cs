@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using DevSpector.SDK.DTO;
+using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Providers;
 
@@ -18,6 +20,18 @@ namespace DevSpector.Desktop.Service
         {
             _usersEditor = editor;
             _usersProvider = provider;
+        }
+
+        public async Task<List<UserGroup>> GetUserGroupsAsync()
+        {
+            List<UserGroup> result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _usersProvider.GetUserGroupsAsync(),
+                "Не удалось получить группы пользователей"
+            );
+
+            return result;
         }
 
         public async Task AddUserAsync(UserToCreate userInfo)
