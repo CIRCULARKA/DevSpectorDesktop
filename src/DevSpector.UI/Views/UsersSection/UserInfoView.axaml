@@ -6,15 +6,27 @@
 	x:Class="DevSpector.Desktop.UI.Views.UserInfoView">
 	<StackPanel>
 		<!-- <TextBlock Text="{x:Static l:Messages.Login}" Classes="note" /> -->
-		<TextBlock Text="Логин" Classes="note" />
-		<TextBlock Text="{Binding Login}" Classes="main" />
-		<!-- <TextBlock Text="{x:Static l:Messages.Role}" Classes="note" /> -->
-		<TextBlock Text="Роль" Classes="note" />
-		<TextBlock Text="{Binding Group}" Classes="main" />
-		<!-- <TextBlock Text="{x:Static l:Messages.AccessKey}" Classes="note" /> -->
-		<TextBlock Text="Ключ доступа" Classes="note" />
-		<TextBox Text="{Binding AccessToken}" IsReadOnly="True" Margin="0 -4 0 0" />
-		<!-- <TextBox Classes="revealPasswordButton" Margin="0 -4 0 0"
-			PasswordChar="*" Text="{Binding AccessToken}" IsReadOnly="True" /> -->
+		<TextBlock
+			Text="Логин"
+			Classes="note"
+			Margin="0" />
+		<TextBlock
+			Text="{Binding Login}"
+			Classes="main" />
+		<TextBlock
+			Text="Роль"
+			Classes="note"
+			Margin="0" />
+		<TextBlock
+			Text="{Binding Group}"
+			Classes="main" />
+		<TextBlock
+			Text="Ключ доступа"
+			Classes="note" />
+		<TextBox
+			Classes="revealPasswordButton"
+			PasswordChar="*"
+			Text="{Binding AccessToken}"
+			IsReadOnly="True" />
 	</StackPanel>
 </UserControl>
