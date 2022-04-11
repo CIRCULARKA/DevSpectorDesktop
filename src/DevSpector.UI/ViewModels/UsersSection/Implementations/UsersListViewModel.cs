@@ -99,6 +99,12 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _canAddUsers, value);
         }
 
+        public List<UserGroup> UserGroups
+        {
+            get => _userGroups;
+            set => this.RaiseAndSetIfChanged(ref _userGroups, value);
+        }
+
         public override void LoadItemsFromList(IEnumerable<User> items)
         {
             ItemsToDisplay.Clear();
@@ -111,6 +117,18 @@ namespace DevSpector.Desktop.UI.ViewModels
                 NoItemsMessage = "Пользователи не найдены";
             }
             else AreThereItems = true;
+        }
+
+        public async Task LoadUserGroupsAsync()
+        {
+            try
+            {
+                UserGroups = await _storage.GetUserGroupsAsync();
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
 
         public async void UpdateList()

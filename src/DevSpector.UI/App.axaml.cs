@@ -174,6 +174,7 @@ namespace DevSpector.Desktop.UI
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
+                usersListVM.LoadUserGroupsAsync();
 
                 devicesListVM.UpdateList();
                 usersListVM.UpdateList();
