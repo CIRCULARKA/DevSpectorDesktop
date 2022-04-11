@@ -17,22 +17,22 @@
                         Text="Пользователи" />
                     <Button
                         Classes="Flat crudButton"
-                        Command="{Binding SwitchInputFieldsCommand}">
+                        Command="{Binding RemoveUserCommand}">
                         <Button.Content>
                             <Viewbox Width="18" Height="18">
                                 <Canvas Width="24" Height="24">
-                                    <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                    <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                                 </Canvas>
                             </Viewbox>
                         </Button.Content>
                     </Button>
                     <Button
                         Classes="Flat crudButton"
-                        Command="{Binding RemoveUserCommand}">
+                        Command="{Binding SwitchInputFieldsCommand}">
                         <Button.Content>
                             <Viewbox Width="18" Height="18">
                                 <Canvas Width="24" Height="24">
-                                    <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                    <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                                 </Canvas>
                             </Viewbox>
                         </Button.Content>
