@@ -9,10 +9,7 @@ namespace DevSpector.Desktop.Service
     {
         protected async Task ReThrowExceptionFrom(
             Func<Task> action,
-            string issueMessage,
-            string noAccessMessage,
-            string noConnectionMessage,
-            string unhandledMessage
+            string issueMessage
         )
         {
             try
@@ -21,15 +18,16 @@ namespace DevSpector.Desktop.Service
             }
             catch (UnauthorizedException)
             {
-                throw new InvalidOperationException($"{issueMessage} - {noAccessMessage}");
+                throw new InvalidOperationException($"{issueMessage} - нет доступа");
             }
             catch (InvalidOperationException)
             {
-                throw new InvalidOperationException($"{issueMessage} - {unhandledMessage}");
+                throw new InvalidOperationException($"{issueMessage} - неизвестная ошибка");
             }
             catch (HttpRequestException)
             {
-                throw new InvalidOperationException($"{noConnectionMessage} - {unhandledMessage}");
+                throw new InvalidOperationException($"{issueMessage} - нет связи с сервером");
             }
+        }
     }
 }
