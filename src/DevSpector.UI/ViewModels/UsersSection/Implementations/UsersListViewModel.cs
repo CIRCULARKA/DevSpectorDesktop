@@ -19,19 +19,20 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IApplicationEvents _appEvents;
 
-        private readonly IUsersProvider _usersProvider;
-
         private readonly IUserSession _session;
 
+        private readonly IUsersStorage _storage;
+
         public UsersListViewModel(
-            IUsersProvider usersProvider,
+            IUsersStorage storage,
             IApplicationEvents appEvents,
             IUserSession session
         )
         {
+            _storage = storage;
+
             _appEvents = appEvents;
             _session = session;
-            _usersProvider = usersProvider;
 
             // RemoveUserCommand = ReactiveCommand.Create(
             // );
@@ -109,7 +110,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _usersProvider.GetUsersAsync();
+            ItemsCache = await _storage.GetUsersAsync();
             ItemsToDisplay.Clear();
             foreach (var user in ItemsCache)
                 ItemsToDisplay.Add(user);
@@ -117,7 +118,14 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private async Task RemoveUserAsync()
         {
+            try
+            {
+            }
+            catch (System.Exception)
+            {
 
+                throw;
+            }
         }
     }
 }
