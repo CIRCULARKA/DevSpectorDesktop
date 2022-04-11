@@ -2,8 +2,8 @@
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.SDK.Providers;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using ReactiveUI;
 
@@ -16,6 +16,10 @@ namespace DevSpector.Desktop.UI.ViewModels
         private List<UserGroup> _userGroups;
 
         private UserGroup _selectedUserGroup;
+
+        private string _login;
+
+        private string _password;
 
         private readonly IApplicationEvents _appEvents;
 
@@ -38,6 +42,10 @@ namespace DevSpector.Desktop.UI.ViewModels
             _appEvents = appEvents;
             _session = session;
 
+            AddUserCommand = ReactiveCommand.CreateFromTask(
+                AddUserAsync
+            );
+
             RemoveUserCommand = ReactiveCommand.CreateFromTask(
                 RemoveUserAsync,
                 this.WhenAny(
@@ -45,7 +53,13 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => SelectedItem != null
                 )
             );
+
+            SwitchInputFieldsCommand = ReactiveCommand.Create(
+                () => { CanAddUsers = !CanAddUsers; }
+            );
         }
+
+        public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
 
         public ReactiveCommand<Unit, Unit> AddUserCommand { get; }
 
@@ -65,6 +79,18 @@ namespace DevSpector.Desktop.UI.ViewModels
                 this.RaiseAndSetIfChanged(ref _selectedItem, value);
                 _appEvents.RaiseUserSelected(_selectedItem);
             }
+        }
+
+        public string Login
+        {
+            get => _login;
+            set => this.RaiseAndSetIfChanged(ref _login, value);
+        }
+
+        public string Password
+        {
+            get => _password;
+            set => this.RaiseAndSetIfChanged(ref _password, value);
         }
 
         public bool CanAddUsers
@@ -123,6 +149,26 @@ namespace DevSpector.Desktop.UI.ViewModels
             ItemsToDisplay.Clear();
             foreach (var user in ItemsCache)
                 ItemsToDisplay.Add(user);
+        }
+
+        private async Task AddUserAsync()
+        {
+            try
+            {
+                await _storage.AddUserAsync(new UserToCreate {
+                    Login = Login,
+                    Password = Password,
+                    GroupID = SelectedUserGroup.ID
+                });
+
+                _messagesBroker.NotifyUser($"Пользователь \"{Login}\" добавлен");
+
+                UpdateList();
+            }
+            catch (Exception e)
+            {
+                _messagesBroker.NotifyUser(e.Message);
+            }
         }
 
         private async Task RemoveUserAsync()
