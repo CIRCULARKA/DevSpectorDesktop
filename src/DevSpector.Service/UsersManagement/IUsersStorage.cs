@@ -7,7 +7,7 @@ namespace DevSpector.Desktop.Service
     {
         public Task AddUserAsync(UserToCreate userInfo);
 
-        public Task UpdateUserAsync(UserToCreate userInfo);
+        public Task UpdateUserAsync(string targetLogin, UserToCreate userInfo);
 
         public Task RemoveUserAsync(string login);
     }
