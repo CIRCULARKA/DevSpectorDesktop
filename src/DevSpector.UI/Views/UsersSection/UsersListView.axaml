@@ -50,7 +50,15 @@
                         Watermark="Логин" />
                     <ComboBox
                         Items="{Binding UserGroups}"
-                        SelectedItem="{Binding SelectedUserGroup}" />
+                        SelectedItem="{Binding SelectedUserGroup}">
+                        <ComboBox.DataTemplates>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock FontSize="15" Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.DataTemplates>
+                    </ComboBox>
                     <Button
                         Margin="0 5 0 5"
                         Content="Добавить"

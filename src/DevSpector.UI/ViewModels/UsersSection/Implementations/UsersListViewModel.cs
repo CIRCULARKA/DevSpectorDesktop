@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -124,6 +125,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             try
             {
                 UserGroups = await _storage.GetUserGroupsAsync();
+                SelectedUserGroup = UserGroups.FirstOrDefault();
             }
             catch (Exception e)
             {
