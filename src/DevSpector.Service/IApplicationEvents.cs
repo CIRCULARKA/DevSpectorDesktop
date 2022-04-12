@@ -30,6 +30,18 @@ namespace DevSpector.Desktop.Service
 
         void RaiseUserSelected(User user);
 
+        event Action UserCreated;
+
+        void RaiseUserCreated();
+
+        event Action UserRemoved;
+
+        void RaiseUserRemoved();
+
+        event Action UserUpdated;
+
+        void RaiseUserUpdated();
+
         event Action Logout;
 
         void RaiseLogout();

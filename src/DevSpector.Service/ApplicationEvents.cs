@@ -43,6 +43,21 @@ namespace DevSpector.Desktop.Service
         public void RaiseUserSelected(User user) =>
             UserSelected?.Invoke(user);
 
+        public event Action UserCreated;
+
+        public void RaiseUserCreated() =>
+            UserCreated?.Invoke();
+
+        public event Action UserRemoved;
+
+        public void RaiseUserRemoved() =>
+            UserRemoved?.Invoke();
+
+        public event Action UserUpdated;
+
+        public void RaiseUserUpdated() =>
+            UserUpdated?.Invoke();
+
         public event Action Logout;
 
         public void RaiseLogout() =>
