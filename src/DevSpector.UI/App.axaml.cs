@@ -165,6 +165,10 @@ namespace DevSpector.Desktop.UI
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
+            appEvents.UserUpdated += () => {
+                usersListVM.UpdateList();
+            };
+
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
