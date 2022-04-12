@@ -15,7 +15,7 @@
 						Text="Информация" />
 					<Button
 						Classes="Flat crudButton"
-						Command="{Binding ApplyChanges}">
+						Command="{Binding ApplyChangesCommand}">
 						<Button.Content>
 							<Viewbox Width="18" Height="18">
 								<Canvas Width="24" Height="24">
