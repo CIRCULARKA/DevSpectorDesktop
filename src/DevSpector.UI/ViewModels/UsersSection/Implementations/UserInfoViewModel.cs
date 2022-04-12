@@ -148,14 +148,29 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 User selectedUser = _usersViewModel.SelectedItem;
 
+               string newFirstName = FirstName == selectedUser.FirstName ?
+                    null : FirstName;
+
+                string newSurname = Surname == selectedUser.Surname ?
+                    null : Surname;
+
+                string newPatronymic = Patronymic == selectedUser.Patronymic ?
+                    null : Patronymic;
+
+                string newLogin = Login == selectedUser.Login ?
+                    null : Login;
+
+                string newGroupID = SelectedUserGroup?.Name == selectedUser.Group ?
+                    null : SelectedUserGroup.ID;
+
                 await _storage.UpdateUserAsync(
                     selectedUser.Login,
                     new UserToCreate {
-                        FirstName = FirstName,
-                        Surname = Surname,
-                        Patronymic = Patronymic,
-                        Login = Login,
-                        GroupID = SelectedUserGroup.ID
+                        FirstName = newFirstName,
+                        Surname = newSurname,
+                        Patronymic = newPatronymic,
+                        Login = newLogin,
+                        GroupID = newGroupID
                     }
                 );
             }
