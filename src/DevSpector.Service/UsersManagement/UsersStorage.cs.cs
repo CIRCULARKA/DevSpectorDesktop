@@ -13,13 +13,17 @@ namespace DevSpector.Desktop.Service
 
         private readonly IUsersProvider _usersProvider;
 
+        private readonly IApplicationEvents _appEvents;
+
         public UsersStorage(
             IUsersProvider provider,
-            IUsersEditor editor
+            IUsersEditor editor,
+            IApplicationEvents appEvents
         )
         {
             _usersEditor = editor;
             _usersProvider = provider;
+            _appEvents = appEvents;
         }
 
         public async Task<List<User>> GetUsersAsync()
@@ -52,6 +56,8 @@ namespace DevSpector.Desktop.Service
                 async () => await _usersEditor.CreateUserAsync(userInfo),
                 "Не удалось добавить пользователя"
             );
+
+            _appEvents.RaiseUserCreated();
         }
 
         public async Task UpdateUserAsync(string targetLogin, UserToCreate userInfo)
@@ -60,6 +66,8 @@ namespace DevSpector.Desktop.Service
                 async () => await _usersEditor.UpdateUserAsync(targetLogin, userInfo),
                 "Не удалось добавить пользователя"
             );
+
+            _appEvents.RaiseUserUpdated();
         }
 
         public async Task RemoveUserAsync(string login)
@@ -68,6 +76,8 @@ namespace DevSpector.Desktop.Service
                 async () => await _usersEditor.DeleteUserAsync(login),
                 "Не удалось добавить пользователя"
             );
+
+            _appEvents.RaiseUserRemoved();
         }
     }
 }
