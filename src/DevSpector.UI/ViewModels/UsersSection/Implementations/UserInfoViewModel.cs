@@ -173,6 +173,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                         GroupID = newGroupID
                     }
                 );
+
+                _messagesBroker.NotifyUser($"Пользователь \"{selectedUser.Login}\" обновлён");
             }
             catch (Exception e)
             {
