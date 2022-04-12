@@ -60,7 +60,16 @@
 					Classes="note"
 					Margin="0" />
 				<ComboBox
-					Classes="main" />
+					Items="{Binding UserGroups}"
+					SelectedItem="{Binding SelectedUserGroup}">
+					<ComboBox.DataTemplates>
+						<DataTemplate>
+							<StackPanel>
+								<TextBlock FontSize="15" Text="{Binding Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.DataTemplates>
+				</ComboBox>
 				<TextBlock
 					Text="Ключ доступа"
 					Classes="note" />

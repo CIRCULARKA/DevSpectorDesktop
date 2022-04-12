@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -11,5 +12,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         string Group { get; set; }
 
         void UpdateUserInfo(User target);
+
+        Task LoadUserGroupsAsync();
     }
 }
