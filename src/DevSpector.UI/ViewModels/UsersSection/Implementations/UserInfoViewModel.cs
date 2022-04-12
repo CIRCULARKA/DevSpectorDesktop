@@ -58,6 +58,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                         if (Login != selected.Login) return true;
                         if (FirstName != selected.FirstName) return true;
+                        if (Surname != selected.Surname) return true;
                         if (Patronymic != selected.Patronymic) return true;
                         if (SelectedUserGroup?.Name != selected.Group) return true;
 
