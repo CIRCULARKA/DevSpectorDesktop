@@ -14,6 +14,7 @@
                     Text="Ваш ключ доступа" />
                 <TextBox
                     Classes="revealPasswordButton"
+                    PasswordChar="*"
                     IsReadOnly="True"
                     Text="{Binding CurrentAccessToken}" />
                 <TextBlock
@@ -21,6 +22,7 @@
                     Text="Введите пароль" />
                 <TextBox
                     Classes="revealPasswordButton"
+                    PasswordChar="*"
                     Text="{Binding Password}" />
                 <Button
                     Content="Получить новый ключ"
