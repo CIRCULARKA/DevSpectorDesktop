@@ -11,15 +11,14 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _loggedUserGroup;
 
-        private readonly IApplicationEvents _appEvents;
-
         private readonly IUserSession _session;
 
         public SessionBrokerViewModel(
-            IUserSession session,
-            IApplicationEvents events
+            IUserSession session
         )
         {
+            _session = session;
+
             LogoutCommand = ReactiveCommand.Create(
                 () => _session.EndSession()
             );
