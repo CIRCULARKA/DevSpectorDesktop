@@ -162,6 +162,7 @@ namespace DevSpector.Desktop.UI
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
             var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
+            var accessTokenVM = _kernel.Get<IAccessKeyViewModel>();
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
@@ -175,6 +176,7 @@ namespace DevSpector.Desktop.UI
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
+                accessTokenVM.DisplayUserAccessKey(u);
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();

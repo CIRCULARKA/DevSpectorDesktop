@@ -1,29 +1,15 @@
-using System.Reactive;
-using ReactiveUI;
+using Avalonia.Controls;
+using DevSpector.Desktop.UI.Views;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
     public class SettingsViewModel : ISettingsViewModel
     {
-        public SettingsViewModel()
+        public SettingsViewModel(AccessKeyView accessKeyView)
         {
-
+            AccessKeyView = accessKeyView;
         }
 
-        public string CurrentPassword { get; set; }
-
-        public string NewPassword { get; set; }
-
-        public int Mask { get; set; }
-
-        public string NetworkAddress { get; set; }
-
-        public string CurrentAccessToken { get; set; }
-
-        public ReactiveCommand<Unit, Unit> GenerateNewTokenCommand => null;
-
-        public ReactiveCommand<Unit, Unit> ChangePasswordCommand { get; }
-
-        public ReactiveCommand<Unit, Unit> GenerateIPRangeCommand { get; }
+        public UserControl AccessKeyView { get; set; }
     }
 }

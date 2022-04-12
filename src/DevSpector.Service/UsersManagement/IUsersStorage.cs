@@ -7,14 +7,16 @@ namespace DevSpector.Desktop.Service
 {
     public interface IUsersStorage
     {
-        public Task<List<User>> GetUsersAsync();
+        Task<List<User>> GetUsersAsync();
 
-        public Task<List<UserGroup>> GetUserGroupsAsync();
+        Task<List<UserGroup>> GetUserGroupsAsync();
 
-        public Task AddUserAsync(UserToCreate userInfo);
+        Task AddUserAsync(UserToCreate userInfo);
 
-        public Task UpdateUserAsync(string targetLogin, UserToCreate userInfo);
+        Task UpdateUserAsync(string targetLogin, UserToCreate userInfo);
 
-        public Task RemoveUserAsync(string login);
+        Task RemoveUserAsync(string login);
+
+        Task<string> RevokeAccessKeyAsync(string login, string password);
     }
 }

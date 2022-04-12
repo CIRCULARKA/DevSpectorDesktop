@@ -20,20 +20,11 @@
                 </aura:GroupBox>
             </materialstyles:Card>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <materialstyles:Card
-                Margin="15 0 0 0">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="Ключ доступа" />
-                    </aura:GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Ваш ключ доступа" Classes="note" />
-                        <TextBox IsReadOnly="True" Text="{Binding CurrentAccessToken}" />
-                        <Button Content="Сгенерировать повторно" />
-                    </StackPanel>
-                </aura:GroupBox>
-            </materialstyles:Card>
+        <StackPanel
+            Grid.Column="1"
+            Margin="15 0 0 0">
+            <ContentControl
+                Content="{Binding AccessKeyView}" />
         </StackPanel>
         <StackPanel Grid.Column="2">
             <materialstyles:Card

@@ -49,6 +49,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 async () => {
                     CanAddDevice = !CanAddDevice;
 
+                    if (!CanAddDevice) return;
+
                     await LoadDeviceTypesAsync();
                     SelectedDeviceType = DeviceTypes.FirstOrDefault();
                 }

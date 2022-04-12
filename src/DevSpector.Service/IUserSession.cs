@@ -9,5 +9,7 @@ namespace DevSpector.Desktop.Service
         string AccessToken { get; }
 
         void StartSession(User user);
+
+        void EndSession();
     }
 }
