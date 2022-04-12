@@ -124,6 +124,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             FirstName = target?.FirstName;
             Surname = target?.Surname;
             Patronymic = target?.Patronymic;
+            SelectedUserGroup = UserGroups.FirstOrDefault(ug => ug.Name == target?.Group);
         }
 
         public async Task LoadUserGroupsAsync()
