@@ -120,6 +120,8 @@ namespace DevSpector.Desktop.UI
                 To<MessagesBroker>().InSingletonScope();
             _kernel.Bind<IDevicesStorage>().
                 To<DevicesStorage>().InSingletonScope();
+            _kernel.Bind<IUsersStorage>().
+                To<UsersStorage>().InSingletonScope();
         }
 
         private void UseLanguage(string langCode)
@@ -163,6 +165,10 @@ namespace DevSpector.Desktop.UI
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
+            appEvents.UserUpdated += () => {
+                usersListVM.UpdateList();
+            };
+
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
@@ -172,6 +178,8 @@ namespace DevSpector.Desktop.UI
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
+                usersListVM.LoadUserGroupsAsync();
+                userInfoVM.LoadUserGroupsAsync();
 
                 devicesListVM.UpdateList();
                 usersListVM.UpdateList();

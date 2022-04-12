@@ -1,4 +1,5 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window
+    xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:shared="using:DevSpector.Desktop.UI.Views.Shared"
     xmlns:vm="using:DevSpector.Desktop.UI.ViewModels"
@@ -6,29 +7,51 @@
     xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
     xmlns:aura="using:Aura.UI.Controls"
     x:Class="DevSpector.Desktop.UI.Views.AuthorizationView"
-    Height="600" Width="350">
-    <Border Padding="15 50 15 0">
-        <StackPanel VerticalAlignment="Center">
+    Height="600"
+    Width="350">
+    <Border
+        Padding="15 50 15 0">
+        <StackPanel
+            VerticalAlignment="Center">
             <!-- <Image Source="/Assets/logo.png" Width="200" HorizontalAlignment="Center" /> -->
             <!-- <TextBlock Classes="note" Text="{x:Static l:Messages.Login}" /> -->
-            <TextBlock Classes="note" Text="Логин" />
-            <TextBox Classes="clearButton" Text="{Binding Login}"
+            <TextBlock
+                Classes="note" Text="Логин" />
+            <TextBox
+                Classes="clearButton"
+                Text="{Binding Login}"
                 MaxLength="50"
                 IsEnabled="{Binding !AttemptingToLogin}" />
-            <TextBlock Classes="note" Text="Пароль" />
-            <TextBox Classes="clearButton" Text="{Binding Password}"
+            <TextBlock
+                Classes="note"
+                Text="Пароль" />
+            <TextBox
+                Classes="clearButton"
+                Text="{Binding Password}"
                 PasswordChar="*" MaxLength="50" Tag="hello"
                 IsEnabled="{Binding !AttemptingToLogin}" />
-            <!-- <Button Content="{x:Static l:Messages.Login}" HorizontalAlignment="Stretch" -->
-            <Button Content="Войти" HorizontalAlignment="Stretch"
+            <Button
+                Content="Войти"
+                HorizontalAlignment="Stretch"
                 Command="{Binding AuthorizationCommand}" />
-            <Panel HorizontalAlignment="Stretch" Height="200">
-                <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" TextAlignment="Center"
-                    IsVisible="{Binding LoginFailed}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Foreground="Gray" FontSize="16" FontWeight="Normal" />
-                <progRing:ProgressRing IsActive="{Binding AttemptingToLogin}"
+            <Panel
+                HorizontalAlignment="Stretch"
+                Height="200">
+                <TextBlock
+                    Text="{Binding ErrorMessage}"
+                    TextWrapping="Wrap"
+                    TextAlignment="Center"
+                    IsVisible="{Binding LoginFailed}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="Gray"
+                    FontSize="16"
+                    FontWeight="Normal" />
+                <progRing:ProgressRing
+                    IsActive="{Binding AttemptingToLogin}"
                     IsVisible="{Binding AttemptingToLogin}"
-                    Width="50" Height="50"
+                    Width="50"
+                    Height="50"
                     Foreground="{DynamicResource PrimaryHueLightBrush}" />
             </Panel>
         </StackPanel>
