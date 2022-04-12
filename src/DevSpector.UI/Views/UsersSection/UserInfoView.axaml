@@ -60,6 +60,7 @@
 					Classes="note"
 					Margin="0" />
 				<ComboBox
+					Margin="0 0 0 6"
 					Items="{Binding UserGroups}"
 					SelectedItem="{Binding SelectedUserGroup}">
 					<ComboBox.DataTemplates>
