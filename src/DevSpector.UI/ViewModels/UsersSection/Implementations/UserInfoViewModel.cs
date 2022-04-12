@@ -56,11 +56,12 @@ namespace DevSpector.Desktop.UI.ViewModels
                         User selected = _usersViewModel.SelectedItem;
                         if (selected == null) return false;
 
-                        return Login != selected.Login ||
-                            FirstName != selected.FirstName ||
-                            Surname != selected.Surname ||
-                            Patronymic != selected.Patronymic ||
-                            SelectedUserGroup?.Name != selected.Group;
+                        if (Login != selected.Login) return true;
+                        if (FirstName != selected.FirstName) return true;
+                        if (Patronymic != selected.Patronymic) return true;
+                        if (SelectedUserGroup?.Name != selected.Group) return true;
+
+                        return false;
                     }
                 )
             );
@@ -124,7 +125,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             FirstName = target?.FirstName;
             Surname = target?.Surname;
             Patronymic = target?.Patronymic;
-            SelectedUserGroup = UserGroups.FirstOrDefault(ug => ug.Name == target?.Group);
+            if (UserGroups != null)
+                SelectedUserGroup = UserGroups.FirstOrDefault(ug => ug.Name == target?.Group);
         }
 
         public async Task LoadUserGroupsAsync()
