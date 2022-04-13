@@ -227,6 +227,11 @@ namespace DevSpector.Desktop.UI
                 freeIPListVM.UpdateList();
             };
 
+            appEvents.IPRangeUpdated += () => {
+                devicesListVM.UpdateList();
+                freeIPListVM.UpdateList();
+            };
+
             appEvents.Logout += () => {
                 mainView.Hide();
                 authView.Show();

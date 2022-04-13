@@ -32,5 +32,7 @@ namespace DevSpector.Desktop.Service
         Task AddIPAsync(string inventoryNumber, string ip);
 
         Task RemoveIPAsync(string inventoryNumber, string ip);
+
+        Task UpdateIPRangeAsync(int mask, string networkAddress);
     }
 }
