@@ -77,5 +77,10 @@ namespace DevSpector.Desktop.Service
 
         public void RaiseOnIPAddressAdded(Device device, string ip) =>
             IPAddressAdded?.Invoke(device, ip);
+
+        public event Action IPRangeUpdated;
+
+        public void RaiseIPRangeUpdated() =>
+            IPRangeUpdated?.Invoke();
     }
 }

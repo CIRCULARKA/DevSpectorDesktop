@@ -4,6 +4,7 @@ using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Providers;
+using DevSpector.SDK.Authorization;
 
 namespace DevSpector.Desktop.Service
 {
@@ -13,16 +14,21 @@ namespace DevSpector.Desktop.Service
 
         private readonly IUsersProvider _usersProvider;
 
+        private readonly IAuthorizationManager _authManager;
+
         private readonly IApplicationEvents _appEvents;
 
         public UsersStorage(
             IUsersProvider provider,
             IUsersEditor editor,
+            IAuthorizationManager authManager,
             IApplicationEvents appEvents
         )
         {
             _usersEditor = editor;
             _usersProvider = provider;
+            _authManager = authManager;
+
             _appEvents = appEvents;
         }
 
@@ -78,6 +84,26 @@ namespace DevSpector.Desktop.Service
             );
 
             _appEvents.RaiseUserRemoved();
+        }
+
+        public async Task<string> RevokeAccessKeyAsync(string login, string password)
+        {
+            string result = null;
+
+            await ReThrowExceptionFrom(
+                async () => result = await _authManager.RevokeKeyAsync(login, password),
+                "Не удалось обновить ключ доступа"
+            );
+
+            return result;
+        }
+
+        public async Task ChangePasswordAsync(string login, string oldPassword, string newPassword)
+        {
+            await ReThrowExceptionFrom(
+                async () => await _authManager.ChangePasswordAsync(login, oldPassword, newPassword),
+                "Не удалось изменить пароль"
+            );
         }
     }
 }

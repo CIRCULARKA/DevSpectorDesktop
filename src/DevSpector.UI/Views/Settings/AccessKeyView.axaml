@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:aura="using:Aura.UI.Controls"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    x:Class="DevSpector.Desktop.UI.Views.AccessKeyView" >
+    <materialstyles:Card>
+        <aura:GroupBox>
+            <aura:GroupBox.Header>
+                <TextBlock Classes="Headline5" Text="Ключ доступа" />
+            </aura:GroupBox.Header>
+            <StackPanel>
+                <TextBlock
+                    Classes="note"
+                    Text="Ваш ключ доступа" />
+                <TextBox
+                    Classes="revealPasswordButton"
+                    PasswordChar="*"
+                    IsReadOnly="True"
+                    Text="{Binding CurrentAccessToken}" />
+                <TextBlock
+                    Classes="note"
+                    Text="Введите пароль" />
+                <TextBox
+                    Classes="revealPasswordButton"
+                    PasswordChar="*"
+                    Text="{Binding Password}" />
+                <Button
+                    Content="Получить новый ключ"
+                    Command="{Binding RevokeTokenCommand}" />
+                <TextBlock
+                    Classes="note"
+                    Margin="0 5 0 0"
+                    TextWrapping="Wrap"
+                    Text="* Вам придётся повторно пройти авторизацию после изменения ключа доступа" />
+            </StackPanel>
+        </aura:GroupBox>
+    </materialstyles:Card>
+</UserControl>

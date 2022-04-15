@@ -18,17 +18,22 @@ namespace DevSpector.Desktop.Service
 
         private readonly INetworkManager _networkManager;
 
+        private readonly IApplicationEvents _appEvents;
+
         public DevicesStorage(
             IDevicesEditor editor,
             IDevicesProvider devicesProvider,
             ILocationProvider locationProvider,
-            INetworkManager networkManager
+            INetworkManager networkManager,
+            IApplicationEvents appEvents
         )
         {
             _editor = editor;
             _devicesProvider = devicesProvider;
             _locationProvider = locationProvider;
             _networkManager = networkManager;
+
+            _appEvents = appEvents;
         }
 
         public async Task<List<Device>> GetDevicesAsync()
@@ -154,6 +159,16 @@ namespace DevSpector.Desktop.Service
                 async () => await _editor.RemoveIPAsync(inventoryNumber, ip),
                 "Не удалось удалить IP с устройства"
             );
+        }
+
+        public async Task UpdateIPRangeAsync(int mask, string networkAddress)
+        {
+            await ReThrowExceptionFrom(
+                async () => await _networkManager.GenerateIPRangeAsync(networkAddress, mask),
+                "Не удалось обновить диапазон IP-адресов"
+            );
+
+            _appEvents.RaiseIPRangeUpdated();
         }
     }
 }

@@ -54,6 +54,10 @@ namespace DevSpector.Desktop.Service
 
         void RaiseOnIPAddressDeleted(Device device, string ip);
 
+        event Action IPRangeUpdated;
+
+        void RaiseIPRangeUpdated();
+
         event Action<Device, string> IPAddressAdded;
 
         void RaiseOnIPAddressAdded(Device device, string ip);

@@ -37,8 +37,11 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<IMessagesBrokerViewModel>().To<MessagesBrokerViewModel>().InSingletonScope();
 
             Bind<ISettingsViewModel>().To<SettingsViewModel>().InSingletonScope();
+            Bind<IAccessKeyViewModel>().To<AccessKeyViewModel>().InSingletonScope();
 
             Bind<IFreeIPListViewModel>().To<FreeIPListViewModel>().InSingletonScope();
+            Bind<IIPRangeViewModel>().To<IPRangeViewModel>().InSingletonScope();
+            Bind<IPasswordViewModel>().To<PasswordViewModel>().InSingletonScope();
         }
 
         private void BindViews()
@@ -65,8 +68,11 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<MessagesBrokerView>().ToSelf();
 
             Bind<SettingsView>().ToSelf();
+            Bind<AccessKeyView>().ToSelf();
 
             Bind<FreeIPListView>().ToSelf();
+            Bind<IPRangeView>().ToSelf();
+            Bind<PasswordView>().ToSelf();
         }
     }
 }

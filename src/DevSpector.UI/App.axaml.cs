@@ -162,6 +162,8 @@ namespace DevSpector.Desktop.UI
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
             var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
+            var accessTokenVM = _kernel.Get<IAccessKeyViewModel>();
+            var passwordVM = _kernel.Get<IPasswordViewModel>();
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
@@ -175,6 +177,9 @@ namespace DevSpector.Desktop.UI
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
+                accessTokenVM.DisplayUserAccessKey(u);
+                accessTokenVM.EraisePasswordInput();
+                passwordVM.EraisePasswordInputs();
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
@@ -222,6 +227,11 @@ namespace DevSpector.Desktop.UI
 
             appEvents.IPAddressDeleted += (d, ip) => {
                 devicesListVM.RemoveIPFromSelectedDevice(ip);
+                freeIPListVM.UpdateList();
+            };
+
+            appEvents.IPRangeUpdated += () => {
+                devicesListVM.UpdateList();
                 freeIPListVM.UpdateList();
             };
 

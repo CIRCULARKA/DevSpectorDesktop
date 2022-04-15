@@ -25,5 +25,10 @@ namespace DevSpector.Desktop.Service
 
             _events.RaiseUserAuthorized(user);
         }
+
+        public void EndSession()
+        {
+            _events.RaiseLogout();
+        }
     }
 }

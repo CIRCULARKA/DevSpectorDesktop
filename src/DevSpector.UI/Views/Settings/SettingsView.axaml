@@ -1,56 +1,20 @@
 <UserControl xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:aura="using:Aura.UI.Controls"
-    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
     x:Class="DevSpector.Desktop.UI.Views.SettingsView" >
     <Grid ColumnDefinitions="*,*,*">
         <StackPanel>
-            <materialstyles:Card>
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="Изменение пароля" />
-                    </aura:GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Старый пароль" Classes="note" />
-                        <TextBox Text="{Binding CurrentPassword}" PasswordChar="*" />
-                        <TextBlock Text="Новый пароль" Classes="note" />
-                        <TextBox Text="{Binding NewPassword}" />
-                        <Button Content="Применить" />
-                    </StackPanel>
-                </aura:GroupBox>
-            </materialstyles:Card>
+            <ContentControl
+                Content="{Binding PasswordView}" />
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <materialstyles:Card
-                Margin="15 0 0 0">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="Ключ доступа" />
-                    </aura:GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Ваш ключ доступа" Classes="note" />
-                        <TextBox IsReadOnly="True" Text="{Binding CurrentAccessToken}" />
-                        <Button Content="Сгенерировать повторно" />
-                    </StackPanel>
-                </aura:GroupBox>
-            </materialstyles:Card>
+        <StackPanel
+            Grid.Column="1"
+            Margin="15 0 0 0">
+            <ContentControl
+                Content="{Binding AccessKeyView}" />
         </StackPanel>
         <StackPanel Grid.Column="2">
-            <materialstyles:Card
-                Margin="15 0 0 0">
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="IP-адреса" />
-                    </aura:GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Маска" Classes="note" />
-                        <TextBox Text="{Binding Mask}" />
-                        <TextBlock Text="Сетевой адрес" Classes="note" />
-                        <TextBox Text="{Binding NetworkAddress}" />
-                        <Button Content="Сгенерировать диапазон" />
-                    </StackPanel>
-                </aura:GroupBox>
-            </materialstyles:Card>
+            <ContentControl
+                Content="{Binding IPRangeView}" />
         </StackPanel>
     </Grid>
 </UserControl>

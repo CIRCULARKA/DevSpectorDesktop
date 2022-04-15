@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:DevSpector.Desktop.UI.Converters"
+    xmlns:aura="using:Aura.UI.Controls"
+    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    x:Class="DevSpector.Desktop.UI.Views.IPRangeView" >
+    <UserControl.Resources>
+        <converters:IntConverter x:Key="intConverter" />
+    </UserControl.Resources>
+    <materialstyles:Card
+        Margin="15 0 0 0">
+        <aura:GroupBox>
+            <aura:GroupBox.Header>
+                <TextBlock Classes="Headline5" Text="IP-адреса" />
+            </aura:GroupBox.Header>
+            <StackPanel>
+                <TextBlock Text="Маска" Classes="note" />
+                <TextBox Text="{Binding Mask, Converter={StaticResource intConverter}}" />
+                <TextBlock Text="Сетевой адрес" Classes="note" />
+                <TextBox Text="{Binding NetworkAddress}" />
+                <Button
+                    Content="Обновить диапазон"
+                    Command="{Binding GenerateIPRangeCommand}" />
+            </StackPanel>
+        </aura:GroupBox>
+    </materialstyles:Card>
+</UserControl>
