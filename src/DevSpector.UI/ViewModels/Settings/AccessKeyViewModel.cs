@@ -54,6 +54,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             CurrentAccessToken = user?.AccessToken;
         }
 
+        public void EraisePasswordInput()
+        {
+            Password = string.Empty;
+        }
+
         private async Task RevokeAccessTokenAsync()
         {
             try

@@ -13,5 +13,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         ReactiveCommand<Unit, Unit> RevokeTokenCommand { get; }
 
         void DisplayUserAccessKey(User user);
+
+        void EraisePasswordInput();
     }
 }

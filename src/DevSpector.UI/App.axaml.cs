@@ -177,6 +177,7 @@ namespace DevSpector.Desktop.UI
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
                 accessTokenVM.DisplayUserAccessKey(u);
+                accessTokenVM.EraisePasswordInput();
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
