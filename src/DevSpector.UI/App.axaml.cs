@@ -122,6 +122,8 @@ namespace DevSpector.Desktop.UI
                 To<DevicesStorage>().InSingletonScope();
             _kernel.Bind<IUsersStorage>().
                 To<UsersStorage>().InSingletonScope();
+            _kernel.Bind<IUserRights>().
+                To<UserRights>().InSingletonScope();
         }
 
         private void UseLanguage(string langCode)
