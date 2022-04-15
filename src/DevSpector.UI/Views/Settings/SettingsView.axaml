@@ -1,24 +1,10 @@
 <UserControl xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:aura="using:Aura.UI.Controls"
-    xmlns:materialstyles="clr-namespace:Material.Styles;assembly=Material.Styles"
     x:Class="DevSpector.Desktop.UI.Views.SettingsView" >
     <Grid ColumnDefinitions="*,*,*">
         <StackPanel>
-            <materialstyles:Card>
-                <aura:GroupBox>
-                    <aura:GroupBox.Header>
-                        <TextBlock Classes="Headline5" Text="Изменение пароля" />
-                    </aura:GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Старый пароль" Classes="note" />
-                        <TextBox Text="{Binding CurrentPassword}" PasswordChar="*" />
-                        <TextBlock Text="Новый пароль" Classes="note" />
-                        <TextBox Text="{Binding NewPassword}" />
-                        <Button Content="Применить" />
-                    </StackPanel>
-                </aura:GroupBox>
-            </materialstyles:Card>
+            <ContentControl
+                Content="{Binding PasswordView}" />
         </StackPanel>
         <StackPanel
             Grid.Column="1"

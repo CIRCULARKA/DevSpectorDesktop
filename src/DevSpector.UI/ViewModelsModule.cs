@@ -41,6 +41,7 @@ namespace DevSpector.Desktop.Service.DependencyInjection
 
             Bind<IFreeIPListViewModel>().To<FreeIPListViewModel>().InSingletonScope();
             Bind<IIPRangeViewModel>().To<IPRangeViewModel>().InSingletonScope();
+            Bind<IPasswordViewModel>().To<PasswordViewModel>().InSingletonScope();
         }
 
         private void BindViews()
@@ -71,6 +72,7 @@ namespace DevSpector.Desktop.Service.DependencyInjection
 
             Bind<FreeIPListView>().ToSelf();
             Bind<IPRangeView>().ToSelf();
+            Bind<PasswordView>().ToSelf();
         }
     }
 }

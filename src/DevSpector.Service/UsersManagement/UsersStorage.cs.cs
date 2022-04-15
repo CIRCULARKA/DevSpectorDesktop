@@ -97,5 +97,13 @@ namespace DevSpector.Desktop.Service
 
             return result;
         }
+
+        public async Task ChangePasswordAsync(string login, string oldPassword, string newPassword)
+        {
+            await ReThrowExceptionFrom(
+                async () => await _authManager.ChangePasswordAsync(login, oldPassword, newPassword),
+                "Не удалось изменить пароль"
+            );
+        }
     }
 }

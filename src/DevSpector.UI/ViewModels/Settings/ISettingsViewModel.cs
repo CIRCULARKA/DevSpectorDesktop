@@ -4,8 +4,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface ISettingsViewModel
     {
-        UserControl AccessKeyView { get; set; }
+        UserControl AccessKeyView { get; }
 
-        UserControl IPRangeView { get; set; }
+        UserControl IPRangeView { get; }
+
+        UserControl PasswordView { get; }
     }
 }

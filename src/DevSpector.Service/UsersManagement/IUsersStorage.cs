@@ -18,5 +18,7 @@ namespace DevSpector.Desktop.Service
         Task RemoveUserAsync(string login);
 
         Task<string> RevokeAccessKeyAsync(string login, string password);
+
+        Task ChangePasswordAsync(string login, string oldPassword, string newPassword);
     }
 }

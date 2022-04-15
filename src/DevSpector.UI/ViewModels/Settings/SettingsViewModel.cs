@@ -7,15 +7,19 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         public SettingsViewModel(
             AccessKeyView accessKeyView,
-            IPRangeView ipRangeView
+            IPRangeView ipRangeView,
+            PasswordView passwordView
         )
         {
             AccessKeyView = accessKeyView;
             IPRangeView = ipRangeView;
+            PasswordView = passwordView;
         }
 
-        public UserControl AccessKeyView { get; set; }
+        public UserControl AccessKeyView { get; }
 
-        public UserControl IPRangeView { get; set; }
+        public UserControl IPRangeView { get; }
+
+        public UserControl PasswordView { get; }
     }
 }
