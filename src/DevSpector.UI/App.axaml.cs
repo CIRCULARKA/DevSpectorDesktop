@@ -144,6 +144,11 @@ namespace DevSpector.Desktop.UI
             var appEvents = _kernel.Get<IApplicationEvents>();
 
             //
+            // Get services
+            //
+            var userRights = _kernel.Get<UserRights>();
+
+            //
             // Get views
             //
             var mainView = _kernel.Get<MainView>();
@@ -176,6 +181,8 @@ namespace DevSpector.Desktop.UI
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
+                userRights.SetUser(u);
+
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
