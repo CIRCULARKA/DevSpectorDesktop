@@ -12,32 +12,35 @@
                     <TextBlock
                         Classes="Headline5"
                         Text="Устройства" />
-                    <!-- Remove button -->
-                    <Button
-                        Command="{Binding DeleteDeviceCommand}"
-                        Classes="Flat crudButton"
-                        HorizontalAlignment="Right">
-                        <Button.Content>
-                            <Viewbox Width="18" Height="18">
-                                <Canvas Width="24" Height="24">
-                                    <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                                </Canvas>
-                            </Viewbox>
-                        </Button.Content>
-                    </Button>
-                    <!-- Add button -->
-                    <Button
-                        Command="{Binding SwitchInputFieldsCommand}"
-                        Classes="Flat crudButton"
-                        HorizontalAlignment="Right">
-                        <Button.Content>
-                            <Viewbox Width="18" Height="18">
-                                <Canvas Width="24" Height="24">
-                                    <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                                </Canvas>
-                            </Viewbox>
-                        </Button.Content>
-                    </Button>
+                    <StackPanel
+                        IsVisible="{Binding CanEditDevices}"
+                        Orientation="Horizontal">
+                        <Button
+                            Command="{Binding DeleteDeviceCommand}"
+                            Classes="Flat crudButton"
+                            HorizontalAlignment="Right">
+                            <Button.Content>
+                                <Viewbox Width="18" Height="18">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Fill="Gray" Data="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>
+                        <!-- Add button -->
+                        <Button
+                            Command="{Binding SwitchInputFieldsCommand}"
+                            Classes="Flat crudButton"
+                            HorizontalAlignment="Right">
+                            <Button.Content>
+                                <Viewbox Width="18" Height="18">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Fill="Gray" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </aura:GroupBox.Header>
             <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">

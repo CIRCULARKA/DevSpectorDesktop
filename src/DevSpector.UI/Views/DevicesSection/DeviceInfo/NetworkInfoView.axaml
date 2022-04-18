@@ -11,6 +11,7 @@
 						<!-- <TextBlock Classes="Headline5" Text="{x:Static l:Messages.IPAddresses}" /> -->
 						<TextBlock Classes="Headline5" Text="IP-адреса" />
 						<Button
+							IsVisible="{Binding CanEditDevices}"
 							Classes="Flat crudButton"
 							Command="{Binding RemoveIPCommand}">
 							<Button.Content>
@@ -22,6 +23,7 @@
 							</Button.Content>
 						</Button>
 						<Button
+							IsVisible="{Binding CanEditDevices}"
 							Classes="Flat crudButton"
 							Command="{Binding SwitchFreeIPListCommand}">
 							<Button.Content>

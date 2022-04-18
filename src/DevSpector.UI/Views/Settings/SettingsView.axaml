@@ -14,6 +14,7 @@
         </StackPanel>
         <StackPanel Grid.Column="2">
             <ContentControl
+                IsVisible="{Binding CanUpdateIPRange}"
                 Content="{Binding IPRangeView}" />
         </StackPanel>
     </Grid>

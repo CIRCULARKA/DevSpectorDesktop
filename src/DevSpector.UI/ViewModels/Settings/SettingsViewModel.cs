@@ -1,15 +1,17 @@
 using Avalonia.Controls;
 using DevSpector.Desktop.UI.Views;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class SettingsViewModel : ISettingsViewModel
+    public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     {
         public SettingsViewModel(
             AccessKeyView accessKeyView,
             IPRangeView ipRangeView,
-            PasswordView passwordView
-        )
+            PasswordView passwordView,
+            IUserRights userRights
+        ) : base(userRights)
         {
             AccessKeyView = accessKeyView;
             IPRangeView = ipRangeView;

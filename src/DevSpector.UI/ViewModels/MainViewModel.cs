@@ -1,18 +1,23 @@
 using System.Collections.Generic;
 using Avalonia.Controls;
 using DevSpector.Desktop.UI.Views;
+using DevSpector.Desktop.Service;
+using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
+        private int _selectedIndex;
+
         public MainViewModel(
             DevicesMainView devicesMainView,
             UsersMainView usersMainView,
             SessionBrokerView sessionBrokerView,
             SettingsView settingsView,
-            MessagesBrokerView messagesView
-        )
+            MessagesBrokerView messagesView,
+            IUserRights userRights
+        ) : base(userRights)
         {
             DevicesMainView = devicesMainView;
             UsersMainView = usersMainView;
@@ -27,6 +32,12 @@ namespace DevSpector.Desktop.UI.ViewModels
             };
         }
 
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => this.RaiseAndSetIfChanged(ref _selectedIndex, value);
+        }
+
         public List<string> Messages { get; }
 
         public UserControl DevicesMainView { get; }
@@ -38,5 +49,10 @@ namespace DevSpector.Desktop.UI.ViewModels
         public UserControl SettingsView { get; }
 
         public UserControl MessagesBrokerView { get; }
+
+        public void SelectDefaultView()
+        {
+            SelectedIndex = 0;
+        }
     }
 }

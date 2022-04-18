@@ -19,8 +19,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public IPRangeViewModel(
             IDevicesStorage devicesStorage,
-            IMessagesBroker messagesBroker
-        )
+            IMessagesBroker messagesBroker,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _storage = devicesStorage;
 

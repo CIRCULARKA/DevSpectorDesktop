@@ -24,8 +24,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         public SoftwareInfoViewModel(
             IDevicesStorage storage,
             IDevicesListViewModel devicesListViewModel,
-            IMessagesBroker messagesBroker
-        )
+            IMessagesBroker messagesBroker,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _storage = storage;
             _devicesListViewModel = devicesListViewModel;

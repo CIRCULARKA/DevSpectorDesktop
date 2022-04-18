@@ -7,6 +7,9 @@
                 <Button Classes="Flat"
                     Content="{Binding Path=Title, RelativeSource={RelativeSource FindAncestor, AncestorType=shared:ModernMenuItem}}"
                     Margin="0 10 0 0" />
+                <!-- <ContentControl
+                    Margin="0 10 0 0"
+                    Content="{Binding Path=Title, RelativeSource={RelativeSource FindAncestor, AncestorType=shared:ModernMenuItem}}" /> -->
             </ControlTemplate>
         </Setter>
     </Style>

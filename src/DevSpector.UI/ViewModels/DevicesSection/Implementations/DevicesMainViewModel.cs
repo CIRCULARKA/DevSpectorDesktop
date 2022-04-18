@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Ninject;
 using DevSpector.Desktop.UI.Views;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -12,8 +13,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             NetworkInfoView networkInfo,
             LocationInfoView locationInfo,
             SoftwareInfoView softwareInfo,
-            SearchView search
-        )
+            SearchView search,
+            IUserRights userRights
+        ) : base(userRights)
         {
             DevicesList = devicesList;
             SoftwareInfo = softwareInfo;

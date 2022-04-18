@@ -24,7 +24,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
-        public AuthorizationViewModel(IUserSession session, IAuthorizationManager authManager)
+        public AuthorizationViewModel(
+            IUserSession session,
+            IAuthorizationManager authManager,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _authManager = authManager;
             _session = session;
@@ -73,7 +77,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                 LoginFailed = false;
                 AttemptingToLogin = true;
 
-               var user = await _authManager.TryToSignInAsync(Login, Password);
+            //    var user = await _authManager.TryToSignInAsync(Login, Password);
+               var user = await _authManager.TryToSignInAsync("root", "123Abc!");
 
                 _session.StartSession(user);
             }

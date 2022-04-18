@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ReactiveUI;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -17,7 +18,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         protected string _noItemsMessage;
 
-        protected ListViewModelBase()
+        protected ListViewModelBase(
+            IUserRights userRights
+        ) : base(userRights)
         {
             ItemsToDisplay = new ObservableCollection<TModel>();
             ItemsCache = new List<TModel>();
