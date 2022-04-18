@@ -21,8 +21,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         public PasswordViewModel(
             IUsersStorage storage,
             IUserSession session,
-            IMessagesBroker messagesBroker
-        )
+            IMessagesBroker messagesBroker,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _storage = storage;
 

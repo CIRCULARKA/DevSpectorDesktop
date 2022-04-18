@@ -37,8 +37,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         public UserInfoViewModel(
             IUsersStorage storage,
             IMessagesBroker messagesBroker,
-            IUsersListViewModel usersListViewModel
-        )
+            IUsersListViewModel usersListViewModel,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _storage = storage;
             _messagesBroker = messagesBroker;

@@ -28,8 +28,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListViewModel,
             FreeIPListView freeIPListView,
-            IApplicationEvents appEvents
-        )
+            IApplicationEvents appEvents,
+            IUserRights userRights
+        ) : base(userRights)
         {
             FreeIPListView = freeIPListView;
 

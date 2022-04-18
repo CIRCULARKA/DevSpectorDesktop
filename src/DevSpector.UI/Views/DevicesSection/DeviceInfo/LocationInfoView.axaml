@@ -13,6 +13,7 @@
 						Classes="Headline5"
 						Text="Расположение" />
 					<Button
+						IsVisible="{Binding CanEditDevices}"
 						Classes="Flat crudButton"
 						Command="{Binding ApplyChangesCommand}">
 						<Button.Content>

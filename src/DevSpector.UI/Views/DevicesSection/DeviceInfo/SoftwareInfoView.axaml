@@ -12,12 +12,14 @@
                         Classes="Headline5"
                         Text="ПО" />
                     <Button
+						IsVisible="{Binding CanEditDevices}"
                         Command="{Binding RemoveSoftwareCommand}"
                         Width="33"
                         HorizontalAlignment="Right"
                         Content="{StaticResource circleMinusIcon}"
                         Classes="Flat" />
                     <Button
+						IsVisible="{Binding CanEditDevices}"
                         Command="{Binding SwitchInputFieldsCommand}"
                         Width="33"
                         HorizontalAlignment="Right"

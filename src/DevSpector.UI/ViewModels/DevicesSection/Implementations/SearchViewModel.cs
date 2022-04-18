@@ -19,8 +19,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public SearchViewModel(
             IApplicationEvents events,
-            IDevicesListViewModel devicesListViewModel
-        )
+            IDevicesListViewModel devicesListViewModel,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _events = events;
             _devicesListViewModel = devicesListViewModel;

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Ninject;
 using Avalonia;
@@ -158,19 +159,47 @@ namespace DevSpector.Desktop.UI
             // Get VM's
             //
             // VM stands for View Model
+            var viewModels = new List<object>();
+
             var authVM = _kernel.Get<IAuthorizationViewModel>();
+            viewModels.Add(authVM);
             var commonInfoVM = _kernel.Get<ICommonInfoViewModel>();
+            viewModels.Add(commonInfoVM);
             var locationInfoVM = _kernel.Get<ILocationInfoViewModel>();
+            viewModels.Add(locationInfoVM);
             var softwareInfoVM = _kernel.Get<ISoftwareInfoViewModel>();
+            viewModels.Add(softwareInfoVM);
             var networkInfoVM = _kernel.Get<INetworkInfoViewModel>();
+            viewModels.Add(networkInfoVM);
             var devicesListVM = _kernel.Get<IDevicesListViewModel>();
+            viewModels.Add(devicesListVM);
             var usersListVM = _kernel.Get<IUsersListViewModel>();
+            viewModels.Add(usersListVM);
             var userInfoVM = _kernel.Get<IUserInfoViewModel>();
+            viewModels.Add(userInfoVM);
             var sessionBrokerVM = _kernel.Get<ISessionBrokerViewModel>();
+            viewModels.Add(sessionBrokerVM);
             var messagesBrokerVM = _kernel.Get<IMessagesBrokerViewModel>();
+            viewModels.Add(messagesBrokerVM);
             var freeIPListVM = _kernel.Get<IFreeIPListViewModel>();
+            viewModels.Add(freeIPListVM);
             var accessTokenVM = _kernel.Get<IAccessKeyViewModel>();
+            viewModels.Add(accessTokenVM);
             var passwordVM = _kernel.Get<IPasswordViewModel>();
+            viewModels.Add(passwordVM);
+            var mainMenuVM = _kernel.Get<IMainMenuViewModel>();
+            viewModels.Add(mainMenuVM);
+            var devicesMainVM = _kernel.Get<IDevicesMainViewModel>();
+            viewModels.Add(devicesMainVM);
+            var usersMainVM = _kernel.Get<IUsersMainViewModel>();
+            viewModels.Add(usersMainVM);
+            var mainVM = _kernel.Get<IMainViewModel>();
+            viewModels.Add(mainVM);
+            var settingsVM = _kernel.Get<ISettingsViewModel>();
+            viewModels.Add(settingsVM);
+
+            foreach (var vm in viewModels)
+                appEvents.UserAuthorized += (vm as ViewModelBase).UpdateUserRights;
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
@@ -181,14 +210,13 @@ namespace DevSpector.Desktop.UI
             appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
-                userRights.SetUser(u);
-
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
 
                 sessionBrokerVM.UpdateLoggedUserInfo(u);
                 accessTokenVM.DisplayUserAccessKey(u);
                 accessTokenVM.EraisePasswordInput();
                 passwordVM.EraisePasswordInputs();
+                messagesBrokerVM.ClearMessages();
 
                 locationInfoVM.LoadHousingsAsync();
                 commonInfoVM.LoadDeviceTypesAsync();
@@ -245,6 +273,7 @@ namespace DevSpector.Desktop.UI
             };
 
             appEvents.Logout += () => {
+                mainVM.SelectDefaultView();
                 mainView.Hide();
                 authView.Show();
                 authVM.ClearCredentials();

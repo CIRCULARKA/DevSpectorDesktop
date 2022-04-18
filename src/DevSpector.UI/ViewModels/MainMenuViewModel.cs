@@ -2,6 +2,7 @@ using System.Reactive;
 using Avalonia.Controls;
 using ReactiveUI;
 using DevSpector.Desktop.UI.Views;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -10,8 +11,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         private UserControl _currentContent;
 
         public MainMenuViewModel(
-            UsersMainView usersMainView
-        )
+            UsersMainView usersMainView,
+            IUserRights userRights
+        ) : base(userRights)
         {
             UsersMainView = usersMainView;
 

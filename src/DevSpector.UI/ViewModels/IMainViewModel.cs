@@ -1,5 +1,8 @@
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public interface IMainViewModel { }
+    public interface IMainViewModel
+    {
+        void SelectDefaultView();
+    }
 }

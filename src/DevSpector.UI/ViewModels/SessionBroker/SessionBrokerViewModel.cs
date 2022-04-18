@@ -14,8 +14,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         private readonly IUserSession _session;
 
         public SessionBrokerViewModel(
-            IUserSession session
-        )
+            IUserSession session,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _session = session;
 

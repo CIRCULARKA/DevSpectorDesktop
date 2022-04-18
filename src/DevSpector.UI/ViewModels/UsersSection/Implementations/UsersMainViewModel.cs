@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using DevSpector.Desktop.UI.Views;
+using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -8,8 +9,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         public UsersMainViewModel(
             UsersListView usersList,
             UserInfoView userInfo,
-            SearchView search
-        )
+            SearchView search,
+            IUserRights userRights
+        ) : base(userRights)
         {
             UsersList = usersList;
             UserInfo = userInfo;

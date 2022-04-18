@@ -34,8 +34,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             IUsersStorage storage,
             IApplicationEvents appEvents,
             IUserSession session,
-            IMessagesBroker messagesBroker
-        )
+            IMessagesBroker messagesBroker,
+            IUserRights userRights
+        ) : base(userRights)
         {
             _storage = storage;
             _messagesBroker = messagesBroker;

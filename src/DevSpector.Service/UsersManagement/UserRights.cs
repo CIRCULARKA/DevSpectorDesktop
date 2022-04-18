@@ -10,6 +10,8 @@ namespace DevSpector.Desktop.Service
             if (user == null)
                 throw new ArgumentNullException("User must be provided in order to define his rights");
             User = user;
+
+            DefineRights();
         }
 
         public User User { get; private set; }
