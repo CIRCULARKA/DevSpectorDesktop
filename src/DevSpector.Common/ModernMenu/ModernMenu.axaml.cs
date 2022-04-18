@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 
 namespace DevSpector.Desktop.UI.Views.Shared
 {
@@ -69,9 +68,6 @@ namespace DevSpector.Desktop.UI.Views.Shared
             _minimizedMenuIcon = Application.Current.FindResource("minimizedMenuIcon") as Path;
             _maximizedMenuIcon = Application.Current.FindResource("maximizedMenuIcon") as Path;
 
-            // _itemsListBox = GetTemplateControl<ListBox>(e, "PART_itemsList");
-            // SubscribeMenuItemsClickEvent();
-
             ToggleMenuSize();
 
             foreach (var item in _allMenuItems)
@@ -129,24 +125,8 @@ namespace DevSpector.Desktop.UI.Views.Shared
             SelectedIndex = _selectedItem.Index;
         }
 
-        // private void SelectIndex()
-        // {
-        //     SelectedIndex = 0;
-
-        //     var temp = _itemsListBox.SelectedIndex;
-        //     if (_itemsListBox.SelectedItem == null) return;
-
-        //     _selectedItem = (_itemsListBox.SelectedItem as ModernMenuItem);
-
-        //     SelectedIndex = _selectedItem.Index;
-        // }
-
         private void SubscribeMenuItemsClickEvent()
         {
-            // _itemsListBox.PropertyChanged += (sender, e) => {
-            //     SelectIndex();
-            // };
-
             foreach (var button in _allMenuItems)
                 button.Click += SelectIndex;
         }
