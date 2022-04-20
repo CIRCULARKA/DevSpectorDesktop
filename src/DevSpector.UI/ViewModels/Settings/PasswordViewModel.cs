@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.Authorization;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -12,23 +13,22 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _newPassword;
 
-        private readonly IUsersStorage _storage;
-
         private readonly IUserSession _session;
 
         private readonly IMessagesBroker _messagesBroker;
 
+        private readonly IAuthorizationManager _authManager;
+
         public PasswordViewModel(
-            IUsersStorage storage,
             IUserSession session,
+            IAuthorizationManager authManager,
             IMessagesBroker messagesBroker,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
-
             _session = session;
             _messagesBroker = messagesBroker;
+            _authManager = authManager;
 
             ChangePasswordCommand = ReactiveCommand.CreateFromTask(
                 ChangePasswordAsync,
@@ -66,7 +66,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.ChangePasswordAsync(_session.Login, CurrentPassword, NewPassword);
+                await _authManager.ChangePasswordAsync(_session.Login, CurrentPassword, NewPassword);
 
                 _messagesBroker.NotifyUser("Ваш пароль успешно обновлён");
 

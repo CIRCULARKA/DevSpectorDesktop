@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
+using DevSpector.SDK.Providers;
 using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -26,23 +28,28 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
-        private readonly IUsersStorage _storage;
-
         private readonly IMessagesBroker _messagesBroker;
 
+        private readonly IUsersEditor _usersEditor;
+
+        private readonly IUsersProvider _usersProvider;
+
         public UsersListViewModel(
-            IUsersStorage storage,
             IApplicationEvents appEvents,
             IUserSession session,
             IMessagesBroker messagesBroker,
-            IUserRights userRights
+            IUserRights userRights,
+            IUsersEditor usersEditor,
+            IUsersProvider usersProvider
         ) : base(userRights)
         {
-            _storage = storage;
             _messagesBroker = messagesBroker;
 
             _appEvents = appEvents;
             _session = session;
+
+            _usersEditor = usersEditor;
+            _usersProvider = usersProvider;
 
             AddUserCommand = ReactiveCommand.CreateFromTask(
                 AddUserAsync,
@@ -135,7 +142,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                UserGroups = await _storage.GetUserGroupsAsync();
+                UserGroups = await _usersProvider.GetUserGroupsAsync();
                 SelectedUserGroup = UserGroups.FirstOrDefault();
             }
             catch (Exception e)
@@ -176,7 +183,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _storage.GetUsersAsync();
+            ItemsCache = await _usersProvider.GetUsersAsync();
             ItemsToDisplay.Clear();
             foreach (var user in ItemsCache)
                 ItemsToDisplay.Add(user);
@@ -186,7 +193,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.AddUserAsync(new UserToCreate {
+                await _usersEditor.CreateUserAsync(new UserToCreate {
                     Login = Login,
                     Password = Password,
                     GroupID = SelectedUserGroup.ID
@@ -206,7 +213,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.RemoveUserAsync(SelectedItem.Login);
+                await _usersEditor.DeleteUserAsync(SelectedItem.Login);
 
                 _messagesBroker.NotifyUser($"Пользователь \"{SelectedItem.Login}\" удалён");
 
