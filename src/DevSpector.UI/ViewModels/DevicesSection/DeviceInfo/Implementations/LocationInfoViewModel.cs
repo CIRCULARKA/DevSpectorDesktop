@@ -34,14 +34,9 @@ namespace DevSpector.Desktop.UI.ViewModels
         private readonly IMessagesBroker _messagesBroker;
 
         public LocationInfoViewModel(
-<<<<<<< HEAD
             ApplicationEvents appEvents,
-            IDevicesStorage storage,
-=======
-            IApplicationEvents appEvents,
             IDevicesEditor devicesEditor,
             ILocationProvider locationProvider,
->>>>>>> 3ff2313073b30c8e5f328d758efbca0e7f8e700d
             IDevicesListViewModel devicesListViewModel,
             IMessagesBroker messagesBroker,
             IUserRights userRights
