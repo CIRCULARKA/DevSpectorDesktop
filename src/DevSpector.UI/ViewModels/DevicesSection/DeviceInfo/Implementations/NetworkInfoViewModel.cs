@@ -1,11 +1,11 @@
 using System;
 using System.Reactive;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
+using DevSpector.SDK.Networking;
 using DevSpector.Desktop.Service;
 using DevSpector.Desktop.UI.Views;
 
@@ -15,7 +15,9 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         private bool _canAddIP;
 
-        private readonly IDevicesStorage _storage;
+        private readonly INetworkManager _networkManager;
+
+        private readonly IDevicesEditor _devicesEditor;
 
         private readonly IMessagesBroker _messagesBroker;
 
@@ -24,19 +26,27 @@ namespace DevSpector.Desktop.UI.ViewModels
         private readonly ApplicationEvents _appEvents;
 
         public NetworkInfoViewModel(
-            IDevicesStorage storage,
+            INetworkManager networkManager,
+            IDevicesEditor devicesEditor,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListViewModel,
+<<<<<<< HEAD
             FreeIPListView freeIPListView,
             ApplicationEvents appEvents,
             IUserRights userRights
+=======
+            IApplicationEvents appEvents,
+            IUserRights userRights,
+            FreeIPListView freeIPListView
+>>>>>>> 3ff2313073b30c8e5f328d758efbca0e7f8e700d
         ) : base(userRights)
         {
             FreeIPListView = freeIPListView;
 
             _appEvents = appEvents;
 
-            _storage = storage;
+            _networkManager = networkManager;
+            _devicesEditor = devicesEditor;
             _messagesBroker = messagesBroker;
             _devicesListViewModel = devicesListViewModel;
 
@@ -95,7 +105,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.RemoveIPAsync(selectedDevice.InventoryNumber, SelectedItem);
+                await _devicesEditor.RemoveIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 _messagesBroker.NotifyUser($"IP-адрес \"{SelectedItem}\" удалён у устройства \"{selectedDevice.InventoryNumber}\"");
 

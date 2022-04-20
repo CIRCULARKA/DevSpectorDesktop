@@ -1,9 +1,10 @@
 using System;
 using System.Reactive;
 using System.Threading.Tasks;
-using ReactiveUI;
 using Avalonia.Data;
+using ReactiveUI;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.Networking;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -13,19 +14,18 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _networkAddress;
 
-        private readonly IDevicesStorage _storage;
-
         private readonly IMessagesBroker _messagesBroker;
 
+        private readonly INetworkManager _networkManager;
+
         public IPRangeViewModel(
-            IDevicesStorage devicesStorage,
             IMessagesBroker messagesBroker,
+            INetworkManager networkManager,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = devicesStorage;
-
             _messagesBroker = messagesBroker;
+            _networkManager = networkManager;
 
             GenerateIPRangeCommand = ReactiveCommand.CreateFromTask(
                 UpdateIPRangeAsync,
@@ -73,7 +73,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.UpdateIPRangeAsync(Mask, NetworkAddress);
+                await _networkManager.GenerateIPRangeAsync(NetworkAddress, Mask);
 
                 _messagesBroker.NotifyUser("Диапазон IP-адресов успешно обновлён");
             }

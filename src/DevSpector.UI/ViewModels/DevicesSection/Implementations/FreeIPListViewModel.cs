@@ -4,31 +4,37 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DevSpector.Desktop.Service;
-using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
+using DevSpector.SDK.Networking;
+using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
     public class FreeIPListViewModel : ListViewModelBase<string>, IFreeIPListViewModel
     {
-        private readonly IDevicesStorage _storage;
-
         private readonly IMessagesBroker _messagesBroker;
+
+        private readonly IDevicesEditor _devicesEditor;
+
+        private readonly INetworkManager _networkManager;
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
         private readonly ApplicationEvents _appEvents;
 
         public FreeIPListViewModel(
-            IDevicesStorage storage,
             IMessagesBroker messagesBroker,
+            INetworkManager networkManager,
+            IDevicesEditor devicesEditor,
             IDevicesListViewModel devicesListViewModel,
             ApplicationEvents appEvents,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
             _messagesBroker = messagesBroker;
+            _networkManager = networkManager;
+            _devicesEditor = devicesEditor;
             _devicesListViewModel = devicesListViewModel;
             _appEvents = appEvents;
 
@@ -58,7 +64,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                List<string> updatedList = await _storage.GetFreeIPAsync();
+                List<string> updatedList = await _networkManager.GetFreeIPAsync();
 
                 await Task.Run(() => {
                     ItemsCache.Clear();
@@ -82,7 +88,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.AddIPAsync(selectedDevice.InventoryNumber, SelectedItem);
+                await _devicesEditor.AssignIPAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 _messagesBroker.NotifyUser(
                     $"IP-адрес \"{SelectedItem}\" был добавлен к устройству \"{selectedDevice.InventoryNumber}\""

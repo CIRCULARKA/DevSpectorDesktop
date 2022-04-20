@@ -119,10 +119,6 @@ namespace DevSpector.Desktop.UI
         {
             _kernel.Bind<IMessagesBroker>().
                 To<MessagesBroker>().InSingletonScope();
-            _kernel.Bind<IDevicesStorage>().
-                To<DevicesStorage>().InSingletonScope();
-            _kernel.Bind<IUsersStorage>().
-                To<UsersStorage>().InSingletonScope();
             _kernel.Bind<IUserRights>().
                 To<UserRights>().InSingletonScope();
         }

@@ -4,6 +4,8 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ReactiveUI;
+using DevSpector.SDK.Providers;
+using DevSpector.SDK.Editors;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.Desktop.Service;
@@ -22,7 +24,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private DeviceType _selectedDeviceType;
 
-        private readonly IDevicesStorage _storage;
+        private readonly IDevicesProvider _devicesProvider;
+
+        private readonly IDevicesEditor _devicesEditor;
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
@@ -31,14 +35,16 @@ namespace DevSpector.Desktop.UI.ViewModels
         private readonly ApplicationEvents _appEvents;
 
         public CommonInfoViewModel(
-            IDevicesStorage storage,
+            IDevicesProvider devicesProvider,
+            IDevicesEditor devicesEditor,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListVM,
             ApplicationEvents appEvents,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
+            _devicesProvider = devicesProvider;
+            _devicesEditor = devicesEditor;
             _devicesListViewModel = devicesListVM;
 
             _messagesBroker = messagesBroker;
@@ -103,7 +109,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                DeviceTypes = await _storage.GetDevicesTypesAsync();
+                DeviceTypes = await _devicesProvider.GetDeviceTypesAsync();
                 SelectedDeviceType = _deviceTypes.FirstOrDefault();
             }
             catch (Exception e)
@@ -139,7 +145,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 string newNetworkName = selectedDevice.NetworkName == NetworkName ?
                     null : NetworkName;
 
-                await _storage.UpdateDeviceAsync(
+                await _devicesEditor.UpdateDeviceAsync(
                     selectedDevice.InventoryNumber,
                     new DeviceToCreate {
                         InventoryNumber = newInventoryNumber,

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using DevSpector.SDK.Models;
 using DevSpector.Desktop.Service;
+using DevSpector.SDK.Authorization;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -13,23 +14,22 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _password;
 
-        private readonly IUsersStorage _storage;
-
         private readonly IUserSession _session;
 
         private readonly IMessagesBroker _messagesBroker;
 
+        private readonly IAuthorizationManager _authManager;
+
         public AccessKeyViewModel(
-            IUsersStorage storage,
             IUserSession session,
+            IAuthorizationManager authManager,
             IMessagesBroker messagesBroker,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
-
             _session = session;
             _messagesBroker = messagesBroker;
+            _authManager = authManager;
 
             RevokeTokenCommand = ReactiveCommand.CreateFromTask(
                 RevokeAccessTokenAsync
@@ -64,7 +64,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                string newToken = await _storage.RevokeAccessKeyAsync(_session.Login, Password);
+                string newToken = await _authManager.RevokeKeyAsync(_session.Login, Password);
 
                 CurrentAccessToken = newToken;
 

@@ -3,11 +3,12 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using DevSpector.Desktop.Service;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
+using DevSpector.SDK.Providers;
+using DevSpector.Desktop.Service;
 using ReactiveUI;
-using Avalonia.Data;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
@@ -17,9 +18,11 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUserSession _session;
 
-        private readonly IDevicesStorage _storage;
-
         private readonly IMessagesBroker _messagesBroker;
+
+        private readonly IDevicesEditor _devicesEditor;
+
+        private readonly IDevicesProvider _devicesProvider;
 
         private string _inventoryNumber;
 
@@ -32,9 +35,10 @@ namespace DevSpector.Desktop.UI.ViewModels
         private List<DeviceType> _deviceTypes;
 
         public DevicesListViewModel(
+            IDevicesEditor devicesEditor,
+            IDevicesProvider devicesProvider,
             ApplicationEvents appEvents,
             IUserSession session,
-            IDevicesStorage storage,
             IMessagesBroker messagesBroker,
             IUserRights userRights
         ) : base(userRights)
@@ -42,9 +46,10 @@ namespace DevSpector.Desktop.UI.ViewModels
             _appEvents = appEvents;
             _session = session;
 
-            _storage = storage;
-
             _messagesBroker = messagesBroker;
+
+            _devicesEditor = devicesEditor;
+            _devicesProvider = devicesProvider;
 
             SwitchInputFieldsCommand = ReactiveCommand.CreateFromTask(
                 async () => {
@@ -138,7 +143,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             AreItemsLoaded = false;
 
-            ItemsCache = await _storage.GetDevicesAsync();
+            ItemsCache = await _devicesProvider.GetDevicesAsync();
             ItemsToDisplay.Clear();
             foreach (var device in ItemsCache)
                 ItemsToDisplay.Add(device);
@@ -185,7 +190,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                await _storage.RemoveDeviceAsync(SelectedItem.InventoryNumber);
+                await _devicesEditor.DeleteDeviceAsync(SelectedItem.InventoryNumber);
 
                 _messagesBroker.NotifyUser($"Устройство \"{SelectedItem.InventoryNumber}\" удалено");
 
@@ -205,7 +210,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                DeviceTypes = await _storage.GetDevicesTypesAsync();
+                DeviceTypes = await _devicesProvider.GetDeviceTypesAsync();
             }
             catch (Exception e)
             {
@@ -222,7 +227,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     TypeID = SelectedDeviceType.ID
                 };
 
-                await _storage.AddDeviceAsync(newDevice);
+                await _devicesEditor.CreateDeviceAsync(newDevice);
 
                 CanAddDevice = false;
 

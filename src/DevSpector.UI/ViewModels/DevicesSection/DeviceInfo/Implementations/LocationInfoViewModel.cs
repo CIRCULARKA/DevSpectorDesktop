@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Providers;
+using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -23,22 +25,31 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly ApplicationEvents _appEvents;
 
-        private readonly IDevicesStorage _storage;
+        private readonly IDevicesEditor _devicesEditor;
+
+        private readonly ILocationProvider _locationProvider;
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
         private readonly IMessagesBroker _messagesBroker;
 
         public LocationInfoViewModel(
+<<<<<<< HEAD
             ApplicationEvents appEvents,
             IDevicesStorage storage,
+=======
+            IApplicationEvents appEvents,
+            IDevicesEditor devicesEditor,
+            ILocationProvider locationProvider,
+>>>>>>> 3ff2313073b30c8e5f328d758efbca0e7f8e700d
             IDevicesListViewModel devicesListViewModel,
             IMessagesBroker messagesBroker,
             IUserRights userRights
         ) : base(userRights)
         {
             _appEvents = appEvents;
-            _storage = storage;
+            _devicesEditor = devicesEditor;
+            _locationProvider = locationProvider;
             _devicesListViewModel = devicesListViewModel;
 
             _messagesBroker = messagesBroker;
@@ -115,7 +126,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                Housings = await _storage.GetHousingsAsync();
+                Housings = await _locationProvider.GetHousingsAsync();
 
                 SelectedHousing = Housings.FirstOrDefault();
 
@@ -133,7 +144,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.MoveDeviceAsync(selectedDevice.InventoryNumber, SelectedCabinet.CabinetID);
+                await _devicesEditor.MoveAsync(selectedDevice.InventoryNumber, SelectedCabinet.CabinetID);
 
                 _appEvents.RaiseDeviceUpdated();
 
@@ -157,7 +168,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 foreach (var housing in Housings)
                     _housingCabinets.Add(
                         housing.HousingName,
-                        await _storage.GetCabinetsAsync(housing.HousingID)
+                        await _locationProvider.GetHousingCabinetsAsync(housing.HousingID)
                     );
 
                 if (SelectedHousing == null) return;
