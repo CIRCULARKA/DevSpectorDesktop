@@ -65,14 +65,7 @@ namespace DevSpector.Desktop.UI
 
         private void ConfigureTargetHost()
         {
-            var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
-
-            if (environment == "Production")
-                _hostBuilder = new HostBuilder("devspector.herokuapp.com", scheme: "https");
-            else if (environment == "Development")
-                _hostBuilder = new HostBuilder("dev-devspector.herokuapp.com", scheme: "https");
-            else
-                _hostBuilder = new HostBuilder(port: 5000);
+            _hostBuilder = new HostBuilder("dev-devspector.herokuapp.com", scheme: "https");
         }
 
         private void SetupMainWindow()
