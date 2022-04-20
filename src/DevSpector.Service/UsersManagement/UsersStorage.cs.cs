@@ -16,13 +16,13 @@ namespace DevSpector.Desktop.Service
 
         private readonly IAuthorizationManager _authManager;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         public UsersStorage(
             IUsersProvider provider,
             IUsersEditor editor,
             IAuthorizationManager authManager,
-            IApplicationEvents appEvents
+            ApplicationEvents appEvents
         )
         {
             _usersEditor = editor;

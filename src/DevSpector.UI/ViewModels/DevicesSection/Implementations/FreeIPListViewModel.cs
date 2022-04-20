@@ -17,13 +17,13 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         public FreeIPListViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListViewModel,
-            IApplicationEvents appEvents,
+            ApplicationEvents appEvents,
             IUserRights userRights
         ) : base(userRights)
         {

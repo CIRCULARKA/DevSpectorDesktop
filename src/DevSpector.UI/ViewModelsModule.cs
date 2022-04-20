@@ -29,7 +29,8 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<ILocationInfoViewModel>().To<LocationInfoViewModel>().InSingletonScope();
             Bind<IUserInfoViewModel>().To<UserInfoViewModel>().InSingletonScope();
 
-            Bind<ISearchViewModel>().To<SearchViewModel>();
+            Bind<IDeviceSearchViewModel>().To<DeviceSearchViewModel>();
+            Bind<IUserSearchViewModel>().To<UserSearchViewModel>();
 
             Bind<IAuthorizationViewModel>().To<AuthorizationViewModel>().InSingletonScope();
 
@@ -62,7 +63,8 @@ namespace DevSpector.Desktop.Service.DependencyInjection
             Bind<NetworkInfoView>().ToSelf();
             Bind<UserInfoView>().ToSelf();
 
-            Bind<SearchView>().ToSelf();
+            Bind<UserSearchView>().ToSelf();
+            Bind<DeviceSearchView>().ToSelf();
 
             Bind<SessionBrokerView>().ToSelf();
             Bind<MessagesBrokerView>().ToSelf();

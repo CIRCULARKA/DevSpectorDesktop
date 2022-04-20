@@ -4,11 +4,11 @@ namespace DevSpector.Desktop.Service
 {
     public class UserSession : IUserSession
     {
-        private readonly IApplicationEvents _events;
+        private readonly ApplicationEvents _events;
 
         private User _loggedUser;
 
-        public UserSession(IApplicationEvents events)
+        public UserSession(ApplicationEvents events)
         {
             _events = events;
         }

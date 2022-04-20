@@ -22,7 +22,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _password;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         private readonly IUserSession _session;
 
@@ -32,7 +32,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public UsersListViewModel(
             IUsersStorage storage,
-            IApplicationEvents appEvents,
+            ApplicationEvents appEvents,
             IUserSession session,
             IMessagesBroker messagesBroker,
             IUserRights userRights

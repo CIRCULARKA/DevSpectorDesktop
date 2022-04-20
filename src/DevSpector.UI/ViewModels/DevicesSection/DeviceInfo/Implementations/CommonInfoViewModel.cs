@@ -28,13 +28,13 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IMessagesBroker _messagesBroker;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         public CommonInfoViewModel(
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListVM,
-            IApplicationEvents appEvents,
+            ApplicationEvents appEvents,
             IUserRights userRights
         ) : base(userRights)
         {

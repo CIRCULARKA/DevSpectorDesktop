@@ -18,14 +18,14 @@ namespace DevSpector.Desktop.Service
 
         private readonly INetworkManager _networkManager;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         public DevicesStorage(
             IDevicesEditor editor,
             IDevicesProvider devicesProvider,
             ILocationProvider locationProvider,
             INetworkManager networkManager,
-            IApplicationEvents appEvents
+            ApplicationEvents appEvents
         )
         {
             _editor = editor;

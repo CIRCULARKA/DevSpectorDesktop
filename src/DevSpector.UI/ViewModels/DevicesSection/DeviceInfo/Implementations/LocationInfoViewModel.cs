@@ -21,7 +21,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private Cabinet _selectedCabinet;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         private readonly IDevicesStorage _storage;
 
@@ -30,7 +30,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         private readonly IMessagesBroker _messagesBroker;
 
         public LocationInfoViewModel(
-            IApplicationEvents appEvents,
+            ApplicationEvents appEvents,
             IDevicesStorage storage,
             IDevicesListViewModel devicesListViewModel,
             IMessagesBroker messagesBroker,

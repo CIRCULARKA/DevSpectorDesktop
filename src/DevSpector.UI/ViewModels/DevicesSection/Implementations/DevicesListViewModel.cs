@@ -13,7 +13,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class DevicesListViewModel : ListViewModelBase<Device>, IDevicesListViewModel
     {
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         private readonly IUserSession _session;
 
@@ -32,7 +32,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         private List<DeviceType> _deviceTypes;
 
         public DevicesListViewModel(
-            IApplicationEvents appEvents,
+            ApplicationEvents appEvents,
             IUserSession session,
             IDevicesStorage storage,
             IMessagesBroker messagesBroker,

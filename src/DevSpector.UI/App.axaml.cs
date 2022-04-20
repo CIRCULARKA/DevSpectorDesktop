@@ -137,12 +137,12 @@ namespace DevSpector.Desktop.UI
 
         private void EnableApplicationEvents()
         {
-            _kernel.Bind<IApplicationEvents>().To<ApplicationEvents>().InSingletonScope();
+            _kernel.Bind<ApplicationEvents>().ToSelf().InSingletonScope();
         }
 
         private void SubscribeToEvents()
         {
-            var appEvents = _kernel.Get<IApplicationEvents>();
+            var appEvents = _kernel.Get<ApplicationEvents>();
 
             //
             // Get services
@@ -207,7 +207,7 @@ namespace DevSpector.Desktop.UI
                 usersListVM.UpdateList();
             };
 
-            appEvents.SearchExecuted += devicesListVM.LoadItemsFromList;
+            appEvents.DeviceSearched += devicesListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);

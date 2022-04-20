@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:vm="using:DevSpector.Desktop.UI.ViewModels"
+	xmlns:l="clr-namespace:DevSpector.Desktop.UI.Localization"
+	x:Class="DevSpector.Desktop.UI.Views.UserSearchView">
+	<StackPanel>
+		<TextBox Classes="Filled clearButton" Text="{Binding SearchQuery, Mode=OneWayToSource}" MaxLength="100" />
+		<Button Content="Поиск" Command="{Binding SearchCommand}"
+			HorizontalAlignment="Stretch" />
+	</StackPanel>
+</UserControl>

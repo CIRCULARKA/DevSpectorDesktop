@@ -13,7 +13,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             NetworkInfoView networkInfo,
             LocationInfoView locationInfo,
             SoftwareInfoView softwareInfo,
-            SearchView search,
+            DeviceSearchView search,
             IUserRights userRights
         ) : base(userRights)
         {
