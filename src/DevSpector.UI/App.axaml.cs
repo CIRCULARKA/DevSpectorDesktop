@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Ninject;
 using Avalonia;
@@ -65,7 +64,7 @@ namespace DevSpector.Desktop.UI
 
         private void ConfigureTargetHost()
         {
-            var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
+            var environment = Environment.GetEnvironmentVariable("DEVSPECTOR_ENV");
 
             if (environment == "Production")
                 _hostBuilder = new HostBuilder("devspector.herokuapp.com", scheme: "https");
