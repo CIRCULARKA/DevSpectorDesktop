@@ -4,11 +4,11 @@ using DevSpector.Desktop.UI.ViewModels;
 
 namespace DevSpector.Desktop.UI.Views
 {
-    public partial class SearchView : UserControl
+    public partial class UserSearchView : UserControl
     {
-        public SearchView() { }
+        public UserSearchView() { }
 
-        public SearchView(ISearchViewModel viewModel)
+        public UserSearchView(UserSearchViewModel viewModel)
         {
             AvaloniaXamlLoader.Load(this);
 
