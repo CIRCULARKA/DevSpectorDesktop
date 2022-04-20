@@ -8,7 +8,7 @@ namespace DevSpector.Desktop.UI.Views
     {
         public UserSearchView() { }
 
-        public UserSearchView(UserSearchViewModel viewModel)
+        public UserSearchView(IUserSearchViewModel viewModel)
         {
             AvaloniaXamlLoader.Load(this);
 
