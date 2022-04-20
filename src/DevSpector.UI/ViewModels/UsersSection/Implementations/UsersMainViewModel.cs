@@ -9,13 +9,13 @@ namespace DevSpector.Desktop.UI.ViewModels
         public UsersMainViewModel(
             UsersListView usersList,
             UserInfoView userInfo,
-            SearchView search,
+            UserSearchView userSearchView,
             IUserRights userRights
         ) : base(userRights)
         {
             UsersList = usersList;
             UserInfo = userInfo;
-            Search = search;
+            Search = userSearchView;
         }
 
         public UserControl UsersList { get; }

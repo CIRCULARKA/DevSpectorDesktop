@@ -9,16 +9,16 @@ using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class SearchViewModel : ViewModelBase, ISearchViewModel
+    public class DeviceSearchViewModel : ViewModelBase, IDeviceSearchViewModel
     {
         private string _searchQuery;
 
-        private IApplicationEvents _events;
+        private ApplicationEvents _events;
 
         private IDevicesListViewModel _devicesListViewModel;
 
-        public SearchViewModel(
-            IApplicationEvents events,
+        public DeviceSearchViewModel(
+            ApplicationEvents events,
             IDevicesListViewModel devicesListViewModel,
             IUserRights userRights
         ) : base(userRights)
@@ -26,13 +26,13 @@ namespace DevSpector.Desktop.UI.ViewModels
             _events = events;
             _devicesListViewModel = devicesListViewModel;
 
-            FilterDevicesCommand = ReactiveCommand.CreateFromTask(
+            SearchCommand = ReactiveCommand.CreateFromTask(
                 async () => {
                     try
                     {
                         devicesListViewModel.AreItemsLoaded = false;
                         devicesListViewModel.AreThereItems = false;
-                        events.RaiseSearchExecuted(
+                        events.RaiseDeviceSearched(
                             await FilterDevicesAsync(devicesListViewModel.ItemsCache)
                         );
                     }
@@ -47,7 +47,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _searchQuery, value);
         }
 
-        public ReactiveCommand<Unit, Unit> FilterDevicesCommand { get; }
+        public ReactiveCommand<Unit, Unit> SearchCommand { get; }
 
         private Task<IEnumerable<Device>> FilterDevicesAsync(IEnumerable<Device> devices)
         {

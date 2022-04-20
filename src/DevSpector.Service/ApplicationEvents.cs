@@ -4,7 +4,7 @@ using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.Service
 {
-    public class ApplicationEvents : IApplicationEvents
+    public class ApplicationEvents
     {
         public ApplicationEvents() { }
 
@@ -23,10 +23,15 @@ namespace DevSpector.Desktop.Service
         public void RaiseDeviceDeleted(Device device) =>
             DeviceDeleted?.Invoke(device);
 
-        public event Action<IEnumerable<Device>> SearchExecuted;
+        public event Action<IEnumerable<Device>> DeviceSearched;
 
-        public void RaiseSearchExecuted(IEnumerable<Device> filtered) =>
-            SearchExecuted?.Invoke(filtered);
+        public void RaiseDeviceSearched(IEnumerable<Device> filtered) =>
+            DeviceSearched?.Invoke(filtered);
+
+        public event Action<IEnumerable<User>> UserSearched;
+
+        public void RaiseUserSearched(IEnumerable<User> filtered) =>
+            UserSearched?.Invoke(filtered);
 
         public event Action<User> UserAuthorized;
 

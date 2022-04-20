@@ -23,16 +23,16 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IDevicesListViewModel _devicesListViewModel;
 
-        private readonly IApplicationEvents _appEvents;
+        private readonly ApplicationEvents _appEvents;
 
         public NetworkInfoViewModel(
             INetworkManager networkManager,
             IDevicesEditor devicesEditor,
             IMessagesBroker messagesBroker,
             IDevicesListViewModel devicesListViewModel,
-            IApplicationEvents appEvents,
-            IUserRights userRights,
-            FreeIPListView freeIPListView
+            FreeIPListView freeIPListView,
+            ApplicationEvents appEvents,
+            IUserRights userRights
         ) : base(userRights)
         {
             FreeIPListView = freeIPListView;
