@@ -26,7 +26,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             _events = events;
             _devicesListViewModel = devicesListViewModel;
 
-            FilterDevicesCommand = ReactiveCommand.CreateFromTask(
+            SearchCommand = ReactiveCommand.CreateFromTask(
                 async () => {
                     try
                     {
@@ -47,7 +47,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _searchQuery, value);
         }
 
-        public ReactiveCommand<Unit, Unit> FilterDevicesCommand { get; }
+        public ReactiveCommand<Unit, Unit> SearchCommand { get; }
 
         private Task<IEnumerable<Device>> FilterDevicesAsync(IEnumerable<Device> devices)
         {
