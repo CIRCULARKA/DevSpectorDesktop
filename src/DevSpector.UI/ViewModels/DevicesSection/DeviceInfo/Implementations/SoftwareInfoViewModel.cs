@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -15,23 +16,24 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _softwareVersion;
 
-        private readonly IDevicesStorage _storage;
-
         private readonly IDevicesListViewModel _devicesListViewModel;
+
+        private readonly IDevicesEditor _devicesEditor;
 
         private readonly IMessagesBroker _messagesBroker;
 
         public SoftwareInfoViewModel(
-            IDevicesStorage storage,
             IDevicesListViewModel devicesListViewModel,
+            IDevicesEditor devicesEditor,
             IMessagesBroker messagesBroker,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
             _devicesListViewModel = devicesListViewModel;
 
             _messagesBroker = messagesBroker;
+
+            _devicesEditor = devicesEditor;
 
             AddSoftwareCommand = ReactiveCommand.CreateFromTask(
                 AddSoftwareAsync,
@@ -118,7 +120,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     SoftwareVersion = SoftwareVersion
                 };
 
-                await _storage.AddSoftwareAsync(
+                await _devicesEditor.AddSoftwareAsync(
                     selectedDevice.InventoryNumber,
                     newSoft
                 );
@@ -142,7 +144,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 Device selectedDevice = _devicesListViewModel.SelectedItem;
 
-                await _storage.RemoveSoftwareAsync(selectedDevice.InventoryNumber, SelectedItem);
+                await _devicesEditor.RemoveSoftwareAsync(selectedDevice.InventoryNumber, SelectedItem);
 
                 Software removedSoftware = SelectedItem;
 
