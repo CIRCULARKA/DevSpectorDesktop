@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
+using DevSpector.SDK.Providers;
+using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
 using ReactiveUI;
 
@@ -28,22 +30,26 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private List<UserGroup> _userGroups;
 
-        private readonly IUsersStorage _storage;
-
         private readonly IMessagesBroker _messagesBroker;
 
         private readonly IUsersListViewModel _usersViewModel;
 
+        private readonly IUsersEditor _usersEditor;
+
+        private readonly IUsersProvider _usersProvider;
+
         public UserInfoViewModel(
-            IUsersStorage storage,
             IMessagesBroker messagesBroker,
             IUsersListViewModel usersListViewModel,
+            IUsersEditor usersEditor,
+            IUsersProvider usersProvider,
             IUserRights userRights
         ) : base(userRights)
         {
-            _storage = storage;
             _messagesBroker = messagesBroker;
             _usersViewModel = usersListViewModel;
+            _usersEditor = usersEditor;
+            _usersProvider = usersProvider;
 
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
                 UpdateUserAsync,
@@ -135,7 +141,7 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             try
             {
-                UserGroups = await _storage.GetUserGroupsAsync();
+                UserGroups = await _usersProvider.GetUserGroupsAsync();
                 SelectedUserGroup = UserGroups.FirstOrDefault();
             }
             catch (Exception e)
@@ -165,7 +171,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 string newGroupID = SelectedUserGroup?.Name == selectedUser.Group ?
                     null : SelectedUserGroup.ID;
 
-                await _storage.UpdateUserAsync(
+                await _usersEditor.UpdateUserAsync(
                     selectedUser.Login,
                     new UserToCreate {
                         FirstName = newFirstName,
