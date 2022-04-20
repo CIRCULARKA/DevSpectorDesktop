@@ -58,13 +58,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
             var filteringTask = Task.Run(
                 () => {
-                    result.AddRange(users.Where(d => d.Login.Contains(SearchQuery)));
-                    result.AddRange(users.Where(d => d.FirstName.Contains(SearchQuery)));
-                    result.AddRange(users.Where(d => d.Surname.Contains(SearchQuery)));
-                    result.AddRange(users.Where(d => d.Patronymic.Contains(SearchQuery)));
-                    result.AddRange(users.Where(d => d.Group.Contains(SearchQuery)));
-
-                    Thread.Sleep(3000);
+                    result.AddRange(users.Where(d => d.Login == null ? false : d.Login.Contains(SearchQuery)));
+                    result.AddRange(users.Where(d => d.FirstName == null ? false : d.FirstName.Contains(SearchQuery)));
+                    result.AddRange(users.Where(d => d.FirstName == null ? false : d.FirstName.Contains(SearchQuery)));
+                    result.AddRange(users.Where(d => d.Surname == null ? false : d.Surname.Contains(SearchQuery)));
+                    result.AddRange(users.Where(d => d.Patronymic == null ? false : d.Patronymic.Contains(SearchQuery)));
+                    result.AddRange(users.Where(d => d.Group == null ? false : d.Group.Contains(SearchQuery)));
 
                     return result.AsEnumerable<User>();
                 }

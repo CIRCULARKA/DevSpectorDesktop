@@ -204,6 +204,7 @@ namespace DevSpector.Desktop.UI
             };
 
             appEvents.DeviceSearched += devicesListVM.LoadItemsFromList;
+            appEvents.UserSearched += usersListVM.LoadItemsFromList;
 
             appEvents.UserAuthorized += (u) => {
                 _kernel.Get<IServerDataProvider>().ChangeAccessToken(u.AccessToken);
