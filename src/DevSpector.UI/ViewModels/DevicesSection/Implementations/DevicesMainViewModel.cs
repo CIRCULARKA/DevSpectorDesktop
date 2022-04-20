@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Ninject;
 using DevSpector.Desktop.UI.Views;
 using DevSpector.Desktop.Service;
 
