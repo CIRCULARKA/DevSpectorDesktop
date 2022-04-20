@@ -129,10 +129,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private async Task UpdateDeviceCommonInfo()
         {
+            Device selectedDevice = _devicesListViewModel.SelectedItem;
+
             try
             {
-                Device selectedDevice = _devicesListViewModel.SelectedItem;
-
                 string newInventoryNumber = selectedDevice.InventoryNumber == InventoryNumber ?
                     null : InventoryNumber;
 
@@ -162,6 +162,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             catch (Exception e)
             {
                 _messagesBroker.NotifyUser(e.Message);
+
+                InventoryNumber = selectedDevice.InventoryNumber;
+                ModelName = selectedDevice.ModelName;
+                NetworkName = selectedDevice.NetworkName;
+                SelectedDeviceType = DeviceTypes.FirstOrDefault(dt => dt.Name == selectedDevice.Type);
             }
         }
     }

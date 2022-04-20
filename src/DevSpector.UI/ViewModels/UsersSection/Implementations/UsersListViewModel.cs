@@ -224,5 +224,11 @@ namespace DevSpector.Desktop.UI.ViewModels
                 _messagesBroker.NotifyUser(e.Message);
             }
         }
+
+        private void ClearInput()
+        {
+            Login = string.Empty;
+            SelectedUserGroup = UserGroups.FirstOrDefault();
+        }
     }
 }

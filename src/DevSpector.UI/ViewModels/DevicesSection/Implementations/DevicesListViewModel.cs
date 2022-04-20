@@ -229,20 +229,27 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 await _devicesEditor.CreateDeviceAsync(newDevice);
 
-                CanAddDevice = false;
-
-                UpdateList();
-
-                SelectedItem = ItemsToDisplay.FirstOrDefault();
-
                 _messagesBroker.NotifyUser(
                     $"Устройство \"{InventoryNumber}\" добавлено"
                 );
+
+                UpdateList();
+
+                SelectedItem = ItemsToDisplay.FirstOrDefault(d => d.InventoryNumber == InventoryNumber);
+
+                ClearInput();
             }
             catch (Exception e)
             {
                 _messagesBroker.NotifyUser(e.Message);
             }
+        }
+
+        private void ClearInput()
+        {
+            CanAddDevice = false;
+            SelectedDeviceType = DeviceTypes.FirstOrDefault();
+            InventoryNumber = string.Empty;
         }
     }
 }
