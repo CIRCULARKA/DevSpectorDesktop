@@ -1,12 +1,10 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Validation.Abstractions;
-using ReactiveUI.Validation.Contexts;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 
 namespace DevSpector.Desktop.UI.ViewModels
 {
-    public class ViewModelBase : ReactiveObject, IValidatableViewModel
+    public class ViewModelBase : ReactiveObject
     {
         private bool _canEditDevices;
 
@@ -20,8 +18,6 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             _userRights = userRights;
         }
-
-        public ValidationContext ValidationContext => new ValidationContext();
 
         public bool CanEditDevices
         {
