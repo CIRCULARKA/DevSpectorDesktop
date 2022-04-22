@@ -199,7 +199,7 @@ namespace DevSpector.Desktop.UI
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
             appEvents.UserUpdated += () => {
-                usersListVM.UpdateList();
+                usersListVM.UpdateListAsync();
             };
 
             appEvents.DeviceSearched += devicesListVM.LoadItemsFromList;
@@ -219,10 +219,10 @@ namespace DevSpector.Desktop.UI
                 usersListVM.LoadUserGroupsAsync();
                 userInfoVM.LoadUserGroupsAsync();
 
-                devicesListVM.UpdateList();
-                usersListVM.UpdateList();
+                devicesListVM.UpdateListAsync();
+                usersListVM.UpdateListAsync();
 
-                freeIPListVM.UpdateList();
+                freeIPListVM.UpdateListAsync();
 
                 authView.Hide();
                 mainView.Show();
@@ -243,14 +243,16 @@ namespace DevSpector.Desktop.UI
             foreach (var vm in deviceInfoVMs)
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
+            appEvents.DeviceSelected += (d) => networkInfoVM.HideFreeIPList();
+
             //
 
             appEvents.DeviceUpdated += () => {
-                devicesListVM.UpdateList();
+                devicesListVM.UpdateListAsync();
             };
 
             appEvents.DeviceDeleted += (d) => {
-                freeIPListVM.UpdateList();
+                freeIPListVM.UpdateListAsync();
             };
 
             appEvents.IPAddressAdded += (d, ip) => {
@@ -260,12 +262,12 @@ namespace DevSpector.Desktop.UI
 
             appEvents.IPAddressDeleted += (d, ip) => {
                 devicesListVM.RemoveIPFromSelectedDevice(ip);
-                freeIPListVM.UpdateList();
+                freeIPListVM.UpdateListAsync();
             };
 
             appEvents.IPRangeUpdated += () => {
-                devicesListVM.UpdateList();
-                freeIPListVM.UpdateList();
+                devicesListVM.UpdateListAsync();
+                freeIPListVM.UpdateListAsync();
             };
 
             appEvents.Logout += () => {

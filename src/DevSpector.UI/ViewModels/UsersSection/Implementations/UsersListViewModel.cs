@@ -151,7 +151,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             }
         }
 
-        public async void UpdateList()
+        public async Task UpdateListAsync()
         {
             try
             {
@@ -201,7 +201,9 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 _messagesBroker.NotifyUser($"Пользователь \"{Login}\" добавлен");
 
-                UpdateList();
+                await UpdateListAsync();
+
+                SelectedItem = ItemsToDisplay.FirstOrDefault(u => u.Login == Login);
             }
             catch (Exception e)
             {

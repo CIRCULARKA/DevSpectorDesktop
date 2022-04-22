@@ -149,7 +149,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 ItemsToDisplay.Add(device);
         }
 
-        public async void UpdateList()
+        public async Task UpdateListAsync()
         {
             try
             {
@@ -233,7 +233,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     $"Устройство \"{InventoryNumber}\" добавлено"
                 );
 
-                UpdateList();
+                await UpdateListAsync();
 
                 SelectedItem = ItemsToDisplay.FirstOrDefault(d => d.InventoryNumber == InventoryNumber);
 

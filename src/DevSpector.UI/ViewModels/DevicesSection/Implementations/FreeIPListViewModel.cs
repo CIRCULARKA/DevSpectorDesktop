@@ -60,7 +60,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
-        public async void UpdateList()
+        public async Task UpdateListAsync()
         {
             try
             {

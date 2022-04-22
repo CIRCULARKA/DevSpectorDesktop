@@ -114,5 +114,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                 _messagesBroker.NotifyUser(e.Message);
             }
         }
+
+        public void HideFreeIPList()
+        {
+            CanAddIP = false;
+        }
     }
 }
