@@ -13,10 +13,10 @@ namespace DevSpector.Desktop.Service
         public void RaiseDeviceSelected(Device Device) =>
             DeviceSelected?.Invoke(Device);
 
-        public event Action DeviceUpdated;
+        public event Action<object> DeviceUpdated;
 
-        public void RaiseDeviceUpdated() =>
-            DeviceUpdated?.Invoke();
+        public void RaiseDeviceUpdated(object keyToSelectBy = null) =>
+            DeviceUpdated?.Invoke(keyToSelectBy);
 
         public event Action<Device> DeviceDeleted;
 
@@ -58,10 +58,10 @@ namespace DevSpector.Desktop.Service
         public void RaiseUserRemoved() =>
             UserRemoved?.Invoke();
 
-        public event Action UserUpdated;
+        public event Action<object> UserUpdated;
 
-        public void RaiseUserUpdated() =>
-            UserUpdated?.Invoke();
+        public void RaiseUserUpdated(object keyToSelectBy = null) =>
+            UserUpdated?.Invoke(keyToSelectBy);
 
         public event Action Logout;
 

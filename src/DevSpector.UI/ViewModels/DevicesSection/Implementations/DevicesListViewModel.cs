@@ -149,7 +149,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                 ItemsToDisplay.Add(device);
         }
 
-        public async Task UpdateListAsync()
+        public async Task UpdateListAsync(object keyToSelectBy = null)
         {
             try
             {
@@ -158,7 +158,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                 if (ItemsToDisplay.Count > 0)
                 {
                     AreThereItems = true;
-                    SelectedItem = ItemsToDisplay[0];
+                    if (keyToSelectBy == null)
+                        SelectedItem = ItemsToDisplay[0];
+                    else
+                        SelectedItem = ItemsToDisplay.FirstOrDefault(d => d.ID == (Guid)keyToSelectBy);
                 }
                 else
                 {

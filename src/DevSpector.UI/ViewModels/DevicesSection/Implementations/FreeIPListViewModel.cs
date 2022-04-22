@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
-        public async Task UpdateListAsync()
+        public async Task UpdateListAsync(object keyToSelectBy = null)
         {
             try
             {
@@ -74,6 +75,11 @@ namespace DevSpector.Desktop.UI.ViewModels
                     ItemsToDisplay.Clear();
                     foreach (var ip in ItemsCache)
                         ItemsToDisplay.Add(ip);
+
+                    if (keyToSelectBy == null)
+                        SelectedItem = ItemsToDisplay[0];
+                    else
+                        SelectedItem = ItemsToDisplay.FirstOrDefault(ip => ip == keyToSelectBy as string);
                 });
             }
             catch (Exception e)

@@ -155,7 +155,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     }
                 );
 
-                _appEvents.RaiseDeviceUpdated();
+                _appEvents.RaiseDeviceUpdated(selectedDevice.ID);
 
                 _messagesBroker.NotifyUser($"Устройство \"{selectedDevice.InventoryNumber}\" успешно обновлено");
             }

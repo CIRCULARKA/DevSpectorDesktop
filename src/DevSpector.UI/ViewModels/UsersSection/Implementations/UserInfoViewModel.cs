@@ -30,6 +30,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private List<UserGroup> _userGroups;
 
+        private readonly ApplicationEvents _appEvents;
+
         private readonly IMessagesBroker _messagesBroker;
 
         private readonly IUsersListViewModel _usersViewModel;
@@ -43,13 +45,15 @@ namespace DevSpector.Desktop.UI.ViewModels
             IUsersListViewModel usersListViewModel,
             IUsersEditor usersEditor,
             IUsersProvider usersProvider,
-            IUserRights userRights
+            IUserRights userRights,
+            ApplicationEvents appEvents
         ) : base(userRights)
         {
             _messagesBroker = messagesBroker;
             _usersViewModel = usersListViewModel;
             _usersEditor = usersEditor;
             _usersProvider = usersProvider;
+            _appEvents = appEvents;
 
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
                 UpdateUserAsync,
@@ -156,7 +160,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             {
                 User selectedUser = _usersViewModel.SelectedItem;
 
-               string newFirstName = FirstName == selectedUser.FirstName ?
+                string newFirstName = FirstName == selectedUser.FirstName ?
                     null : FirstName;
 
                 string newSurname = Surname == selectedUser.Surname ?
@@ -181,6 +185,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                         GroupID = newGroupID
                     }
                 );
+
+                _appEvents.RaiseUserUpdated(selectedUser.ID);
 
                 _messagesBroker.NotifyUser($"Пользователь \"{selectedUser.Login}\" обновлён");
             }

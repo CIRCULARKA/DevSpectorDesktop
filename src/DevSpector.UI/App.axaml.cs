@@ -198,8 +198,8 @@ namespace DevSpector.Desktop.UI
 
             appEvents.UserSelected += userInfoVM.UpdateUserInfo;
 
-            appEvents.UserUpdated += () => {
-                usersListVM.UpdateListAsync();
+            appEvents.UserUpdated += (o) => {
+                usersListVM.UpdateListAsync(o);
             };
 
             appEvents.DeviceSearched += devicesListVM.LoadItemsFromList;
@@ -247,8 +247,8 @@ namespace DevSpector.Desktop.UI
 
             //
 
-            appEvents.DeviceUpdated += () => {
-                devicesListVM.UpdateListAsync();
+            appEvents.DeviceUpdated += (o) => {
+                devicesListVM.UpdateListAsync(o);
             };
 
             appEvents.DeviceDeleted += (d) => {

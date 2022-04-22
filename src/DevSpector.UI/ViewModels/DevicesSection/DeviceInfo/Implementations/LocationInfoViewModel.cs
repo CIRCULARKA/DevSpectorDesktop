@@ -141,7 +141,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
                 await _devicesEditor.MoveAsync(selectedDevice.InventoryNumber, SelectedCabinet.CabinetID);
 
-                _appEvents.RaiseDeviceUpdated();
+                _appEvents.RaiseDeviceUpdated(selectedDevice.ID);
 
                 _messagesBroker.NotifyUser(
                     $"Устройство перемещено в кабинет \"{SelectedCabinet.CabinetName}\" " +
