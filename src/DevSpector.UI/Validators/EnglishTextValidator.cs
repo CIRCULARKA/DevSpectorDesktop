@@ -9,7 +9,7 @@ namespace DevSpector.Desktop.UI.Validators
             string wrongTextLengthErrorMessage = null,
             int minTextLength = 3,
             int maxTextLength = 100
-        ) : base(maxTextLength, maxTextLength, wrongTextLengthErrorMessage)
+        ) : base(minTextLength, maxTextLength, wrongTextLengthErrorMessage)
         {
             if (validationErrorMessage == null)
                 this.ErrorMessage = "Значение может содержать только латиницу и спец. символы";
@@ -17,7 +17,7 @@ namespace DevSpector.Desktop.UI.Validators
                 this.ErrorMessage = validationErrorMessage;
         }
 
-        public override string ErrorMessage { get; }
+        public new string ErrorMessage { get; }
 
         public override void Validate(string text)
         {
@@ -28,6 +28,16 @@ namespace DevSpector.Desktop.UI.Validators
             foreach (var sym in text)
                 if (!allowedSymbols.Contains(sym))
                     throw new DataValidationException(ErrorMessage);
+        }
+
+        public override bool ValidateBool(string text)
+        {
+            try
+            {
+                this.Validate(text);
+                return true;
+            }
+            catch { return false; }
         }
     }
 }

@@ -31,5 +31,15 @@ namespace DevSpector.Desktop.UI.Validators
             if (text.Length < MinLength) throw new DataValidationException(this.ErrorMessage);
             if (text.Length > MaxLength) throw new DataValidationException(this.ErrorMessage);
         }
+
+        public virtual bool ValidateBool(string text)
+        {
+            try
+            {
+                this.Validate(text);
+                return true;
+            }
+            catch { return false; }
+        }
     }
 }
