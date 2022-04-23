@@ -23,13 +23,13 @@ namespace DevSpector.Desktop.UI.Validators
 
         public int MinLength { get; }
 
-        public string ErrorMessage { get; }
+        public virtual string ErrorMessage { get; }
 
-        public void Validate(string text)
+        public virtual void Validate(string text)
         {
-            if (text == null) throw new DataValidationException(ErrorMessage);
-            if (text.Length < MinLength) throw new DataValidationException(ErrorMessage);
-            if (text.Length > MaxLength) throw new DataValidationException(ErrorMessage);
+            if (text == null) throw new DataValidationException(this.ErrorMessage);
+            if (text.Length < MinLength) throw new DataValidationException(this.ErrorMessage);
+            if (text.Length > MaxLength) throw new DataValidationException(this.ErrorMessage);
         }
     }
 }
