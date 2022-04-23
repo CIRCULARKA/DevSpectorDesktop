@@ -4,7 +4,12 @@ namespace DevSpector.Desktop.UI.Validators
 {
     public class EnglishTextValidator : TextValidatorBase
     {
-        public EnglishTextValidator(string validationErrorMessage = null)
+        public EnglishTextValidator(
+            string validationErrorMessage = null,
+            string wrongTextLengthErrorMessage = null,
+            int minTextLength = 3,
+            int maxTextLength = 100
+        ) : base(maxTextLength, maxTextLength, wrongTextLengthErrorMessage)
         {
             if (validationErrorMessage == null)
                 this.ErrorMessage = "Значение может содержать только латиницу и спец. символы";
