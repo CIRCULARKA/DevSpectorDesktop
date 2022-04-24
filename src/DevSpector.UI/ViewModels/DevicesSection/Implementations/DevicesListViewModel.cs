@@ -74,7 +74,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => vm.SelectedDeviceType,
                     (invNum, deviceType) => {
                         if (SelectedDeviceType == null) return false;
-                        return _textValidator.ValidateBool(InventoryNumber);
+                        return _textValidator.IsValid(InventoryNumber);
                     }
                 )
             );
