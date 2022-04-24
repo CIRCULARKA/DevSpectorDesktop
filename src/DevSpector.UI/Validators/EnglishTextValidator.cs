@@ -2,14 +2,12 @@ using Avalonia.Data;
 
 namespace DevSpector.Desktop.UI.Validators
 {
-    public class EnglishTextValidator : TextValidatorBase
+    public class EnglishTextValidator : ITextValidator
     {
-        public EnglishTextValidator(
-            string validationErrorMessage = null,
-            string wrongTextLengthErrorMessage = null,
-            int minTextLength = 3,
-            int maxTextLength = 100
-        ) : base(minTextLength, maxTextLength, wrongTextLengthErrorMessage)
+        private const string _AllowedSymbols =
+            "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-!@#$%^&*()=;\"\'?.,/\\";
+
+        public EnglishTextValidator(string validationErrorMessage = null)
         {
             if (validationErrorMessage == null)
                 this.ErrorMessage = "Значение может содержать только латиницу и спец. символы";
@@ -17,20 +15,16 @@ namespace DevSpector.Desktop.UI.Validators
                 this.ErrorMessage = validationErrorMessage;
         }
 
-        public new string ErrorMessage { get; }
+        public string ErrorMessage { get; }
 
-        public override void Validate(string text)
+        public void Validate(string text)
         {
-            base.Validate(text);
-
-            var allowedSymbols = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-!@#$%^&*()=;\"\'?.,/\\";
-
             foreach (var sym in text)
-                if (!allowedSymbols.Contains(sym))
+                if (!_AllowedSymbols.Contains(sym))
                     throw new DataValidationException(ErrorMessage);
         }
 
-        public override bool ValidateBool(string text)
+        public bool IsValid(string text)
         {
             try
             {
