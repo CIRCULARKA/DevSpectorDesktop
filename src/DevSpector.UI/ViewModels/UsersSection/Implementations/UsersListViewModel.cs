@@ -142,13 +142,14 @@ namespace DevSpector.Desktop.UI.ViewModels
             ItemsToDisplay.Clear();
 
             foreach (var item in items)
-                ItemsToDisplay.Add(item);
+                if (item.Login != _session.Login)
+                    ItemsToDisplay.Add(item);
 
             if (ItemsToDisplay.Count == 0) {
                 AreThereItems = false;
                 NoItemsMessage = "Пользователи не найдены";
             }
-            else AreThereItems = true;
+            else { AreThereItems = true; }
         }
 
         public async Task LoadUserGroupsAsync()
@@ -202,7 +203,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             ItemsCache = await _usersProvider.GetUsersAsync();
             ItemsToDisplay.Clear();
             foreach (var user in ItemsCache)
-                ItemsToDisplay.Add(user);
+                if (user.Login != _session.Login)
+                    ItemsToDisplay.Add(user);
         }
 
         private async Task AddUserAsync()
