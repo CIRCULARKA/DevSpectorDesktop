@@ -19,6 +19,9 @@ namespace DevSpector.Desktop.UI.Validators
 
         public void Validate(string text)
         {
+            if (text == null)
+                return;
+
             foreach (var sym in text)
                 if (!_AllowedSymbols.Contains(sym))
                     throw new DataValidationException(ErrorMessage);
