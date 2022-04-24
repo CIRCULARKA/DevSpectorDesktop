@@ -73,8 +73,8 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
                     (invNum, deviceType) => {
-                        _textValidator.Validate(InventoryNumber);
-                        return true;
+                        if (SelectedDeviceType == null) return false;
+                        return _textValidator.ValidateBool(InventoryNumber);
                     }
                 )
             );
@@ -111,8 +111,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             get => _inventoryNumber;
             set
             {
-                _textValidator.Validate(value);
                 this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+                _textValidator.Validate(value);
             }
         }
 
