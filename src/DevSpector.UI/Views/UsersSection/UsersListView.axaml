@@ -70,6 +70,7 @@
                 </StackPanel>
                 <ListBox
                     Grid.Row="1"
+                    Classes="list"
                     BorderThickness="0"
                     Height="{Binding #base.Height}"
                     Items="{Binding ItemsToDisplay}"
