@@ -8,6 +8,7 @@ using DevSpector.SDK.Models;
 using DevSpector.SDK.Providers;
 using DevSpector.SDK.Editors;
 using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Validators;
 using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -40,12 +41,15 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUsersProvider _usersProvider;
 
+        private readonly ITextValidator _textValidator;
+
         public UserInfoViewModel(
             IMessagesBroker messagesBroker,
             IUsersListViewModel usersListViewModel,
             IUsersEditor usersEditor,
             IUsersProvider usersProvider,
             IUserRights userRights,
+            ITextValidator textValidator,
             ApplicationEvents appEvents
         ) : base(userRights)
         {
@@ -54,6 +58,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             _usersEditor = usersEditor;
             _usersProvider = usersProvider;
             _appEvents = appEvents;
+            _textValidator = textValidator;
 
             ApplyChangesCommand = ReactiveCommand.CreateFromTask(
                 UpdateUserAsync,
@@ -72,8 +77,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                         if (Surname != selected.Surname) return true;
                         if (Patronymic != selected.Patronymic) return true;
                         if (SelectedUserGroup?.Name != selected.Group) return true;
-
-                        return false;
+                        return _textValidator.IsValid(selected.Login);
                     }
                 )
             );
@@ -108,7 +112,11 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string Login
         {
             get { return _login == null ? "N/A" : _login; }
-            set => this.RaiseAndSetIfChanged(ref _login, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _login, value);
+                _textValidator.Validate(value);
+            }
         }
 
         public string FirstName
