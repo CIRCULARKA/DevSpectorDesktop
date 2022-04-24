@@ -68,10 +68,7 @@ namespace DevSpector.Desktop.UI
         private void AddValidation()
         {
             _kernel.Bind<ITextValidator>().To<EnglishTextValidator>().
-                WithConstructorArgument("validationErrorMessage", "Значение может содержать только латиницу и спец. символы").
-                WithConstructorArgument("wrongTextLengthErrorMessage", value: null).
-                WithConstructorArgument("minTextLength", 3).
-                WithConstructorArgument("maxTextLength", 100);
+                WithConstructorArgument("validationErrorMessage", value: null);
         }
 
         private void ConfigureTargetHost()
