@@ -44,6 +44,7 @@
                 </StackPanel>
                 <ListBox
                     Grid.Row="1"
+                    Classes="list"
                     BorderThickness="0"
                     Items="{Binding ItemsToDisplay}"
                     SelectedItem="{Binding SelectedItem}">

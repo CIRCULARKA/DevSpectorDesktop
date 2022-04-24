@@ -38,6 +38,7 @@
 				</aura:GroupBox.Header>
 				<Panel>
 					<ListBox
+						Classes="list"
 						IsVisible="{Binding !CanAddIP}"
 						Items="{Binding ItemsToDisplay}"
 						SelectedItem="{Binding SelectedItem}">
