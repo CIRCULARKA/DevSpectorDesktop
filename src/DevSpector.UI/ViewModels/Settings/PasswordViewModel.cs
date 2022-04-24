@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
 using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Validators;
 using DevSpector.SDK.Authorization;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -19,16 +20,20 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IAuthorizationManager _authManager;
 
+        private readonly ITextValidator _textValidator;
+
         public PasswordViewModel(
             IUserSession session,
             IAuthorizationManager authManager,
             IMessagesBroker messagesBroker,
-            IUserRights userRights
+            IUserRights userRights,
+            ITextValidator textValidator
         ) : base(userRights)
         {
             _session = session;
             _messagesBroker = messagesBroker;
             _authManager = authManager;
+            _textValidator = textValidator;
 
             ChangePasswordCommand = ReactiveCommand.CreateFromTask(
                 ChangePasswordAsync,
@@ -36,6 +41,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => vm.NewPassword,
                     (newPwd) => {
                         if (NewPassword == null) return false;
+                        if (!_textValidator.IsValid(NewPassword)) return false;
                         return NewPassword.Length > 5;
                     }
                 )
@@ -53,7 +59,11 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string NewPassword
         {
             get => _newPassword;
-            set => this.RaiseAndSetIfChanged(ref _newPassword, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _newPassword, value);
+                _textValidator.Validate(value);
+            }
         }
 
         public void EraisePasswordInputs()

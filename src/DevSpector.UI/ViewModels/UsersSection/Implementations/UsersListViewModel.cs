@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Validators;
 using DevSpector.SDK.DTO;
 using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
@@ -34,13 +35,16 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private readonly IUsersProvider _usersProvider;
 
+        private readonly ITextValidator _textValidator;
+
         public UsersListViewModel(
             ApplicationEvents appEvents,
             IUserSession session,
             IMessagesBroker messagesBroker,
             IUserRights userRights,
             IUsersEditor usersEditor,
-            IUsersProvider usersProvider
+            IUsersProvider usersProvider,
+            ITextValidator textValidator
         ) : base(userRights)
         {
             _messagesBroker = messagesBroker;
@@ -51,6 +55,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             _usersEditor = usersEditor;
             _usersProvider = usersProvider;
 
+            _textValidator = textValidator;
+
             AddUserCommand = ReactiveCommand.CreateFromTask(
                 AddUserAsync,
                 this.WhenAny(
@@ -59,8 +65,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (login, pass) => {
                         if (string.IsNullOrWhiteSpace(Login)) return false;
                         if (string.IsNullOrWhiteSpace(Password)) return false;
-
-                        return true;
+                        return _textValidator.IsValid(Login) && _textValidator.IsValid(Password);
                     }
                 )
             );
@@ -103,13 +108,21 @@ namespace DevSpector.Desktop.UI.ViewModels
         public string Login
         {
             get => _login;
-            set => this.RaiseAndSetIfChanged(ref _login, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _login, value);
+                _textValidator.Validate(value);
+            }
         }
 
         public string Password
         {
             get => _password;
-            set => this.RaiseAndSetIfChanged(ref _password, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _password, value);
+                _textValidator.Validate(value);
+            }
         }
 
         public bool CanAddUsers

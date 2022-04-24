@@ -3,13 +3,13 @@
         "Development": {
             "commandName": "Project",
             "environmentVariables": {
-                "ENVIRONMENT": "Development"
+                "DEVSPECTOR_ENV": "Development"
             }
         },
         "Production": {
             "commandName": "Project",
             "environmentVariables": {
-                "ENVIRONMENT": "Production"
+                "DEVSPECTOR_ENV": "Production"
             }
         }
     }

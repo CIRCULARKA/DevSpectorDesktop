@@ -8,6 +8,7 @@ using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
 using DevSpector.SDK.Providers;
 using DevSpector.Desktop.Service;
+using DevSpector.Desktop.UI.Validators;
 using ReactiveUI;
 
 namespace DevSpector.Desktop.UI.ViewModels
@@ -34,17 +35,21 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private List<DeviceType> _deviceTypes;
 
+        private readonly ITextValidator _textValidator;
+
         public DevicesListViewModel(
             IDevicesEditor devicesEditor,
             IDevicesProvider devicesProvider,
             ApplicationEvents appEvents,
             IUserSession session,
             IMessagesBroker messagesBroker,
-            IUserRights userRights
+            IUserRights userRights,
+            ITextValidator textValidator
         ) : base(userRights)
         {
             _appEvents = appEvents;
             _session = session;
+            _textValidator = textValidator;
 
             _messagesBroker = messagesBroker;
 
@@ -63,7 +68,15 @@ namespace DevSpector.Desktop.UI.ViewModels
             );
 
             AddDeviceCommand = ReactiveCommand.CreateFromTask(
-                AddDeviceAsync
+                AddDeviceAsync,
+                this.WhenAny(
+                    (vm) => vm.InventoryNumber,
+                    (vm) => vm.SelectedDeviceType,
+                    (invNum, deviceType) => {
+                        if (SelectedDeviceType == null) return false;
+                        return _textValidator.IsValid(InventoryNumber);
+                    }
+                )
             );
 
             DeleteDeviceCommand = ReactiveCommand.CreateFromTask(
@@ -99,6 +112,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
+                _textValidator.Validate(value);
             }
         }
 

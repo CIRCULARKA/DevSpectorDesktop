@@ -13,6 +13,7 @@ using DevSpector.SDK.Authorization;
 using DevSpector.Desktop.Service;
 using DevSpector.Desktop.UI.Views;
 using DevSpector.Desktop.UI.ViewModels;
+using DevSpector.Desktop.UI.Validators;
 using DevSpector.Desktop.Service.DependencyInjection;
 
 namespace DevSpector.Desktop.UI
@@ -39,6 +40,8 @@ namespace DevSpector.Desktop.UI
 
             AddServices();
 
+            AddValidation();
+
             AddSDK();
 
             AddAuthorization();
@@ -60,6 +63,12 @@ namespace DevSpector.Desktop.UI
 
             _kernel.Bind<IAuthorizationManager>().To<AuthorizationManager>().
                 WithConstructorArgument("provider", defaultProvider);
+        }
+
+        private void AddValidation()
+        {
+            _kernel.Bind<ITextValidator>().To<EnglishTextValidator>().
+                WithConstructorArgument("validationErrorMessage", value: null);
         }
 
         private void ConfigureTargetHost()
