@@ -55,6 +55,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             _usersEditor = usersEditor;
             _usersProvider = usersProvider;
 
+            _textValidator = textValidator;
+
             AddUserCommand = ReactiveCommand.CreateFromTask(
                 AddUserAsync,
                 this.WhenAny(
