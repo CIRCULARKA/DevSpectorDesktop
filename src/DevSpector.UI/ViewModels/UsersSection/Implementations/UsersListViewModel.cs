@@ -111,7 +111,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _login, value);
-                _textValidator.IsValid(value);
+                _textValidator.Validate(value);
             }
         }
 
@@ -121,7 +121,7 @@ namespace DevSpector.Desktop.UI.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _password, value);
-                _textValidator.IsValid(value);
+                _textValidator.Validate(value);
             }
         }
 
