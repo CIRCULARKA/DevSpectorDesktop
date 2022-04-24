@@ -72,12 +72,14 @@ namespace DevSpector.Desktop.UI.ViewModels
                         User selected = _usersViewModel.SelectedItem;
                         if (selected == null) return false;
 
+                        if (!_textValidator.IsValid(Login)) return false;
                         if (Login != selected.Login) return true;
                         if (FirstName != selected.FirstName) return true;
                         if (Surname != selected.Surname) return true;
                         if (Patronymic != selected.Patronymic) return true;
-                        if (SelectedUserGroup?.Name != selected.Group) return true;
-                        return _textValidator.IsValid(selected.Login);
+                        if (SelectedUserGroup == null) return false;
+                        if (SelectedUserGroup.Name != selected.Group) return true;
+                        return false;
                     }
                 )
             );
