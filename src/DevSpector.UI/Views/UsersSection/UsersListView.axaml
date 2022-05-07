@@ -109,7 +109,8 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Panel
-                    Grid.RowSpan="3"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
                     Height="{Binding #base.Height}"
                     IsVisible="{Binding !AreThereItems}" >
                     <progRing:ProgressRing

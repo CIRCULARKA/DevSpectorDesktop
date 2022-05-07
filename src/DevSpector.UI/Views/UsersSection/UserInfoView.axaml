@@ -32,6 +32,7 @@
 					Classes="note"
 					Margin="0" />
 				<TextBox
+					IsEnabled="{Binding CanEditUser}"
 					Text="{Binding FirstName}"
 					Classes="main" />
 				<TextBlock
@@ -39,6 +40,7 @@
 					Classes="note"
 					Margin="0" />
 				<TextBox
+					IsEnabled="{Binding CanEditUser}"
 					Text="{Binding Surname}"
 					Classes="main" />
 				<TextBlock
@@ -46,6 +48,7 @@
 					Classes="note"
 					Margin="0" />
 				<TextBox
+					IsEnabled="{Binding CanEditUser}"
 					Text="{Binding Patronymic}"
 					Classes="main" />
 				<TextBlock
@@ -53,6 +56,7 @@
 					Classes="note"
 					Margin="0" />
 				<TextBox
+					IsEnabled="{Binding CanEditUser}"
 					Text="{Binding Login}"
 					Classes="main" />
 				<TextBlock
@@ -60,6 +64,7 @@
 					Classes="note"
 					Margin="0" />
 				<ComboBox
+					IsEnabled="{Binding CanEditUser}"
 					Margin="0 0 0 8"
 					Items="{Binding UserGroups}"
 					SelectedItem="{Binding SelectedUserGroup}">
@@ -78,6 +83,7 @@
 					Classes="revealPasswordButton"
 					PasswordChar="*"
 					Text="{Binding AccessToken}"
+					IsEnabled="{Binding CanEditUser}"
 					IsReadOnly="True" />
 			</StackPanel>
 		</aura:GroupBox>

@@ -19,8 +19,6 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _login;
 
-        private string _group;
-
         private string _firstName;
 
         private string _surname;
@@ -30,6 +28,8 @@ namespace DevSpector.Desktop.UI.ViewModels
         private UserGroup _selectedUserGroup;
 
         private List<UserGroup> _userGroups;
+
+        private bool _canEditUser;
 
         private readonly ApplicationEvents _appEvents;
 
@@ -105,15 +105,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _accessToken, value);
         }
 
-        public string Group
-        {
-            get { return _group == null ? "N/A" : _group; }
-            set => this.RaiseAndSetIfChanged(ref _group, value);
-        }
-
         public string Login
         {
-            get { return _login == null ? "N/A" : _login; }
+            get => _login;
             set
             {
                 this.RaiseAndSetIfChanged(ref _login, value);
@@ -139,16 +133,20 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _patronymic, value);
         }
 
+        public bool CanEditUser
+        {
+            get => _canEditUser;
+            set => this.RaiseAndSetIfChanged(ref _canEditUser, value);
+        }
+
         public void UpdateUserInfo(User target)
         {
             AccessToken = target?.AccessToken;
-            Group = target?.Group;
             Login = target?.Login;
             FirstName = target?.FirstName;
             Surname = target?.Surname;
             Patronymic = target?.Patronymic;
-            if (UserGroups != null)
-                SelectedUserGroup = UserGroups.FirstOrDefault(ug => ug.Name == target?.Group);
+            SelectedUserGroup = UserGroups?.FirstOrDefault(ug => ug.Name == target?.Group);
         }
 
         public async Task LoadUserGroupsAsync()
@@ -205,5 +203,9 @@ namespace DevSpector.Desktop.UI.ViewModels
                 _messagesBroker.NotifyUser(e.Message);
             }
         }
+
+        public void UpdateInputsAccessibility() =>
+            CanEditUser = _usersViewModel.SelectedItem == null ?
+                false : true;
     }
 }
