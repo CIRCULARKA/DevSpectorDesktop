@@ -7,6 +7,8 @@ namespace DevSpector.Desktop.UI.ViewModels
     {
         string InventoryNumber { get; set; }
 
+        void UpdateInputsAccessibility();
+
         DeviceType SelectedDeviceType { get; set; }
 
         Task LoadDeviceTypesAsync();

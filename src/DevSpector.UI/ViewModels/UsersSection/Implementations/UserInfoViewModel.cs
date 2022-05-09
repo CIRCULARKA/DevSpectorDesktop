@@ -205,7 +205,6 @@ namespace DevSpector.Desktop.UI.ViewModels
         }
 
         public void UpdateInputsAccessibility() =>
-            CanEditUser = _usersViewModel.SelectedItem == null ?
-                false : true;
+            CanEditUser = _usersViewModel.SelectedItem != null;
     }
 }

@@ -20,6 +20,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _networkName;
 
+        private bool _canEditDevice;
+
         private List<DeviceType> _deviceTypes;
 
         private DeviceType _selectedDeviceType;
@@ -77,7 +79,7 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public string InventoryNumber
         {
-            get { return _inventoryNumber == null ? "N/A" : _inventoryNumber; }
+            get => _inventoryNumber;
             set => this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
         }
 
@@ -97,6 +99,12 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             get => _deviceTypes;
             set => this.RaiseAndSetIfChanged(ref _deviceTypes, value);
+        }
+
+        public bool CanEditDevice
+        {
+            get => _canEditDevice;
+            set => this.RaiseAndSetIfChanged(ref _canEditDevice, value);
         }
 
         public DeviceType SelectedDeviceType
@@ -126,6 +134,9 @@ namespace DevSpector.Desktop.UI.ViewModels
             ModelName = target?.ModelName;
             NetworkName = target?.NetworkName;
         }
+
+        public void UpdateInputsAccessibility() =>
+            CanEditDevice =  _devicesListViewModel.SelectedItem != null;
 
         private async Task UpdateDeviceCommonInfo()
         {

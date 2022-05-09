@@ -31,6 +31,7 @@
 					<!-- <TextBlock Text="{x:Static l:Messages.BuildingBody}" Classes="note" /> -->
 					<TextBlock Text="Корпус" Classes="note" />
 					<ComboBox
+						IsEnabled="{Binding CanEditDevice}"
 						Items="{Binding Housings}"
 						SelectedItem="{Binding SelectedHousing}"
 						Margin="0 0 0 10">
@@ -45,6 +46,7 @@
 					<!-- <TextBlock Text="{x:Static l:Messages.Cabinet}" Classes="note" /> -->
 					<TextBlock Text="Кабинет" Classes="note" />
 					<ComboBox
+						IsEnabled="{Binding CanEditDevice}"
 						Items="{Binding Cabinets}"
 						SelectedItem="{Binding SelectedCabinet}"
 						Margin="0 0 0 10">

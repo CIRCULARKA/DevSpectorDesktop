@@ -13,6 +13,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public class LocationInfoViewModel : ViewModelBase, ILocationInfoViewModel
     {
+        private bool _canEditDevice;
+
         private List<Housing> _housings;
 
         private List<Cabinet> _currentCabinets;
@@ -103,6 +105,12 @@ namespace DevSpector.Desktop.UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedCabinet, value);
         }
 
+        public bool CanEditDevice
+        {
+            get => _canEditDevice;
+            set => this.RaiseAndSetIfChanged(ref _canEditDevice, value);
+        }
+
         public void UpdateDeviceInfo(Device target)
         {
             try
@@ -153,6 +161,9 @@ namespace DevSpector.Desktop.UI.ViewModels
                 _messagesBroker.NotifyUser(e.Message);
             }
         }
+
+        public void UpdateInputsAccessibility() =>
+            CanEditDevice = _devicesListViewModel.SelectedItem != null;
 
         private async Task LoadCabinetsAsync()
         {

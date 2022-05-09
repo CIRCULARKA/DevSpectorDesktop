@@ -27,13 +27,23 @@
 			<ScrollViewer>
 				<StackPanel>
 					<TextBlock Text="Инвентарный номер" Classes="note" />
-					<TextBox Text="{Binding InventoryNumber}" Classes="main" />
+					<TextBox
+						Text="{Binding InventoryNumber}"
+						Classes="main"
+						IsEnabled="{Binding CanEditDevice}" />
 					<TextBlock Text="Сетевое имя" Classes="note" />
-					<TextBox Text="{Binding NetworkName}" Classes="main" />
+					<TextBox
+						Text="{Binding NetworkName}"
+						Classes="main"
+						IsEnabled="{Binding CanEditDevice}" />
 					<TextBlock Text="Модель" Classes="note" />
-					<TextBox Text="{Binding ModelName}" Classes="main" />
+					<TextBox
+						Text="{Binding ModelName}"
+						Classes="main"
+						IsEnabled="{Binding CanEditDevice}" />
 					<TextBlock Text="Тип" Classes="note" />
 					<ComboBox
+						IsEnabled="{Binding CanEditDevice}"
 						Items="{Binding DeviceTypes}"
 						SelectedItem="{Binding SelectedDeviceType}"
 						Margin="0 0 0 10">

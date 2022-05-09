@@ -256,7 +256,11 @@ namespace DevSpector.Desktop.UI
             foreach (var vm in deviceInfoVMs)
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
-            appEvents.DeviceSelected += (d) => networkInfoVM.HideFreeIPList();
+            appEvents.DeviceSelected += (d) => {
+                networkInfoVM.HideFreeIPList();
+                commonInfoVM.UpdateInputsAccessibility();
+                locationInfoVM.UpdateInputsAccessibility();
+            };
 
             //
 
