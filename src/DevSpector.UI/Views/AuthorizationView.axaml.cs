@@ -1,10 +1,9 @@
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using DevSpector.Desktop.UI.ViewModels;
 
 namespace DevSpector.Desktop.UI.Views
 {
-    public partial class AuthorizationView : Window
+    public partial class AuthorizationView : RootWindow
     {
         public AuthorizationView() { }
 
