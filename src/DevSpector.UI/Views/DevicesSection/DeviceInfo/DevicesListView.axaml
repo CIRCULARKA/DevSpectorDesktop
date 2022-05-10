@@ -90,7 +90,11 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Panel Height="{Binding #base.Height}" IsVisible="{Binding !AreThereItems}">
+                <Panel
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Height="{Binding #base.Height}"
+                    IsVisible="{Binding !AreThereItems}">
                     <progRing:ProgressRing IsVisible="{Binding !AreItemsLoaded}"
                         IsActive="{Binding !AreItemsLoaded}" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="50" Height="50" />
                     <TextBlock Text="{Binding NoItemsMessage}"

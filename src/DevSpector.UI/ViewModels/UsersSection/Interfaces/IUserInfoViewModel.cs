@@ -9,10 +9,10 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         string Login { get; set; }
 
-        string Group { get; set; }
-
         void UpdateUserInfo(User target);
 
         Task LoadUserGroupsAsync();
+
+        void UpdateInputsAccessibility();
     }
 }

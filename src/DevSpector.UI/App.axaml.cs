@@ -205,7 +205,10 @@ namespace DevSpector.Desktop.UI
             foreach (var vm in viewModels)
                 appEvents.UserAuthorized += (vm as ViewModelBase).UpdateUserRights;
 
-            appEvents.UserSelected += userInfoVM.UpdateUserInfo;
+            appEvents.UserSelected += (u) => {
+                userInfoVM.UpdateUserInfo(u);
+                userInfoVM.UpdateInputsAccessibility();
+            };
 
             appEvents.UserUpdated += (o) => {
                 usersListVM.UpdateListAsync(o);
@@ -227,6 +230,7 @@ namespace DevSpector.Desktop.UI
                 commonInfoVM.LoadDeviceTypesAsync();
                 usersListVM.LoadUserGroupsAsync();
                 userInfoVM.LoadUserGroupsAsync();
+                userInfoVM.UpdateUserInfo(null);
 
                 devicesListVM.UpdateListAsync();
                 usersListVM.UpdateListAsync();
@@ -252,7 +256,11 @@ namespace DevSpector.Desktop.UI
             foreach (var vm in deviceInfoVMs)
                 appEvents.DeviceSelected += vm.UpdateDeviceInfo;
 
-            appEvents.DeviceSelected += (d) => networkInfoVM.HideFreeIPList();
+            appEvents.DeviceSelected += (d) => {
+                networkInfoVM.HideFreeIPList();
+                commonInfoVM.UpdateInputsAccessibility();
+                locationInfoVM.UpdateInputsAccessibility();
+            };
 
             //
 

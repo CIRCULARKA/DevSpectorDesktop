@@ -6,6 +6,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 {
     public interface ILocationInfoViewModel : IDeviceInfoViewModel
     {
+        void UpdateInputsAccessibility();
+
         List<Housing> Housings { get; set; }
 
         List<Cabinet> Cabinets { get; set; }

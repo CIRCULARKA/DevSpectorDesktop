@@ -82,7 +82,12 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         public void UpdateDeviceInfo(Device target)
         {
-            if (target == null) return;
+            if (target == null)
+            {
+                ItemsCache.Clear();
+                ItemsToDisplay.Clear();
+                return;
+            }
 
             ItemsCache.Clear();
             foreach (var ip in target.IPAddresses)

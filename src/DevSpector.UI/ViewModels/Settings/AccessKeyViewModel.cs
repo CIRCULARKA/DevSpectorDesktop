@@ -32,7 +32,11 @@ namespace DevSpector.Desktop.UI.ViewModels
             _authManager = authManager;
 
             RevokeTokenCommand = ReactiveCommand.CreateFromTask(
-                RevokeAccessTokenAsync
+                RevokeAccessTokenAsync,
+                this.WhenAny(
+                    vm => vm.Password,
+                    (pwd) => !string.IsNullOrWhiteSpace(Password)
+                )
             );
         }
 
