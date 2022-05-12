@@ -97,7 +97,7 @@ namespace DevSpector.Desktop.UI
                     Environment.GetEnvironmentVariable("DEVSPECTOR_PORT"),
                     out port
                 );
-                if (port < 0) port = 0;
+                if (port <= 0) port = 80;
             }
 
             _hostBuilder = new HostBuilder(host, port, scheme);
