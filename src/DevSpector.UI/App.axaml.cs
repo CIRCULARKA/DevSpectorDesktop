@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using MessageBox.Avalonia;
 using System.Collections.Generic;
 using Ninject;
 using Avalonia;
@@ -73,14 +75,34 @@ namespace DevSpector.Desktop.UI
 
         private void ConfigureTargetHost()
         {
-            var environment = Environment.GetEnvironmentVariable("DEVSPECTOR_ENV");
+            string environment = Environment.GetEnvironmentVariable("DEVSPECTOR_ENV");
 
-            if (environment == "Production")
-                _hostBuilder = new HostBuilder("devspector.herokuapp.com", scheme: "https");
-            else if (environment == "Development")
-                _hostBuilder = new HostBuilder("dev-devspector.herokuapp.com", scheme: "https");
+            string host = Environment.GetEnvironmentVariable("DEVSPECTOR_HOST");
+            string scheme = "http";
+            int port;
+
+            if (environment == "Development")
+            {
+                host = "dev-devspector.herokuapp.com";
+                scheme = "https";
+                port = 443;
+            }
             else
-                _hostBuilder = new HostBuilder(port: 5000);
+            {
+                host = Environment.GetEnvironmentVariable("DEVSPECTOR_HOST");
+                if (host == null)
+                    throw new InvalidOperationException("Задайте имя хоста через переменную \"DEVSPECTOR_HOST\"");
+
+                scheme = "http";
+
+                int.TryParse(
+                    Environment.GetEnvironmentVariable("DEVSPECTOR_PORT"),
+                    out port
+                );
+                if (port < 0) port = 0;
+            }
+
+            _hostBuilder = new HostBuilder(host, port, scheme);
         }
 
         private void SetupMainWindow()
