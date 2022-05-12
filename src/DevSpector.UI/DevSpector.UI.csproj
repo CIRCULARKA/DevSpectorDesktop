@@ -19,6 +19,7 @@
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.4" />
     <PackageReference Include="Live.Avalonia" Version="1.3.1" />
     <PackageReference Include="Material.Avalonia" Version="2.5.0.73-nightly" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.0.0" />
     <PackageReference Include="ninject" Version="3.3.4" />
   </ItemGroup>
   <ItemGroup>
