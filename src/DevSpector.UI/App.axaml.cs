@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using MessageBox.Avalonia;
 using System.Collections.Generic;
 using Ninject;
 using Avalonia;
