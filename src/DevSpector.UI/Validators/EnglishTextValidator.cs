@@ -5,7 +5,7 @@ namespace DevSpector.Desktop.UI.Validators
     public class EnglishTextValidator : ITextValidator
     {
         private const string _AllowedSymbols =
-            "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-!@#$%^&*()=;\"\'?.,/\\";
+            "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-!@#$%^&*()=;\"\'?.,/\\_+";
 
         public EnglishTextValidator(string validationErrorMessage = null)
         {
