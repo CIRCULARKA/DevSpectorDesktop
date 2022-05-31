@@ -35,16 +35,13 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private List<DeviceType> _deviceTypes;
 
-        private readonly ITextValidator _textValidator;
-
         public DevicesListViewModel(
             IDevicesEditor devicesEditor,
             IDevicesProvider devicesProvider,
             ApplicationEvents appEvents,
             IUserSession session,
             IMessagesBroker messagesBroker,
-            IUserRights userRights,
-            ITextValidator textValidator
+            IUserRights userRights
         ) : base(userRights)
         {
             _appEvents = appEvents;
@@ -73,8 +70,7 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => vm.InventoryNumber,
                     (vm) => vm.SelectedDeviceType,
                     (invNum, deviceType) => {
-                        if (SelectedDeviceType == null) return false;
-                        return _textValidator.IsValid(InventoryNumber);
+                        return SelectedDeviceType != null;
                     }
                 )
             );
@@ -112,7 +108,6 @@ namespace DevSpector.Desktop.UI.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _inventoryNumber, value);
-                _textValidator.Validate(value);
             }
         }
 
