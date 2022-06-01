@@ -40,6 +40,15 @@
                                 </Viewbox>
                             </Button.Content>
                         </Button>
+                        <Button
+                            Command="{Binding RefreshListCommand}"
+                            Classes="Flat crudButton"
+                            HorizontalAlignment="Right">
+                            <Button.Content>
+                                <ContentPresenter
+                                    Content="{StaticResource reloadIcon}" />
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </aura:GroupBox.Header>
