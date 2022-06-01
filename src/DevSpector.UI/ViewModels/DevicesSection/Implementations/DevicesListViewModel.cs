@@ -46,7 +46,6 @@ namespace DevSpector.Desktop.UI.ViewModels
         {
             _appEvents = appEvents;
             _session = session;
-            _textValidator = textValidator;
 
             _messagesBroker = messagesBroker;
 
