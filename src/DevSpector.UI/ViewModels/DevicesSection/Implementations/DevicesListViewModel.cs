@@ -81,6 +81,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                     (vm) => SelectedItem != null
                 )
             );
+
+            RefreshListCommand = ReactiveCommand.CreateFromTask(
+                RefreshListByButton
+            );
         }
 
         public ReactiveCommand<Unit, Unit> SwitchInputFieldsCommand { get; }
@@ -88,6 +92,8 @@ namespace DevSpector.Desktop.UI.ViewModels
         public ReactiveCommand<Unit, Unit> AddDeviceCommand { get; }
 
         public ReactiveCommand<Unit, Unit> DeleteDeviceCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> RefreshListCommand { get; set; }
 
         public bool CanAddDevice
         {
@@ -169,7 +175,10 @@ namespace DevSpector.Desktop.UI.ViewModels
                     if (keyToSelectBy == null)
                         SelectedItem = ItemsToDisplay[0];
                     else
-                        SelectedItem = ItemsToDisplay.FirstOrDefault(d => d.ID == (Guid)keyToSelectBy);
+                        SelectedItem = ItemsToDisplay.FirstOrDefault(
+                            d => d.ID == (Guid)keyToSelectBy,
+                            ItemsToDisplay[0]
+                        );
                 }
                 else
                 {
@@ -183,6 +192,13 @@ namespace DevSpector.Desktop.UI.ViewModels
                 NoItemsMessage = e.Message;
             }
             finally { AreItemsLoaded = true; }
+        }
+
+        public async Task RefreshListByButton()
+        {
+            await UpdateListAsync(SelectedItem.ID);
+
+            _messagesBroker.NotifyUser("Список устройств обновлён");
         }
 
         public void AddIPToSelectedDevice(string ip)
