@@ -64,8 +64,6 @@ namespace DevSpector.Desktop.UI.ViewModels
                     result.AddRange(devices.Where(d => d.Cabinet.Contains(SearchQuery)));
                     result.AddRange(devices.Where(d => d.Type.Contains(SearchQuery)));
 
-                    Thread.Sleep(3000);
-
                     return result.AsEnumerable<Device>();
                 }
             );
