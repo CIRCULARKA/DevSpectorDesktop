@@ -14,6 +14,8 @@ namespace DevSpector.Desktop.UI.ViewModels
 
         private string _networkAddress;
 
+        private ApplicationEvents _appEvents;
+
         private readonly IMessagesBroker _messagesBroker;
 
         private readonly INetworkManager _networkManager;
@@ -21,11 +23,14 @@ namespace DevSpector.Desktop.UI.ViewModels
         public IPRangeViewModel(
             IMessagesBroker messagesBroker,
             INetworkManager networkManager,
-            IUserRights userRights
+            IUserRights userRights,
+            ApplicationEvents appEvents
+
         ) : base(userRights)
         {
             _messagesBroker = messagesBroker;
             _networkManager = networkManager;
+            _appEvents = appEvents;
 
             GenerateIPRangeCommand = ReactiveCommand.CreateFromTask(
                 UpdateIPRangeAsync,
@@ -74,6 +79,8 @@ namespace DevSpector.Desktop.UI.ViewModels
             try
             {
                 await _networkManager.GenerateIPRangeAsync(NetworkAddress, Mask);
+
+                _appEvents.RaiseIPRangeUpdated();
 
                 _messagesBroker.NotifyUser("Диапазон IP-адресов успешно обновлён");
             }
