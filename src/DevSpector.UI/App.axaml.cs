@@ -76,7 +76,6 @@ namespace DevSpector.Desktop.UI
             string environment = Environment.GetEnvironmentVariable("DEVSPECTOR_ENV");
 
             string host = Environment.GetEnvironmentVariable("DEVSPECTOR_HOST");
-            if (host == null) host = "";
 
             string scheme = "http";
 
