@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using DevSpector.Desktop.Service;
 using DevSpector.SDK.Models;
 using DevSpector.SDK.Editors;
